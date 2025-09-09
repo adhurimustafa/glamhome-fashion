@@ -13,9 +13,19 @@ const Header = () => {
       setIsScrolled(window.scrollY > 0);
     };
 
+    // Handle mobile menu scroll lock
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -45,27 +55,28 @@ const Header = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-sm shadow-sm' 
-        : 'bg-transparent'
+        ? 'bg-white/72 backdrop-blur-[8px] border-b border-black/8' 
+        : 'bg-white/72 backdrop-blur-[8px] border-b border-black/8'
     }`}>
-      <nav className="container mx-auto px-4 py-4">
+      <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link 
             to="/" 
             className="flex items-center hover:opacity-80 transition-opacity"
-            aria-label="Glam Home Fashion - Return to homepage"
+            aria-label="Glam Fashion - Return to homepage"
           >
             <img 
               src="/lovable-uploads/bf5bb623-c977-4166-a974-1f331812e41d.png"
-              alt="Glam Home Fashion Logo"
-              className="h-12 md:h-12 w-auto"
-              width="1024"
-              height="1024"
+              alt="Glam Fashion logo"
+              className="h-9 lg:h-11 w-auto object-contain"
+              width="256"
+              height="256"
               loading="eager"
               decoding="sync"
-              sizes="48px"
+              sizes="44px"
             />
+            <span className="sr-only">GLAMHOME FASHION</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -75,7 +86,7 @@ const Header = () => {
                 <button
                   key={item.href}
                   onClick={() => handleNavClick(item)}
-                  className="text-sm font-medium transition-colors hover:text-primary text-header-text"
+                  className="text-sm font-medium transition-colors hover:text-[#B48A7C] text-[#0F0F0F]"
                 >
                   {item.label}
                 </button>
@@ -83,10 +94,10 @@ const Header = () => {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                  className={`text-sm font-medium transition-colors hover:text-[#B48A7C] ${
                     isActive(item.href)
-                      ? "text-primary border-b-2 border-primary pb-1"
-                      : "text-header-text"
+                      ? "text-[#B48A7C] border-b-2 border-[#B48A7C] pb-1"
+                      : "text-[#0F0F0F]"
                   }`}
                 >
                   {item.label}
@@ -97,10 +108,10 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="icon" aria-label="Account" className="text-header-text hover:text-primary">
+            <Button variant="ghost" size="icon" aria-label="Account" className="text-[#0F0F0F] hover:text-[#B48A7C]">
               <User className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Shopping bag" className="text-header-text hover:text-primary">
+            <Button variant="ghost" size="icon" aria-label="Shopping bag" className="text-[#0F0F0F] hover:text-[#B48A7C]">
               <ShoppingBag className="h-5 w-5" />
             </Button>
           </div>
@@ -109,7 +120,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden text-header-text hover:text-primary"
+            className="md:hidden text-[#0F0F0F] hover:text-[#B48A7C]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -119,37 +130,39 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border pt-4">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                item.isScroll ? (
-                  <button
-                    key={item.href}
-                    onClick={() => handleNavClick(item)}
-                    className="text-sm font-medium transition-colors hover:text-primary text-header-text text-left"
-                  >
-                    {item.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isActive(item.href) ? "text-primary" : "text-header-text"
-                    }`}
-                    onClick={() => handleNavClick(item)}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              ))}
-              <div className="flex items-center space-x-4 pt-4 border-t border-border">
-                <Button variant="ghost" size="icon" aria-label="Account" className="text-header-text hover:text-primary">
-                  <User className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" aria-label="Shopping bag" className="text-header-text hover:text-primary">
-                  <ShoppingBag className="h-5 w-5" />
-                </Button>
+          <div className="fixed inset-0 top-[72px] bg-white z-40 md:hidden overflow-y-auto">
+            <div className="container mx-auto px-4 py-8">
+              <div className="flex flex-col space-y-6">
+                {navItems.map((item) => (
+                  item.isScroll ? (
+                    <button
+                      key={item.href}
+                      onClick={() => handleNavClick(item)}
+                      className="text-lg font-medium transition-colors hover:text-[#B48A7C] text-[#0F0F0F] text-center py-3"
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
+                        isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
+                      }`}
+                      onClick={() => handleNavClick(item)}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                ))}
+                <div className="flex items-center justify-center space-x-6 pt-8 border-t border-gray-200">
+                  <Button variant="ghost" size="icon" aria-label="Account" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+                    <User className="h-6 w-6" />
+                  </Button>
+                  <Button variant="ghost" size="icon" aria-label="Shopping bag" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+                    <ShoppingBag className="h-6 w-6" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

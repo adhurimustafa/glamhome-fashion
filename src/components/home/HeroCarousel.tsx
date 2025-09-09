@@ -21,23 +21,23 @@ const slides: Slide[] = [
   {
     id: 1,
     image: "/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
-    title: "Glamour Collection",
-    subtitle: "Élégance en chaque silhouette",
-    description: "Découvrez notre collection exclusive de robes de soirée",
+    title: "Robes de soirée d'exception",
+    subtitle: "Élégance couture, prêtes à briller.",
+    description: "",
     cta: {
-      text: "Voir la Collection",
-      href: "#collection"
+      text: "",
+      href: ""
     }
   },
   {
     id: 2,
     image: "/lovable-uploads/0ab5813f-0047-4366-b470-f302465aeb63.png",
-    title: "Prestige Collection",
-    subtitle: "Raffinement et modernité",
-    description: "Des créations uniques pour les occasions exceptionnelles",
+    title: "Robes de soirée d'exception",
+    subtitle: "Élégance couture, prêtes à briller.",
+    description: "",
     cta: {
-      text: "Voir la Collection",
-      href: "#collection"
+      text: "",
+      href: ""
     }
   }
 ];
@@ -86,9 +86,10 @@ const HeroCarousel = () => {
       />
       
       <section 
-        className="hero relative h-screen w-full overflow-hidden"
+        className="hero relative w-full overflow-hidden min-h-[75vh] md:min-h-[82vh] lg:min-h-[92vh]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+        style={{ zIndex: 10 }}
       >
         {slides.map((slide, index) => (
           <div
@@ -111,48 +112,50 @@ const HeroCarousel = () => {
               */}
               <img
                 src={slide.image}
-                alt={index === 0 ? "Glam Home Fashion — Collection Glamour, château" : "Glam Home Fashion — Collection Prestige, désert"}
+                alt={index === 0 ? "Robes de soirée — shooting château" : "Robes de soirée — shooting désert"}
                 className="h-full w-full object-cover"
-                width={index === 0 ? "1920" : "1920"}
-                height={index === 0 ? "1280" : "1280"}
+                width="1920"
+                height="1280"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
                 fetchPriority={index === 0 ? "high" : "low"}
                 sizes="100vw"
               />
               
-              {/* Optimized Overlay - 15-25% opacity */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/20 to-black/25" />
+              {/* Optimized Overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/38 via-black/15 to-black/5" />
               
-              {/* Content */}
+              {/* Content - Title and Slogan only */}
               <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-                <div className="max-w-4xl px-4 animate-fade-in">
-                  <p className="text-lg md:text-xl font-light tracking-wide mb-4 opacity-95">
-                    {slide.subtitle}
-                  </p>
-                  <h1 className="text-5xl md:text-7xl font-serif font-light leading-tight mb-6">
+                <div className="max-w-[900px] px-4 animate-fade-in">
+                  <h1 
+                    className="font-serif font-semibold leading-none mb-6"
+                    style={{ 
+                      fontSize: 'clamp(38px, 6vw, 74px)',
+                      letterSpacing: '-0.02em'
+                    }}
+                  >
                     {slide.title}
                   </h1>
-                  <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto opacity-90">
-                    {slide.description}
-                  </p>
-                  <button 
-                    onClick={() => handleCTAClick(slide.cta.href)}
-                    className="gradient-primary hover:shadow-elegant transition-all duration-300 text-white border-0 px-8 py-3 text-lg font-medium rounded-lg cursor-pointer"
+                  <p 
+                    className="opacity-95"
+                    style={{ 
+                      fontSize: 'clamp(16px, 2.4vw, 22px)'
+                    }}
                   >
-                    {slide.cta.text}
-                  </button>
+                    {slide.subtitle}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - reduced z-index */}
         <Button
           variant="ghost"
           size="icon"
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-20"
           onClick={prevSlide}
           aria-label="Slide précédent"
         >
@@ -162,7 +165,7 @@ const HeroCarousel = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-20"
           onClick={nextSlide}
           aria-label="Slide suivant"
         >
@@ -170,7 +173,7 @@ const HeroCarousel = () => {
         </Button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -180,7 +183,7 @@ const HeroCarousel = () => {
                   : "bg-white/50 hover:bg-white/75"
               }`}
               onClick={() => goToSlide(index)}
-              aria-label={`Aller au slide ${index + 1}`}
+              aria-label={`Aller au slide ${index + 1} - ${index === 0 ? 'Robes de soirée — shooting château' : 'Robes de soirée — shooting désert'}`}
             />
           ))}
         </div>
