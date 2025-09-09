@@ -13,6 +13,55 @@ const Home = () => {
       {/* Featured Collection */}
       <FeaturedCollection />
 
+      {/* Partners Logos Section */}
+      <section className="py-16 bg-luxury-pearl">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <p className="text-primary text-sm font-medium tracking-wide uppercase mb-4">
+              Nos Partenaires
+            </p>
+            <h2 className="text-3xl md:text-4xl font-serif font-light text-accent mb-6">
+              Ils Nous Font Confiance
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-center justify-items-center">
+            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
+              <img
+                src="/lovable-uploads/90cc8124-51aa-40ad-adad-494a20a6249c.png"
+                alt="Logo partenaire 1"
+                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
+              <img
+                src="/lovable-uploads/2e50308f-c8b7-42bf-9ffb-ff5c5fe3041a.png"
+                alt="Logo partenaire 2"
+                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
+              <img
+                src="/lovable-uploads/3099fb54-51fd-42dc-9be6-12025210e82c.png"
+                alt="Logo partenaire 3"
+                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
+              <img
+                src="/lovable-uploads/bf5bb623-c977-4166-a974-1f331812e41d.png"
+                alt="Logo partenaire 4"
+                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About Preview */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
