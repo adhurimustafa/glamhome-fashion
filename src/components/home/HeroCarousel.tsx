@@ -98,6 +98,17 @@ const HeroCarousel = () => {
             }`}
           >
             <div className="relative h-full w-full">
+              {/* TODO: When Lovable supports srcset/picture, implement responsive images:
+                   - Breakpoints: 3840, 2560, 1920, 1280, 768, 480px
+                   - Formats: WebP/AVIF + JPEG fallback
+                   - Keep existing sizes="100vw" attribute
+                   Example:
+                   <picture>
+                     <source media="(min-width: 1920px)" srcset="image-3840.avif 3840w, image-2560.avif 2560w" type="image/avif">
+                     <source media="(min-width: 1920px)" srcset="image-3840.webp 3840w, image-2560.webp 2560w" type="image/webp">
+                     <img src="image-1920.jpg" sizes="100vw" />
+                   </picture>
+              */}
               <img
                 src={slide.image}
                 alt={index === 0 ? "Glam Home Fashion — Collection Glamour, château" : "Glam Home Fashion — Collection Prestige, désert"}

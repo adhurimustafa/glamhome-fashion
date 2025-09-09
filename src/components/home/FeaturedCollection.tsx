@@ -146,6 +146,17 @@ const FeaturedCollection = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="media relative overflow-hidden aspect-[3/4]">
+                {/* TODO: When Lovable supports srcset/picture, implement responsive images:
+                     - Breakpoints: 3840, 2560, 1920, 1280, 768, 480px  
+                     - Formats: WebP/AVIF + JPEG fallback
+                     - Keep existing sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                     Example:
+                     <picture>
+                       <source srcset="dress-1280.avif 1280w, dress-768.avif 768w, dress-480.avif 480w" type="image/avif">
+                       <source srcset="dress-1280.webp 1280w, dress-768.webp 768w, dress-480.webp 480w" type="image/webp">
+                       <img src="dress-800.jpg" sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" />
+                     </picture>
+                */}
                 <img
                   src={item.image}
                   alt={item.altText}
@@ -258,6 +269,11 @@ const FeaturedCollection = () => {
 
               {/* Image */}
               <div className="relative">
+                {/* TODO: When Lovable supports srcset/picture, implement responsive images:
+                     - Breakpoints: 3840, 2560, 1920, 1280, 768, 480px
+                     - Formats: WebP/AVIF + JPEG fallback  
+                     - Keep existing sizes="(max-width: 768px) 100vw, 80vw"
+                */}
                 <img
                   src={currentItem.image}
                   alt={currentItem.altText}
