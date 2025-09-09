@@ -1,6 +1,8 @@
 import HeroCarousel from "@/components/home/HeroCarousel";
 import FeaturedCollection from "@/components/home/FeaturedCollection";
+import QuickOrderForm from "@/components/home/QuickOrderForm";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Star, Truck, Shield, HeartHandshake } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -64,8 +66,87 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Preview */}
+      {/* Quick Order Section */}
       <section id="order" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-primary text-sm font-medium tracking-wide uppercase mb-4">
+                Commande Rapide
+              </p>
+              <h2 className="text-4xl md:text-5xl font-serif font-light text-accent mb-6">
+                Votre Robe de Rêve
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Commandez directement votre modèle préféré. Notre équipe vous contactera 
+                dans les plus brefs délais pour finaliser votre commande.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Order Form */}
+              <div className="lg:col-span-2">
+                <Card className="shadow-elegant border-0">
+                  <CardContent className="p-8">
+                    <QuickOrderForm />
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Delivery Info */}
+              <div className="space-y-6">
+                <Card className="shadow-soft border-0">
+                  <CardContent className="p-6">
+                    <h3 className="font-serif text-xl font-medium text-accent mb-4 flex items-center">
+                      <Truck className="h-5 w-5 text-primary mr-2" />
+                      Livraison & Retours
+                    </h3>
+                    <div className="space-y-3 text-sm text-muted-foreground">
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <div>
+                          <p className="font-medium text-foreground">Livraison gratuite</p>
+                          <p>Dès 100€ d'achat partout en France</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <div>
+                          <p className="font-medium text-foreground">Retours 30 jours</p>
+                          <p>Échange ou remboursement gratuit</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <div>
+                          <p className="font-medium text-foreground">Service client</p>
+                          <p>Disponible 6j/7 pour vous accompagner</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="shadow-soft border-0">
+                  <CardContent className="p-6">
+                    <h3 className="font-serif text-xl font-medium text-accent mb-4 flex items-center">
+                      <Shield className="h-5 w-5 text-primary mr-2" />
+                      Paiement Sécurisé
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Toutes vos transactions sont protégées par un cryptage SSL. 
+                      Nous acceptons les principales cartes bancaires et PayPal.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Preview */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
