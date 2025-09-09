@@ -1,276 +1,231 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Filter, Search, Grid, List } from "lucide-react";
-import collection1 from "@/assets/collection-1.jpg";
-import collection2 from "@/assets/collection-2.jpg";
-import collection3 from "@/assets/collection-3.jpg";
+import { Card } from "@/components/ui/card";
+import { X, ChevronLeft, ChevronRight, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
-interface Product {
+interface CollectionImage {
   id: number;
-  name: string;
-  description: string;
-  price: string;
-  originalPrice?: string;
-  image: string;
-  category: string;
-  tags: string[];
-  isNew?: boolean;
-  isSale?: boolean;
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
 
-const products: Product[] = [
+const collectionImages: CollectionImage[] = [
   {
     id: 1,
-    name: "Collier Éternité Rose Gold",
-    description: "Bijou raffiné en or rose 18 carats avec cristaux Swarovski",
-    price: "189€",
-    image: collection1,
-    category: "Bijoux",
-    tags: ["Élégant", "Cristaux", "Or Rose"],
-    isNew: true
+    src: "/lovable-uploads/ffc06c00-6ffc-4cb7-ba44-4ac0525d5b77.png",
+    alt: "Robe de soirée Glam Fashion – #1",
+    width: 600,
+    height: 800
   },
   {
     id: 2,
-    name: "Sac Cuir Premium Milano",
-    description: "Maroquinerie italienne en cuir véritable, finitions dorées",
-    price: "295€",
-    originalPrice: "345€",
-    image: collection2,
-    category: "Maroquinerie",
-    tags: ["Cuir", "Italie", "Premium"],
-    isSale: true
+    src: "/lovable-uploads/8ef503f8-1dce-401a-97b4-759411b0f1fe.png", 
+    alt: "Robe de soirée Glam Fashion – #2",
+    width: 600,
+    height: 800
   },
   {
     id: 3,
-    name: "Plateau Décoratif Marbre",
-    description: "Art de la table en marbre blanc veiné avec détails dorés",
-    price: "125€",
-    image: collection3,
-    category: "Décoration",
-    tags: ["Marbre", "Artisanal", "Luxe"]
+    src: "/lovable-uploads/a018e30d-8796-4cea-8975-4cc98c1d06a9.png",
+    alt: "Robe de soirée Glam Fashion – #3", 
+    width: 600,
+    height: 800
   },
   {
     id: 4,
-    name: "Foulard Soie Imprimé",
-    description: "Carré de soie naturelle avec motifs exclusifs peints à la main",
-    price: "89€",
-    image: collection1,
-    category: "Accessoires",
-    tags: ["Soie", "Artisanal", "Français"]
+    src: "/lovable-uploads/fab7fcbb-98b4-427f-9167-bf507006a59d.png",
+    alt: "Robe de soirée Glam Fashion – #4",
+    width: 600, 
+    height: 800
   },
   {
     id: 5,
-    name: "Vase Céramique Artisanal",
-    description: "Pièce unique créée par un artisan français, finition mate",
-    price: "156€",
-    image: collection3,
-    category: "Décoration",
-    tags: ["Céramique", "Artisanal", "Unique"],
-    isNew: true
+    src: "/lovable-uploads/e8ca46d4-6f23-4fd5-be4d-31b18cc0078b.png",
+    alt: "Robe de soirée Glam Fashion – #5",
+    width: 600,
+    height: 800
   },
   {
     id: 6,
-    name: "Bracelet Perles Nacrées",
-    description: "Bracelet délicat avec perles de culture et fermoir or",
-    price: "134€",
-    image: collection2,
-    category: "Bijoux",
-    tags: ["Perles", "Culture", "Délicat"]
+    src: "/lovable-uploads/1f44e598-de15-44f9-913a-7870bf06ba74.png",
+    alt: "Robe de soirée Glam Fashion – #6",
+    width: 600,
+    height: 800
+  },
+  {
+    id: 7,
+    src: "/lovable-uploads/373fe360-5684-4f42-a6bf-ebc91be6d05d.png",
+    alt: "Robe de soirée Glam Fashion – #7",
+    width: 600,
+    height: 800
   }
 ];
 
-const categories = ["Tous", "Bijoux", "Maroquinerie", "Décoration", "Accessoires"];
-
 const Collection = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Tous");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === "Tous" || product.category === selectedCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Update page title and meta
+  useEffect(() => {
+    document.title = "Collection – Glam Fashion";
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Découvrez notre collection exclusive de robes de soirée. Élégance et sophistication pour vos événements les plus prestigieux.');
+    }
+    
+    // Update canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', window.location.origin + '/collection');
+    }
+    
+    return () => {
+      // Reset to default on unmount
+      document.title = "GLAMHOME FASHION — Robes de soirée & haute élégance";
+    };
+  }, []);
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'unset';
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % collectionImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + collectionImages.length) % collectionImages.length);
+  };
+
+  const currentImage = collectionImages[currentImageIndex];
 
   return (
-    <main className="pt-20">
+    <main className="min-h-screen pt-20">
+      {/* Breadcrumb */}
+      <div className="container mx-auto px-4 py-4">
+        <nav aria-label="Fil d'Ariane" className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <Link 
+            to="/" 
+            className="hover:text-[#B48A7C] transition-colors flex items-center"
+            aria-label="Retour à l'accueil"
+          >
+            <Home className="h-4 w-4 mr-1" />
+            Accueil
+          </Link>
+          <span>/</span>
+          <span className="text-[#0F0F0F] font-medium">Collection</span>
+        </nav>
+      </div>
+
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary-light to-secondary">
+      <section className="py-16 bg-gradient-to-b from-luxury-pearl to-background">
         <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-serif font-light text-accent mb-6">
-              Notre Collection
-            </h1>
-            <p className="text-xl text-accent/80 leading-relaxed">
-              Découvrez une sélection exclusive de pièces d'exception, 
-              soigneusement choisies pour leur beauté et leur qualité.
-            </p>
-          </div>
+          <h1 className="text-4xl md:text-6xl font-serif font-light text-[#0F0F0F] mb-4">
+            Collection
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Nos robes de soirée sélectionnées
+          </p>
         </div>
       </section>
 
-      {/* Filters and Search */}
-      <section className="py-8 bg-background border-b">
+      {/* Collection Grid */}
+      <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Rechercher un produit..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-
-            {/* Categories */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={selectedCategory === category ? "gradient-primary" : ""}
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-
-            {/* View Mode */}
-            <div className="flex gap-2">
-              <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("grid")}
-              >
-                <Grid className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("list")}
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Products Grid */}
-      <section className="py-12 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="mb-6 flex justify-between items-center">
-            <p className="text-muted-foreground">
-              {filteredProducts.length} produit{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}
-            </p>
-          </div>
-
-          <div className={`grid gap-8 ${
-            viewMode === "grid" 
-              ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
-              : "grid-cols-1"
-          }`}>
-            {filteredProducts.map((product, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {collectionImages.map((image, index) => (
               <Card 
-                key={product.id}
-                className={`group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in ${
-                  viewMode === "list" ? "flex flex-row" : ""
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                key={image.id}
+                className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 cursor-pointer rounded-lg"
+                onClick={() => openLightbox(index)}
               >
-                <div className={`relative overflow-hidden ${
-                  viewMode === "list" ? "w-1/3" : "w-full"
-                }`}>
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <img
-                    src={product.image}
-                    alt={product.name}
-                    className={`object-cover group-hover:scale-105 transition-transform duration-700 ${
-                      viewMode === "list" ? "h-full w-full" : "w-full h-64"
-                    }`}
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    width={image.width}
+                    height={image.height}
                     loading="lazy"
+                    decoding="async"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   />
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    {product.isNew && (
-                      <Badge className="bg-success text-success-foreground">
-                        Nouveau
-                      </Badge>
-                    )}
-                    {product.isSale && (
-                      <Badge className="bg-destructive text-destructive-foreground">
-                        Promo
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  <div className="absolute top-4 right-4">
-                    <Badge variant="secondary">
-                      {product.category}
-                    </Badge>
-                  </div>
                 </div>
-                
-                <CardContent className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}>
-                  <h3 className="font-serif text-xl font-medium text-accent mb-3">
-                    {product.name}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    {product.description}
-                  </p>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {product.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl font-bold text-primary">
-                        {product.price}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-sm text-muted-foreground line-through">
-                          {product.originalPrice}
-                        </span>
-                      )}
-                    </div>
-                    <Button 
-                      className="gradient-primary hover:shadow-soft transition-all duration-300"
-                    >
-                      Voir Détails
-                    </Button>
-                  </div>
-                </CardContent>
               </Card>
             ))}
           </div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-12">
-              <Filter className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-medium text-accent mb-2">
-                Aucun produit trouvé
-              </h3>
-              <p className="text-muted-foreground">
-                Essayez de modifier vos critères de recherche ou de sélectionner une autre catégorie.
-              </p>
-            </div>
-          )}
         </div>
       </section>
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <div 
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <div className="relative max-w-5xl max-h-full" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 z-10 focus:ring-2 focus:ring-white/50"
+              onClick={closeLightbox}
+              aria-label="Fermer la lightbox"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+
+            {/* Navigation buttons */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 focus:ring-2 focus:ring-white/50"
+              onClick={prevImage}
+              aria-label="Image précédente"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 focus:ring-2 focus:ring-white/50"
+              onClick={nextImage}
+              aria-label="Image suivante"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </Button>
+
+            {/* Image */}
+            <div className="relative">
+              <img
+                src={currentImage.src}
+                alt={currentImage.alt}
+                className="max-w-full max-h-[90vh] object-contain mx-auto"
+                width={currentImage.width}
+                height={currentImage.height}
+              />
+              
+              {/* Image counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+                {currentImageIndex + 1} / {collectionImages.length}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

@@ -30,7 +30,7 @@ const Header = () => {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    { href: "#collection", label: "Collection", isScroll: true },
+    { href: "/collection", label: "Collection" },
     { href: "/order", label: "Order" },
     { href: "/contact", label: "Contact" },
   ];
@@ -43,12 +43,6 @@ const Header = () => {
   };
 
   const handleNavClick = (item: any) => {
-    if (item.isScroll) {
-      const element = document.querySelector('#collection');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
     setIsMenuOpen(false);
   };
 
@@ -82,27 +76,17 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              item.isScroll ? (
-                <button
-                  key={item.href}
-                  onClick={() => handleNavClick(item)}
-                  className="text-sm font-medium transition-colors hover:text-[#B48A7C] text-[#0F0F0F]"
-                >
-                  {item.label}
-                </button>
-              ) : (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-[#B48A7C] ${
-                    isActive(item.href)
-                      ? "text-[#B48A7C] border-b-2 border-[#B48A7C] pb-1"
-                      : "text-[#0F0F0F]"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              )
+              <Link
+                key={item.href}
+                to={item.href}
+                className={`text-sm font-medium transition-colors hover:text-[#B48A7C] ${
+                  isActive(item.href)
+                    ? "text-[#B48A7C] border-b-2 border-[#B48A7C] pb-1"
+                    : "text-[#0F0F0F]"
+                }`}
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
 
@@ -134,26 +118,16 @@ const Header = () => {
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col space-y-6">
                 {navItems.map((item) => (
-                  item.isScroll ? (
-                    <button
-                      key={item.href}
-                      onClick={() => handleNavClick(item)}
-                      className="text-lg font-medium transition-colors hover:text-[#B48A7C] text-[#0F0F0F] text-center py-3"
-                    >
-                      {item.label}
-                    </button>
-                  ) : (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
-                        isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
-                      }`}
-                      onClick={() => handleNavClick(item)}
-                    >
-                      {item.label}
-                    </Link>
-                  )
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
+                      isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
+                    }`}
+                    onClick={() => handleNavClick(item)}
+                  >
+                    {item.label}
+                  </Link>
                 ))}
                 <div className="flex items-center justify-center space-x-6 pt-8 border-t border-gray-200">
                   <Button variant="ghost" size="icon" aria-label="Account" className="text-[#0F0F0F] hover:text-[#B48A7C]">
