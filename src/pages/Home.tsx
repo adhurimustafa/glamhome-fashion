@@ -11,7 +11,9 @@ const Home = () => {
       <HeroCarousel />
 
       {/* Featured Collection */}
-      <FeaturedCollection />
+      <section id="collection">
+        <FeaturedCollection />
+      </section>
 
       {/* Partners Logos Section */}
       <section className="py-16 bg-luxury-pearl">
