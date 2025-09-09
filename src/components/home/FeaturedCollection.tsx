@@ -142,10 +142,10 @@ const FeaturedCollection = () => {
           {featuredItems.map((item, index) => (
             <Card 
               key={item.id} 
-              className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in"
+              className="gallery-card group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="relative overflow-hidden aspect-[3/4]">
+              <div className="media relative overflow-hidden aspect-[3/4]">
                 <img
                   src={item.image}
                   alt={item.altText}

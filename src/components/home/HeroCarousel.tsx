@@ -86,7 +86,7 @@ const HeroCarousel = () => {
       />
       
       <section 
-        className="relative h-screen w-full overflow-hidden"
+        className="hero relative h-screen w-full overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
