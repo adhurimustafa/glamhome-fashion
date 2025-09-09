@@ -102,7 +102,9 @@ const HeroCarousel = () => {
                 alt={index === 0 ? "Glam Home Fashion — Collection Glamour, château" : "Glam Home Fashion — Collection Prestige, désert"}
                 className="h-full w-full object-cover"
                 loading={index === 0 ? "eager" : "lazy"}
+                decoding={index === 0 ? "sync" : "async"}
                 fetchPriority={index === 0 ? "high" : "low"}
+                sizes="100vw"
               />
               
               {/* Optimized Overlay - 15-25% opacity */}

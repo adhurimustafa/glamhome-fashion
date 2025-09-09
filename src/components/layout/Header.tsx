@@ -60,6 +60,9 @@ const Header = () => {
               src="/lovable-uploads/bf5bb623-c977-4166-a974-1f331812e41d.png"
               alt="Glam Home Fashion Logo"
               className="h-12 md:h-12 w-auto"
+              loading="eager"
+              decoding="sync"
+              sizes="48px"
             />
           </Link>
 

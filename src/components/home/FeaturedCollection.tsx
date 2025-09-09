@@ -151,6 +151,8 @@ const FeaturedCollection = () => {
                   alt={item.altText}
                   className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
+                  decoding="async"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="bg-primary/90 text-primary-foreground px-3 py-1 text-xs font-medium rounded-full">
@@ -258,6 +260,9 @@ const FeaturedCollection = () => {
                   src={currentItem.image}
                   alt={currentItem.altText}
                   className="max-w-full max-h-[80vh] object-contain mx-auto"
+                  loading="lazy"
+                  decoding="async"
+                  sizes="(max-width: 768px) 100vw, 80vw"
                 />
                 
                 {/* Caption */}

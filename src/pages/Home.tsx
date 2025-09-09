@@ -36,6 +36,8 @@ const Home = () => {
                 alt="Logo partenaire 1"
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
+                decoding="async"
+                sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -44,6 +46,8 @@ const Home = () => {
                 alt="Logo partenaire 2"
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
+                decoding="async"
+                sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -52,6 +56,8 @@ const Home = () => {
                 alt="Logo partenaire 3"
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
+                decoding="async"
+                sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -60,6 +66,8 @@ const Home = () => {
                 alt="Logo partenaire 4"
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
+                decoding="async"
+                sizes="64px"
               />
             </div>
           </div>
