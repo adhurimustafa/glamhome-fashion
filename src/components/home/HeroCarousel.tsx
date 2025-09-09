@@ -21,29 +21,30 @@ const slides: Slide[] = [
   {
     id: 1,
     image: "/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
-    title: "Élégance Intemporelle",
-    subtitle: "Collection Automne-Hiver 2024",
-    description: "Découvrez notre nouvelle collection alliant mode et décoration d'intérieur pour un style de vie raffiné.",
+    title: "Glamour Collection",
+    subtitle: "Élégance en chaque silhouette",
+    description: "Découvrez notre collection exclusive de robes de soirée",
     cta: {
-      text: "Découvrir la Collection",
-      href: "/collection"
+      text: "Voir la Collection",
+      href: "#collection"
     }
   },
   {
     id: 2,
     image: "/lovable-uploads/0ab5813f-0047-4366-b470-f302465aeb63.png",
-    title: "Art de Vivre",
-    subtitle: "Accessoires & Décoration",
-    description: "Transformez votre intérieur avec nos pièces uniques et nos accessoires de mode exceptionnels.",
+    title: "Prestige Collection",
+    subtitle: "Raffinement et modernité",
+    description: "Des créations uniques pour les occasions exceptionnelles",
     cta: {
-      text: "Explorer les Tendances",
-      href: "/collection"
+      text: "Voir la Collection",
+      href: "#collection"
     }
   }
 ];
 
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -57,95 +58,118 @@ const HeroCarousel = () => {
     setCurrentSlide(index);
   };
 
+  const handleCTAClick = (href: string) => {
+    if (href === "#collection") {
+      const element = document.querySelector('#collection');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
+    if (isPaused) return;
+    
+    const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isPaused]);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-transform duration-700 ease-in-out ${
-            index === currentSlide ? "translate-x-0" : 
-            index < currentSlide ? "-translate-x-full" : "translate-x-full"
-          }`}
-        >
-          <div className="relative h-full w-full">
-            <img
-              src={slide.image}
-              alt={index === 0 ? "Glam Home Fashion — Robe soirée, modèle 1" : "Glam Home Fashion — Robe soirée, modèle 2"}
-              className="h-full w-full object-cover"
-              loading={index === 0 ? "eager" : "lazy"}
-            />
-            
-            {/* Overlay */}
-            <div className="absolute inset-0 gradient-overlay" />
-            
-            {/* Content */}
-            <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-              <div className="max-w-4xl px-4 animate-fade-in">
-                <p className="text-lg md:text-xl font-light tracking-wide mb-4 opacity-90">
-                  {slide.subtitle}
-                </p>
-                <h1 className="text-5xl md:text-7xl font-serif font-light leading-tight mb-6">
-                  {slide.title}
-                </h1>
-                <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto opacity-90">
-                  {slide.description}
-                </p>
-                <Link to={slide.cta.href}>
-                  <Button 
-                    size="lg" 
-                    className="gradient-primary hover:shadow-elegant transition-all duration-300 text-white border-0 px-8 py-3 text-lg font-medium"
+    <>
+      {/* LCP Preload for first slide */}
+      <link 
+        rel="preload" 
+        as="image" 
+        href={slides[0].image} 
+        type="image/png"
+      />
+      
+      <section 
+        className="relative h-screen w-full overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className="relative h-full w-full">
+              <img
+                src={slide.image}
+                alt={index === 0 ? "Glam Home Fashion — Collection Glamour, château" : "Glam Home Fashion — Collection Prestige, désert"}
+                className="h-full w-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+              />
+              
+              {/* Optimized Overlay - 15-25% opacity */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/20 to-black/25" />
+              
+              {/* Content */}
+              <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                <div className="max-w-4xl px-4 animate-fade-in">
+                  <p className="text-lg md:text-xl font-light tracking-wide mb-4 opacity-95">
+                    {slide.subtitle}
+                  </p>
+                  <h1 className="text-5xl md:text-7xl font-serif font-light leading-tight mb-6">
+                    {slide.title}
+                  </h1>
+                  <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto opacity-90">
+                    {slide.description}
+                  </p>
+                  <button 
+                    onClick={() => handleCTAClick(slide.cta.href)}
+                    className="gradient-primary hover:shadow-elegant transition-all duration-300 text-white border-0 px-8 py-3 text-lg font-medium rounded-lg cursor-pointer"
                   >
                     {slide.cta.text}
-                  </Button>
-                </Link>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-
-      {/* Navigation Arrows */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
-        onClick={prevSlide}
-        aria-label="Slide précédent"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </Button>
-      
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
-        onClick={nextSlide}
-        aria-label="Slide suivant"
-      >
-        <ChevronRight className="h-6 w-6" />
-      </Button>
-
-      {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? "bg-white scale-110" 
-                : "bg-white/50 hover:bg-white/75"
-            }`}
-            onClick={() => goToSlide(index)}
-            aria-label={`Aller au slide ${index + 1}`}
-          />
         ))}
-      </div>
-    </section>
+
+        {/* Navigation Arrows */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
+          onClick={prevSlide}
+          aria-label="Slide précédent"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
+        
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 hover:text-white z-10"
+          onClick={nextSlide}
+          aria-label="Slide suivant"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </Button>
+
+        {/* Dots Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide 
+                  ? "bg-white scale-110" 
+                  : "bg-white/50 hover:bg-white/75"
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Aller au slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+    </>
   );
 };
 
