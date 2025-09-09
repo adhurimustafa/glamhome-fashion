@@ -82,6 +82,7 @@ const HeroCarousel = () => {
         as="image" 
         href={slides[0].image} 
         type="image/png"
+        fetchPriority="high"
       />
       
       <section 
@@ -101,8 +102,10 @@ const HeroCarousel = () => {
                 src={slide.image}
                 alt={index === 0 ? "Glam Home Fashion — Collection Glamour, château" : "Glam Home Fashion — Collection Prestige, désert"}
                 className="h-full w-full object-cover"
+                width={index === 0 ? "1920" : "1920"}
+                height={index === 0 ? "1280" : "1280"}
                 loading={index === 0 ? "eager" : "lazy"}
-                decoding={index === 0 ? "sync" : "async"}
+                decoding="async"
                 fetchPriority={index === 0 ? "high" : "low"}
                 sizes="100vw"
               />

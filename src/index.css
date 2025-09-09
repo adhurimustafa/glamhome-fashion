@@ -264,7 +264,29 @@
     from { 
       opacity: 0;
       transform: scale(0.9);
-    }
+  }
+
+  /* Performance optimizations */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Cache control for images (if supported by hosting) */
+  img[src*="/lovable-uploads/"] {
+    /* Browser hint for long caching */
+    image-rendering: optimizeQuality;
+  }
+
+  /* Aspect ratio utilities for CLS prevention */
+  .aspect-3\/4 {
+    aspect-ratio: 3/4;
+  }
+
+  .aspect-square {
+    aspect-ratio: 1/1;
+  }
+}
     to { 
       opacity: 1;
       transform: scale(1);

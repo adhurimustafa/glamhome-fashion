@@ -145,14 +145,16 @@ const FeaturedCollection = () => {
               className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden aspect-[3/4]">
                 <img
                   src={item.image}
                   alt={item.altText}
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  width="600"
+                  height="800"
                   loading="lazy"
                   decoding="async"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="bg-primary/90 text-primary-foreground px-3 py-1 text-xs font-medium rounded-full">
@@ -260,6 +262,8 @@ const FeaturedCollection = () => {
                   src={currentItem.image}
                   alt={currentItem.altText}
                   className="max-w-full max-h-[80vh] object-contain mx-auto"
+                  width="600"
+                  height="800"
                   loading="lazy"
                   decoding="async"
                   sizes="(max-width: 768px) 100vw, 80vw"
