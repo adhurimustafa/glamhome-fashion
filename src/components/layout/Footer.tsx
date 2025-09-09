@@ -1,134 +1,136 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const Footer = () => {
-  return (
-    <footer className="bg-accent text-accent-foreground">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-serif font-bold text-primary">
-              Glam Home Fashion
-            </h3>
-            <p className="text-sm leading-relaxed opacity-90">
-              Découvrez l'élégance au quotidien avec notre collection exclusive de mode et décoration d'intérieur.
-            </p>
-            <div className="flex space-x-3">
-              <Button variant="ghost" size="icon" className="hover:text-primary" aria-label="Instagram">
-                <Instagram className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="hover:text-primary" aria-label="Facebook">
-                <Facebook className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="hover:text-primary" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
+const INSTAGRAM_URL = "https://www.instagram.com/glam_fashion.store";
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-serif font-semibold">Navigation</h4>
-            <ul className="space-y-2 text-sm">
+const Footer = () => {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer role="contentinfo" className="bg-[#E7D6CB] text-[#222]">
+      <div className="container mx-auto max-w-7xl px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {/* NAVIGATION */}
+          <nav aria-label="Navigation principale" className="space-y-6">
+            <h4 className="font-serif font-medium text-lg">Navigation</h4>
+            <ul className="space-y-3 text-sm">
               <li>
-                <Link to="/" className="hover:text-primary transition-colors">
+                <Link to="/" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   Accueil
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-primary transition-colors">
+                <Link to="/presentation" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   À propos
                 </Link>
               </li>
               <li>
-                <Link to="/collection" className="hover:text-primary transition-colors">
+                <Link to="/collection" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   Collection
                 </Link>
               </li>
               <li>
-                <Link to="/order" className="hover:text-primary transition-colors">
+                <Link to="/order" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   Commander
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-primary transition-colors">
+                <Link to="/contact" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   Contact
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
-          {/* Collections */}
-          <div className="space-y-4">
-            <h4 className="font-serif font-semibold">Collections</h4>
-            <ul className="space-y-2 text-sm">
+          {/* COLLECTIONS */}
+          <nav aria-label="Raccourcis collections" className="space-y-6">
+            <h4 className="font-serif font-medium text-lg">Collections</h4>
+            <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Mode Femme
-                </a>
+                <Link to="/collection" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
+                  Femme
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Accessoires
-                </a>
+                <Link to="/collection" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
+                  Prestige
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Décoration
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Lifestyle
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <Link to="/collection" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                   Nouveautés
-                </a>
+                </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="font-serif font-semibold">Contact</h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 mt-0.5 text-primary" />
-                <p>123 Rue de l'Élégance<br />75001 Paris, France</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-primary" />
-                <p>+33 1 23 45 67 89</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-primary" />
-                <p>contact@glamhome.fashion</p>
-              </div>
+          {/* CONTACT */}
+          <section aria-labelledby="footer-contact" className="space-y-6">
+            <h4 id="footer-contact" className="font-serif font-medium text-lg">Contact</h4>
+            <address className="not-italic space-y-3 text-sm leading-relaxed">
+              <p>123 Rue de l'Élégance, Paris</p>
+              <p>+33 1 23 45 67 89</p>
+              <p>
+                <a
+                  href="mailto:contact@glamhome.fashion"
+                  className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded"
+                >
+                  contact@glamhome.fashion
+                </a>
+              </p>
+            </address>
+
+            {/* Réseaux */}
+            <div className="flex gap-4 pt-2">
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="text-[#222] hover:text-[#B48A7C] hover:bg-transparent p-0 h-auto w-auto focus-visible:ring-[#B48A7C]/40"
+              >
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Ouvrir Instagram (nouvel onglet)"
+                >
+                  <Instagram className="h-5 w-5" strokeWidth={1.5} />
+                  <span className="sr-only">Instagram</span>
+                </a>
+              </Button>
+
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="text-[#222] hover:text-[#B48A7C] hover:bg-transparent p-0 h-auto w-auto focus-visible:ring-[#B48A7C]/40"
+              >
+                <a href="mailto:contact@glamhome.fashion" aria-label="Envoyer un email">
+                  <Mail className="h-5 w-5" strokeWidth={1.5} />
+                  <span className="sr-only">Email</span>
+                </a>
+              </Button>
             </div>
-          </div>
+          </section>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-accent-light mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-sm opacity-75">
-              © 2024 Glam Home Fashion. Tous droits réservés.
-            </p>
-            <div className="flex space-x-6 text-sm">
-              <a href="#" className="hover:text-primary transition-colors">
+        {/* BAS DE PAGE */}
+        <div className="border-t border-[#222]/20 mt-12 pt-8">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
+            <p className="text-sm font-light">© {year} GLAMHOME FASHION</p>
+
+            <nav aria-label="Liens légaux" className="flex flex-wrap justify-center lg:justify-end gap-6 text-sm">
+              <Link to="/legal/privacy" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                 Politique de confidentialité
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                Conditions d'utilisation
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              </Link>
+              <Link to="/legal/terms" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
+                Conditions
+              </Link>
+              <Link to="/legal/cgv" className="hover:text-[#B48A7C] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B48A7C]/40 rounded">
                 CGV
-              </a>
-            </div>
+              </Link>
+            </nav>
           </div>
         </div>
       </div>

@@ -2,43 +2,23 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import hero1 from "@/assets/hero-1.jpg";
-import hero2 from "@/assets/hero-2.jpg";
 
 interface Slide {
   id: number;
   image: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  cta: {
-    text: string;
-    href: string;
-  };
+  alt: string;
 }
 
 const slides: Slide[] = [
   {
     id: 1,
     image: "/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
-    title: "Robes de soirée d'exception",
-    subtitle: "Élégance couture, prêtes à briller.",
-    description: "",
-    cta: {
-      text: "",
-      href: ""
-    }
+    alt: "Glamour Collection - Shooting château"
   },
   {
     id: 2,
     image: "/lovable-uploads/0ab5813f-0047-4366-b470-f302465aeb63.png",
-    title: "Robes de soirée d'exception",
-    subtitle: "Élégance couture, prêtes à briller.",
-    description: "",
-    cta: {
-      text: "",
-      href: ""
-    }
+    alt: "Glamour Collection - Shooting désert"
   }
 ];
 
@@ -56,15 +36,6 @@ const HeroCarousel = () => {
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
-  };
-
-  const handleCTAClick = (href: string) => {
-    if (href === "#collection") {
-      const element = document.querySelector('#collection');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
   };
 
   useEffect(() => {
@@ -86,7 +57,7 @@ const HeroCarousel = () => {
       />
       
       <section 
-        className="hero relative w-full overflow-hidden min-h-[75vh] md:min-h-[82vh] lg:min-h-[92vh]"
+        className="hero relative w-full overflow-hidden aspect-[16/9] md:aspect-[16/9] lg:aspect-[16/9] max-[767px]:aspect-[4/5]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         style={{ zIndex: 10 }}
@@ -112,8 +83,8 @@ const HeroCarousel = () => {
               */}
               <img
                 src={slide.image}
-                alt={index === 0 ? "Robes de soirée — shooting château" : "Robes de soirée — shooting désert"}
-                className="h-full w-full object-cover"
+                alt={slide.alt}
+                className="h-full w-full object-cover object-center"
                 width="1920"
                 height="1280"
                 loading={index === 0 ? "eager" : "lazy"}
@@ -122,36 +93,43 @@ const HeroCarousel = () => {
                 sizes="100vw"
               />
               
-              {/* Optimized Overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/38 via-black/15 to-black/5" />
+              {/* Subtle gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
               
-              {/* Content - Title and Slogan only */}
+              {/* Content - Title, Slogan and CTA only */}
               <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                 <div className="max-w-[900px] px-4 animate-fade-in">
                   <h1 
-                    className="font-serif font-semibold leading-none mb-6"
+                    className="font-serif font-bold leading-none mb-4"
                     style={{ 
-                      fontSize: 'clamp(38px, 6vw, 74px)',
+                      fontSize: 'clamp(48px, 8vw, 96px)',
                       letterSpacing: '-0.02em'
                     }}
                   >
-                    {slide.title}
+                    Glamour Collection
                   </h1>
                   <p 
-                    className="opacity-95"
+                    className="mb-8 opacity-95"
                     style={{ 
-                      fontSize: 'clamp(16px, 2.4vw, 22px)'
+                      fontSize: 'clamp(18px, 3vw, 26px)'
                     }}
                   >
-                    {slide.subtitle}
+                    Élégance en chaque silhouette
                   </p>
+                  <Button 
+                    asChild 
+                    size="lg"
+                    className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3 text-lg shadow-lg hover-scale"
+                  >
+                    <Link to="/collection">Voir la Collection</Link>
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Navigation Arrows - reduced z-index */}
+        {/* Navigation Arrows */}
         <Button
           variant="ghost"
           size="icon"
@@ -183,7 +161,7 @@ const HeroCarousel = () => {
                   : "bg-white/50 hover:bg-white/75"
               }`}
               onClick={() => goToSlide(index)}
-              aria-label={`Aller au slide ${index + 1} - ${index === 0 ? 'Robes de soirée — shooting château' : 'Robes de soirée — shooting désert'}`}
+              aria-label={`Aller au slide ${index + 1} - ${slides[index].alt}`}
             />
           ))}
         </div>

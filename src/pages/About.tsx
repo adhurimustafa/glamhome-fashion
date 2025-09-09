@@ -1,210 +1,93 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, Award, Users, Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Award, Heart } from "lucide-react";
 
 const About = () => {
   return (
     <main className="pt-20">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-light to-secondary">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-serif font-light text-accent mb-6">
-              Notre Histoire
-            </h1>
-            <p className="text-xl text-accent/80 leading-relaxed">
-              Découvrez l'histoire passionnante de Glam Home Fashion, 
-              une aventure dédiée à l'art de vivre avec élégance.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Story Section */}
-      <section className="py-20 bg-background">
+      {/* Main Section */}
+      <section className="py-20 bg-gradient-to-br from-[#fdfcfb] to-[#f8f5f2]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="animate-slide-up">
-              <h2 className="text-4xl font-serif font-light text-accent mb-6">
-                Une Passion Née de l'Excellence
-              </h2>
-              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                <p>
-                  Tout a commencé par une vision simple : créer un univers où la mode 
-                  et la décoration d'intérieur se rencontrent pour sublimer le quotidien. 
-                  Depuis 2018, nous parcourons le monde à la recherche de créateurs 
-                  exceptionnels et de pièces uniques.
-                </p>
-                <p>
-                  Notre équipe de passionnés sélectionne chaque article avec un soin 
-                  méticuleux, privilégiant la qualité, l'originalité et l'impact esthétique. 
-                  Nous croyons que la beauté réside dans les détails et que chaque objet 
-                  doit raconter une histoire.
-                </p>
-                <p>
-                  Aujourd'hui, Glam Home Fashion est devenu une référence pour celles et 
-                  ceux qui recherchent l'excellence et l'authenticité dans leurs choix 
-                  de mode et de décoration.
+            {/* Left Content */}
+            <div className="space-y-12 animate-fade-in">
+              {/* Title and Description */}
+              <div>
+                <h1 className="text-4xl md:text-5xl font-serif font-light text-[#2c2c2c] mb-8 leading-tight">
+                  The Art of Fashion Redefined
+                </h1>
+                <p className="text-lg text-[#6b6b6b] leading-relaxed max-w-lg">
+                  We believe fashion is more than clothing—it's an expression of art, passion, and individuality. 
+                  Every piece in our collection is carefully curated to embody elegance, quality, and timeless beauty.
                 </p>
               </div>
+
+              {/* Feature Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white/70 backdrop-blur-sm">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-gradient-to-br from-[#E8B4A0] to-[#D4A574] rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Award className="h-7 w-7 text-white" />
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#2c2c2c] mb-3">
+                      Premium Quality
+                    </h3>
+                    <p className="text-sm text-[#6b6b6b] leading-relaxed">
+                      Handpicked materials and exceptional craftsmanship in every garment we offer.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white/70 backdrop-blur-sm">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-gradient-to-br from-[#E8B4A0] to-[#D4A574] rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Heart className="h-7 w-7 text-white" />
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#2c2c2c] mb-3">
+                      Made with Love
+                    </h3>
+                    <p className="text-sm text-[#6b6b6b] leading-relaxed">
+                      Each piece is created with passion, attention to detail, and care for your unique style.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-            
+
+            {/* Right Image */}
             <div className="relative animate-scale-in">
-              <div className="bg-gradient-to-br from-primary/20 to-secondary/30 rounded-3xl p-8">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/api/placeholder/600/400"
-                  alt="Notre atelier de création"
-                  className="w-full h-80 object-cover rounded-2xl shadow-elegant"
-                  loading="lazy"
+                  src="/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png"
+                  alt="Elegant boutique interior showcasing premium fashion collection"
+                  className="w-full h-[600px] object-cover"
+                  width="600"
+                  height="600"
+                  loading="eager"
+                  decoding="sync"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                 />
+                {/* Elegant overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
               </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-br from-[#E8B4A0]/30 to-[#D4A574]/30 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#D4A574]/20 to-[#E8B4A0]/20 rounded-full blur-xl"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-20 bg-neutral-warm">
+      {/* Values Section with generous spacing */}
+      <section className="py-24 bg-[#faf9f7]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-accent mb-6">
-              Nos Valeurs
+            <h2 className="text-3xl md:text-4xl font-serif font-light text-[#2c2c2c] mb-6">
+              Our Commitment to Excellence
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Ce qui nous guide dans chacune de nos actions et décisions.
+            <p className="text-lg text-[#6b6b6b] max-w-2xl mx-auto leading-relaxed">
+              Every detail matters when creating pieces that celebrate your unique elegance and sophistication.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Heart,
-                title: "Passion",
-                description: "Chaque pièce est choisie avec amour et dévotion pour l'excellence."
-              },
-              {
-                icon: Award,
-                title: "Qualité",
-                description: "Nous ne transigeons jamais sur la qualité et l'authenticité de nos produits."
-              },
-              {
-                icon: Users,
-                title: "Proximité",
-                description: "Une relation privilégiée avec nos clients et nos créateurs partenaires."
-              },
-              {
-                icon: Sparkles,
-                title: "Innovation",
-                description: "Toujours à l'avant-garde des tendances pour vous surprendre."
-              }
-            ].map((value, index) => (
-              <Card 
-                key={value.title}
-                className="text-center border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <value.icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="font-serif text-xl font-medium text-accent mb-4">
-                    {value.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {value.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-accent mb-6">
-              Notre Équipe
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Rencontrez les passionnés qui donnent vie à Glam Home Fashion.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              {
-                name: "Sophie Laurent",
-                role: "Directrice Artistique",
-                description: "Experte en tendances mode et décoration avec plus de 15 ans d'expérience."
-              },
-              {
-                name: "Marc Dubois",
-                role: "Responsable Collections",
-                description: "Spécialiste en sourcing international et relations créateurs."
-              },
-              {
-                name: "Emma Martin",
-                role: "Expérience Client",
-                description: "Dédiée à offrir un service exceptionnel et personnalisé à chaque client."
-              }
-            ].map((member, index) => (
-              <Card 
-                key={member.name}
-                className="text-center border-0 shadow-soft hover:shadow-elegant transition-all duration-500 animate-scale-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardContent className="p-8">
-                  <div className="w-24 h-24 bg-gradient-to-br from-primary-light to-secondary rounded-full mx-auto mb-6" />
-                  <h3 className="font-serif text-xl font-medium text-accent mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-medium mb-4">
-                    {member.role}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {member.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 gradient-hero">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto text-white animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-serif font-light mb-6">
-              Rejoignez Notre Aventure
-            </h2>
-            <p className="text-xl leading-relaxed mb-8 opacity-90">
-              Découvrez comment nous pouvons transformer votre quotidien avec notre 
-              sélection exclusive de mode et décoration.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/collection">
-                <Button 
-                  size="lg" 
-                  variant="secondary"
-                  className="px-8 py-3 text-lg hover:shadow-soft transition-all duration-300"
-                >
-                  Découvrir nos Collections
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="px-8 py-3 text-lg text-white border-white hover:bg-white hover:text-primary transition-all duration-300"
-                >
-                  Nous Contacter
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>
