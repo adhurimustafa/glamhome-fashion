@@ -1,102 +1,115 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Search, Eye, Home, Filter } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Home } from "lucide-react";
 import { Link } from "react-router-dom";
-import productsData from "@/data/products.json";
 
-interface Product {
-  slug: string;
-  name: string;
-  price: number;
-  badges: string[];
-  thumb: string;
-  images: string[];
-  color: string;
-  category: string;
-  description: string;
+interface CollectionImage {
+  id: number;
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
 
-const Collection = () => {
-  const [products] = useState<Product[]>(productsData);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [colorFilter, setColorFilter] = useState("all");
-  const [priceFilter, setPriceFilter] = useState("all");
+const collectionImages: CollectionImage[] = [
+  {
+    id: 1,
+    src: "/lovable-uploads/ffc06c00-6ffc-4cb7-ba44-4ac0525d5b77.png",
+    alt: "Robe de soirée Glam Fashion – #1",
+    width: 600,
+    height: 800
+  },
+  {
+    id: 2,
+    src: "/lovable-uploads/8ef503f8-1dce-401a-97b4-759411b0f1fe.png", 
+    alt: "Robe de soirée Glam Fashion – #2",
+    width: 600,
+    height: 800
+  },
+  {
+    id: 3,
+    src: "/lovable-uploads/a018e30d-8796-4cea-8975-4cc98c1d06a9.png",
+    alt: "Robe de soirée Glam Fashion – #3", 
+    width: 600,
+    height: 800
+  },
+  {
+    id: 4,
+    src: "/lovable-uploads/fab7fcbb-98b4-427f-9167-bf507006a59d.png",
+    alt: "Robe de soirée Glam Fashion – #4",
+    width: 600, 
+    height: 800
+  },
+  {
+    id: 5,
+    src: "/lovable-uploads/e8ca46d4-6f23-4fd5-be4d-31b18cc0078b.png",
+    alt: "Robe de soirée Glam Fashion – #5",
+    width: 600,
+    height: 800
+  },
+  {
+    id: 6,
+    src: "/lovable-uploads/1f44e598-de15-44f9-913a-7870bf06ba74.png",
+    alt: "Robe de soirée Glam Fashion – #6",
+    width: 600,
+    height: 800
+  },
+  {
+    id: 7,
+    src: "/lovable-uploads/373fe360-5684-4f42-a6bf-ebc91be6d05d.png",
+    alt: "Robe de soirée Glam Fashion – #7",
+    width: 600,
+    height: 800
+  }
+];
 
-  // Get unique categories and colors for filters
-  const categories = ["all", ...new Set(products.map(p => p.category))];
-  const colors = ["all", ...new Set(products.map(p => p.color))];
+const Collection = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Update page title and meta
   useEffect(() => {
     document.title = "Collection – Glam Fashion";
     
+    // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 'Découvrez notre collection exclusive de robes de soirée. Élégance et sophistication pour vos événements les plus prestigieux.');
     }
     
+    // Update canonical URL
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
       canonical.setAttribute('href', window.location.origin + '/collection');
     }
     
     return () => {
+      // Reset to default on unmount
       document.title = "GLAMHOME FASHION — Robes de soirée & haute élégance";
     };
   }, []);
 
-  // Filter products based on search and filters
-  useEffect(() => {
-    let filtered = products;
-
-    // Search by name
-    if (searchTerm) {
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filter by category
-    if (categoryFilter !== "all") {
-      filtered = filtered.filter(product => product.category === categoryFilter);
-    }
-
-    // Filter by color
-    if (colorFilter !== "all") {
-      filtered = filtered.filter(product => product.color === colorFilter);
-    }
-
-    // Filter by price
-    if (priceFilter !== "all") {
-      switch (priceFilter) {
-        case "under-400":
-          filtered = filtered.filter(product => product.price < 400);
-          break;
-        case "400-500":
-          filtered = filtered.filter(product => product.price >= 400 && product.price <= 500);
-          break;
-        case "over-500":
-          filtered = filtered.filter(product => product.price > 500);
-          break;
-      }
-    }
-
-    setFilteredProducts(filtered);
-  }, [searchTerm, categoryFilter, colorFilter, priceFilter, products]);
-
-  const getBadgeVariant = (badge: string) => {
-    if (badge.includes("New")) return "default";
-    if (badge.includes("Trending")) return "secondary";
-    if (badge.includes("Only")) return "destructive";
-    if (badge.includes("Prestige")) return "outline";
-    return "default";
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
   };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'unset';
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % collectionImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + collectionImages.length) % collectionImages.length);
+  };
+
+  const currentImage = collectionImages[currentImageIndex];
 
   return (
     <main className="min-h-screen pt-20">
@@ -117,194 +130,102 @@ const Collection = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-b from-luxury-pearl to-background">
+      <section className="py-16 bg-gradient-to-b from-luxury-pearl to-background">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <h1 className="text-4xl md:text-6xl font-serif font-light text-[#0F0F0F]">
-              Collection
-            </h1>
-            <div className="flex items-center bg-[#B48A7C] text-white px-3 py-1 rounded-full text-sm font-medium">
-              <Eye className="h-4 w-4 mr-1" />
-              <span>28</span>
-            </div>
-          </div>
+          <h1 className="text-4xl md:text-6xl font-serif font-light text-[#0F0F0F] mb-4">
+            Collection
+          </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Nos robes de soirée sélectionnées
           </p>
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="py-8 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Filter className="h-4 w-4" />
-              <span>Filtres :</span>
-            </div>
-            
-            {/* Search */}
-            <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Rechercher par nom..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Catégorie" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map(category => (
-                  <SelectItem key={category} value={category}>
-                    {category === "all" ? "Toutes catégories" : category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Color Filter */}
-            <Select value={colorFilter} onValueChange={setColorFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Couleur" />
-              </SelectTrigger>
-              <SelectContent>
-                {colors.map(color => (
-                  <SelectItem key={color} value={color}>
-                    {color === "all" ? "Toutes couleurs" : color}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Price Filter */}
-            <Select value={priceFilter} onValueChange={setPriceFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Prix" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous les prix</SelectItem>
-                <SelectItem value="under-400">Moins de 400€</SelectItem>
-                <SelectItem value="400-500">400€ - 500€</SelectItem>
-                <SelectItem value="over-500">Plus de 500€</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </section>
-
-      {/* Products Grid */}
+      {/* Collection Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-            {filteredProducts.map((product) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {collectionImages.map((image, index) => (
               <Card 
-                key={product.slug}
-                className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant hover:-translate-y-2 transition-all duration-500 rounded-lg"
+                key={image.id}
+                className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant transition-all duration-500 cursor-pointer rounded-lg"
+                onClick={() => openLightbox(index)}
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
-                  {/* Badges */}
-                  {product.badges.length > 0 && (
-                    <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
-                      {product.badges.map((badge, index) => (
-                        <Badge 
-                          key={index} 
-                          variant={getBadgeVariant(badge)}
-                          className="text-xs shadow-sm"
-                        >
-                          {badge}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                  
                   <img
-                    src={`/lovable-uploads/${product.images[0].replace('.jpg', '.png')}`}
-                    alt={`${product.name} - Robe de soirée Glam Fashion`}
+                    src={image.src}
+                    alt={image.alt}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    width="600"
-                    height="800"
+                    width={image.width}
+                    height={image.height}
                     loading="lazy"
                     decoding="async"
-                    sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   />
-                </div>
-                
-                <div className="p-6">
-                  {/* Product Name */}
-                  <h3 className="font-serif text-lg font-medium text-[#0F0F0F] mb-2">
-                    {product.name}
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
-                    {product.description}
-                  </p>
-                  
-                  {/* Price */}
-                  <div className="text-xl font-semibold text-[#B48A7C] mb-3">
-                    {product.price}€
-                  </div>
-                  
-                  {/* Tags */}
-                  <div className="flex gap-2 mb-4">
-                    <Badge variant="outline" className="text-xs">
-                      {product.category}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      {product.color}
-                    </Badge>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    <Button 
-                      asChild 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
-                    >
-                      <Link to={`/product/${product.slug}`}>Voir</Link>
-                    </Button>
-                    <Button 
-                      asChild 
-                      size="sm" 
-                      className="flex-1 bg-[#B48A7C] hover:bg-[#B48A7C]/90"
-                    >
-                      <Link to={`/order?product=${product.slug}`}>Commander</Link>
-                    </Button>
-                  </div>
                 </div>
               </Card>
             ))}
           </div>
-          
-          {/* No results message */}
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-lg text-muted-foreground mb-4">
-                Aucun produit trouvé avec ces critères.
-              </p>
-              <Button 
-                variant="outline"
-                onClick={() => {
-                  setSearchTerm("");
-                  setCategoryFilter("all");
-                  setColorFilter("all");
-                  setPriceFilter("all");
-                }}
-              >
-                Réinitialiser les filtres
-              </Button>
-            </div>
-          )}
         </div>
       </section>
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <div 
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <div className="relative max-w-5xl max-h-full" onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 z-10 focus:ring-2 focus:ring-white/50"
+              onClick={closeLightbox}
+              aria-label="Fermer la lightbox"
+            >
+              <X className="h-6 w-6" />
+            </Button>
+
+            {/* Navigation buttons */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 focus:ring-2 focus:ring-white/50"
+              onClick={prevImage}
+              aria-label="Image précédente"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 focus:ring-2 focus:ring-white/50"
+              onClick={nextImage}
+              aria-label="Image suivante"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </Button>
+
+            {/* Image */}
+            <div className="relative">
+              <img
+                src={currentImage.src}
+                alt={currentImage.alt}
+                className="max-w-full max-h-[90vh] object-contain mx-auto"
+                width={currentImage.width}
+                height={currentImage.height}
+              />
+              
+              {/* Image counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+                {currentImageIndex + 1} / {collectionImages.length}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
