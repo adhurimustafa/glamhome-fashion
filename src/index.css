@@ -1,43 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@200;300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Glam Home Fashion Design System - Elegant and sophisticated */
+/* Vlora & Kaltrina Inspired Design System - Romantic Pastels & Luxury */
 
 @layer base {
   :root {
-    /* Core Brand Colors */
+    /* Core Background */
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 210 15% 15%;
 
-    /* Brand Identity */
-    --primary: 330 81% 60%; /* Elegant rose gold */
+    /* Palette inspirée de Vlora & Kaltrina - tons pastel romantiques */
+    --primary: 330 45% 70%;        /* Rose poudré élégant */
     --primary-foreground: 0 0% 100%;
-    --primary-light: 330 81% 85%;
-    --primary-dark: 330 81% 35%;
+    --primary-light: 330 35% 88%;  /* Rose très doux */
+    --primary-glow: 330 55% 82%;   /* Rose lumineux */
 
-    --secondary: 45 29% 85%; /* Warm cream */
-    --secondary-foreground: 0 0% 10%;
-    --secondary-dark: 45 29% 65%;
+    --secondary: 280 25% 92%;      /* Lilas très doux */
+    --secondary-foreground: 210 15% 15%;
+    --secondary-dark: 280 25% 85%;
 
-    --accent: 210 15% 25%; /* Sophisticated charcoal */
+    --accent: 210 15% 25%;         /* Gris anthracite élégant */
     --accent-foreground: 0 0% 95%;
-    --accent-light: 210 15% 85%;
+    --accent-light: 210 15% 88%;
+
+    /* Tons pastels luxueux */
+    --luxury-cream: 40 20% 97%;    /* Crème luxueuse */
+    --luxury-pearl: 45 15% 96%;    /* Blanc perlé */
+    --luxury-champagne: 45 25% 92%; /* Champagne */
+    --luxury-blush: 15 30% 95%;    /* Rose pâle */
 
     /* Neutral Palette */
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 210 10% 96%;
+    --muted-foreground: 210 10% 50%;
     --neutral-warm: 25 10% 95%;
     --neutral-cool: 210 10% 95%;
 
     /* UI Elements */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 210 15% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --border: 0 0% 90%;
-    --input: 0 0% 95%;
-    --ring: 330 81% 60%;
+    --popover-foreground: 210 15% 15%;
+    --border: 210 10% 92%;
+    --input: 210 10% 95%;
+    --ring: 330 45% 70%;
 
     /* Status Colors */
     --destructive: 0 70% 55%;
@@ -45,63 +52,48 @@
     --success: 145 65% 45%;
     --success-foreground: 0 0% 100%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--primary)) 50%, hsl(var(--primary-light)) 100%);
-    --gradient-overlay: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+    /* Gradients sophistiqués */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--luxury-pearl)) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-light)) 0%, hsl(var(--secondary)) 50%, hsl(var(--luxury-champagne)) 100%);
+    --gradient-overlay: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
 
-    /* Shadows */
-    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.1);
-    --shadow-elegant: 0 8px 32px hsl(var(--primary) / 0.15);
-    --shadow-strong: 0 16px 64px hsl(var(--primary) / 0.2);
+    /* Ombres élégantes */
+    --shadow-soft: 0 4px 12px 0 hsl(var(--primary) / 0.12);
+    --shadow-elegant: 0 8px 25px -8px hsl(var(--primary) / 0.20);
+    --shadow-luxury: 0 12px 40px -12px hsl(var(--accent) / 0.25);
 
     --radius: 0.75rem;
 
+    /* Sidebar */
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 210 15% 5%;
+    --foreground: 210 10% 95%;
+    --primary: 330 45% 75%;
+    --primary-foreground: 210 15% 10%;
+    --secondary: 280 25% 20%;
+    --secondary-foreground: 210 10% 95%;
+    --accent: 210 15% 85%;
+    --accent-foreground: 210 15% 10%;
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 10% 70%;
+    --card: 210 15% 8%;
+    --card-foreground: 210 10% 95%;
+    --popover: 210 15% 8%;
+    --popover-foreground: 210 10% 95%;
+    --border: 210 15% 20%;
+    --input: 210 15% 15%;
+    --ring: 330 45% 75%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -119,24 +111,42 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'system-ui', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    line-height: 1.7;
   }
 
-  /* Typography */
+  /* Typography élégante comme Vlora & Kaltrina */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   h1 {
-    @apply text-4xl md:text-6xl font-light leading-tight;
+    @apply text-5xl md:text-7xl font-light leading-none tracking-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-5xl font-light leading-tight;
+    @apply text-4xl md:text-6xl font-light leading-tight tracking-tight;
   }
 
   h3 {
-    @apply text-2xl md:text-3xl font-medium leading-snug;
+    @apply text-3xl md:text-4xl font-light leading-tight;
+  }
+
+  h4 {
+    @apply text-2xl md:text-3xl font-normal leading-tight;
+  }
+
+  /* Corps de texte raffiné */
+  p {
+    font-weight: 300;
+    line-height: 1.8;
+    color: hsl(var(--muted-foreground));
   }
 
   /* Smooth scrolling */
@@ -144,9 +154,9 @@
     scroll-behavior: smooth;
   }
 
-  /* Focus styles */
+  /* Focus styles sophistiqués */
   *:focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2;
+    @apply outline-none ring-2 ring-primary/50 ring-offset-2;
   }
 }
 
@@ -154,6 +164,10 @@
   /* Gradient utilities */
   .gradient-primary {
     background: var(--gradient-primary);
+  }
+
+  .gradient-secondary {
+    background: var(--gradient-secondary);
   }
 
   .gradient-hero {
@@ -173,32 +187,58 @@
     box-shadow: var(--shadow-elegant);
   }
 
-  .shadow-strong {
-    box-shadow: var(--shadow-strong);
+  .shadow-luxury {
+    box-shadow: var(--shadow-luxury);
   }
 
   /* Animation utilities */
   .animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.8s ease-out;
   }
 
   .animate-slide-up {
-    animation: slideUp 0.8s ease-out;
+    animation: slideUp 1s ease-out;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.5s ease-out;
+    animation: scaleIn 0.6s ease-out;
   }
 
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Classes spéciales Vlora & Kaltrina style */
+  .text-luxury {
+    color: hsl(var(--accent));
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-luxury {
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full font-light tracking-wide transition-all duration-300 hover:shadow-elegant hover:scale-105;
+  }
+
+  .section-padding {
+    @apply py-24 lg:py-32;
+  }
+
+  /* Keyframes */
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes slideUp {
     from { 
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
     to { 
       opacity: 1;
@@ -209,11 +249,20 @@
   @keyframes scaleIn {
     from { 
       opacity: 0;
-      transform: scale(0.95);
+      transform: scale(0.9);
     }
     to { 
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px);
+    }
+    50% { 
+      transform: translateY(-10px);
     }
   }
 }
