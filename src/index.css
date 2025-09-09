@@ -2,41 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Glam Home Fashion Design System - Elegant and sophisticated */
 
 @layer base {
   :root {
+    /* Core Brand Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 10%;
 
+    /* Brand Identity */
+    --primary: 330 81% 60%; /* Elegant rose gold */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 330 81% 85%;
+    --primary-dark: 330 81% 35%;
+
+    --secondary: 45 29% 85%; /* Warm cream */
+    --secondary-foreground: 0 0% 10%;
+    --secondary-dark: 45 29% 65%;
+
+    --accent: 210 15% 25%; /* Sophisticated charcoal */
+    --accent-foreground: 0 0% 95%;
+    --accent-light: 210 15% 85%;
+
+    /* Neutral Palette */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --neutral-warm: 25 10% 95%;
+    --neutral-cool: 210 10% 95%;
+
+    /* UI Elements */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 10%;
+    --border: 0 0% 90%;
+    --input: 0 0% 95%;
+    --ring: 330 81% 60%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Status Colors */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 145 65% 45%;
+    --success-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--primary)) 50%, hsl(var(--primary-light)) 100%);
+    --gradient-overlay: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6));
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-elegant: 0 8px 32px hsl(var(--primary) / 0.15);
+    --shadow-strong: 0 16px 64px hsl(var(--primary) / 0.2);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +119,101 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl font-light leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl font-light leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-medium leading-snug;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+}
+
+@layer components {
+  /* Gradient utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-overlay {
+    background: var(--gradient-overlay);
+  }
+
+  /* Shadow utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
