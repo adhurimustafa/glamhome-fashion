@@ -1,133 +1,103 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Star, Heart, Truck, Shield } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Award, Heart } from "lucide-react";
 
-export default function About() {
+const About = () => {
   return (
-    <main className="container mx-auto px-4 py-16">
-      {/* HERO STORY */}
-      <section className="grid gap-10 md:grid-cols-2 md:items-center">
-        <div>
-          <p className="uppercase tracking-widest text-sm text-neutral-500">
-            Notre histoire
-          </p>
-          <h1 className="font-serif text-3xl md:text-5xl mt-3">
-            L’Art de l’Élégance au Quotidien
-          </h1>
+    <main className="pt-20">
+      {/* ===== Main Section ===== */}
+      <section className="py-20 bg-gradient-to-br from-[#fdfcfb] to-[#f8f5f2]">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left content */}
+            <div className="space-y-8 animate-fade-in">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-serif font-light text-[#2c2c2c] mb-6 leading-tight">
+                  The Art of <span className="text-[#B48A7C]">Fashion</span> Redefined
+                </h1>
+                <p className="text-lg text-[#6b6b6b] leading-relaxed max-w-2xl">
+                  We believe fashion is more than clothing—it’s an expression of art, passion, and individuality.
+                  Every piece in our collection is carefully curated to embody elegance, quality, and timeless beauty.
+                </p>
+              </div>
 
-          <div className="mt-6 space-y-4 text-neutral-700 leading-relaxed">
-            <p>
-              Chez <span className="font-medium">GLAMHOME FASHION</span>, chaque
-              pièce raconte une histoire d’élégance et de sophistication. Notre
-              passion pour l’excellence se reflète dans chaque détail, chaque
-              couture et chaque instant précieux.
-            </p>
-            <p>
-              Nos modèles sont soigneusement sélectionnés pour leur{" "}
-              <em>design exceptionnel</em> et une{" "}
-              <em>qualité irréprochable</em>, afin de sublimer votre silhouette
-              lors de vos moments d’exception.
-            </p>
-          </div>
+              {/* Feature cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-0 shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="w-14 h-14 bg-gradient-to-br from-[#E8BBA0] to-[#D4A574] rounded-full flex items-center justify-center mb-4 text-white">
+                      <Award className="h-7 w-7" />
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#2c2c2c] mb-2">
+                      Premium Quality
+                    </h3>
+                    <p className="text-sm text-[#6b6b6b] leading-relaxed">
+                      Handpicked materials and exceptional craftsmanship in every garment we offer.
+                    </p>
+                  </CardContent>
+                </Card>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              asChild
-              className="bg-[#B48A7C] hover:bg-[#a57c6d] text-white"
-            >
-              <Link to="/collection">Explorer la Collection</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link to="/contact">Nous contacter</Link>
-            </Button>
-          </div>
-        </div>
-
-        {/* Remplace l'image ci-dessous par ton visuel “atelier/boutique” si tu en as un.
-            Exemple : "/lovable-uploads/atelier.jpg" */}
-        <div className="relative overflow-hidden rounded-xl border border-neutral-200 shadow-sm">
-          <img
-            src="/lovable-uploads/m1.jpg"
-            alt="Univers GLAMHOME FASHION"
-            className="w-full h-[380px] md:h-[520px] object-cover"
-            loading="lazy"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-        </div>
-      </section>
-
-      {/* VALUES / PILLARS */}
-      <section className="mt-16">
-        <h2 className="sr-only">Nos engagements</h2>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-neutral-200 p-5">
-            <div className="flex items-center gap-3">
-              <Star className="h-5 w-5 text-[#B48A7C]" />
-              <p className="font-medium">Excellence</p>
+                <Card className="border-0 shadow-sm hover:shadow-md transition-all duration-300 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="w-14 h-14 bg-gradient-to-br from-[#E8BBA0] to-[#D4A574] rounded-full flex items-center justify-center mb-4 text-white">
+                      <Heart className="h-7 w-7" />
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#2c2c2c] mb-2">
+                      Made with Love
+                    </h3>
+                    <p className="text-sm text-[#6b6b6b] leading-relaxed">
+                      Each creation is designed with passion and attention to detail, and care for your unique style.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-            <p className="mt-3 text-sm text-neutral-600">
-              Qualité premium garantie sur chaque pièce.
-            </p>
-          </div>
 
-          <div className="rounded-xl border border-neutral-200 p-5">
-            <div className="flex items-center gap-3">
-              <Heart className="h-5 w-5 text-[#B48A7C]" />
-              <p className="font-medium">Créé avec amour</p>
+            {/* Right image */}
+            <div className="relative animate-slide-up">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                <img
+                  src="/lovable-uploads/bea22de6-6b02-48f8-a618-8f783bb7f534.png"
+                  alt="Elegant boutique interior showcasing premium fashion collection"
+                  className="w-full h-[600px] object-cover"
+                  width={600}
+                  height={600}
+                  loading="eager"
+                  decoding="sync"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                />
+                {/* subtle overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+              </div>
             </div>
-            <p className="mt-3 text-sm text-neutral-600">
-              Le souci du détail, de la coupe aux finitions.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-neutral-200 p-5">
-            <div className="flex items-center gap-3">
-              <Truck className="h-5 w-5 text-[#B48A7C]" />
-              <p className="font-medium">Livraison soignée</p>
-            </div>
-            <p className="mt-3 text-sm text-neutral-600">
-              Emballage protecteur et envoi rapide.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-neutral-200 p-5">
-            <div className="flex items-center gap-3">
-              <Shield className="h-5 w-5 text-[#B48A7C]" />
-              <p className="font-medium">Satisfaction</p>
-            </div>
-            <p className="mt-3 text-sm text-neutral-600">
-              Service attentionné et suivi personnalisé.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* BRAND NOTE */}
-      <section className="mt-16 rounded-xl border border-neutral-200 p-6 md:p-8 bg-white">
-        <h2 className="font-serif text-2xl md:text-3xl">
-          Notre Vision de la Mode
-        </h2>
-        <p className="mt-4 text-neutral-700 leading-relaxed">
-          Créer un pont entre la mode et l’art de vivre, où chaque détail compte
-          pour faire de votre style une expression unique de votre
-          personnalité. Des matières choisies avec soin, des coupes flatteuses
-          et des lignes intemporelles : voilà notre promesse.
-        </p>
-      </section>
+      {/* ===== Commitment Section ===== */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-serif font-light text-[#2c2c2c] mb-4">
+              Our Commitment to Excellence
+            </h2>
+            <p className="text-[#6b6b6b] leading-relaxed">
+              Every detail matters when creating pieces that celebrate your unique elegance and sophistication.
+            </p>
 
-      {/* CALL TO ACTION FINAL */}
-      <section className="mt-16 flex flex-wrap items-center gap-3">
-        <Button
-          asChild
-          className="bg-[#B48A7C] hover:bg-[#a57c6d] text-white"
-        >
-          <Link to="/collection">Voir la Collection</Link>
-        </Button>
-        <Button asChild variant="outline">
-          <Link to="/order">Commander maintenant</Link>
-        </Button>
+            <div className="mt-8">
+              <Link
+                to="/collection"
+                className="inline-flex items-center justify-center rounded-md border border-[#B48A7C] px-6 py-2 text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white transition-colors"
+              >
+                Explore the Collection
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   );
-}
+};
+
+export default About;
