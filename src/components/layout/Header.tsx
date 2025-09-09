@@ -8,12 +8,12 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
-  // Fermer le menu dès qu'on change de page
+  // Fermer le menu à chaque changement de page
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location.pathname]);
 
-  // État du scroll + scroll-lock quand le menu mobile est ouvert
+  // État de scroll + scroll-lock sur mobile
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", onScroll);
@@ -41,10 +41,10 @@ const Header = () => {
       className={`fixed inset-x-0 top-0 z-[1000] transition-colors duration-300
         bg-white/90 backdrop-blur border-b border-neutral-200 ${isScrolled ? "shadow-sm" : ""}`}
     >
-      {/* Hauteur fixe = 64px (h-16). Le menu mobile commence à top-16 */}
+      {/* h-16 = 64px */}
       <nav className="container mx-auto h-16 px-4">
         <div className="flex h-full items-center gap-4">
-          {/* Logo (gauche) */}
+          {/* Logo */}
           <Link
             to="/"
             className="flex items-center hover:opacity-80 transition-opacity"
@@ -62,7 +62,7 @@ const Header = () => {
             />
           </Link>
 
-          {/* Navigation desktop (centrée) */}
+          {/* Nav desktop (centrée) */}
           <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
             {navItems.map((item) => {
               const active = isActive(item.href);
@@ -80,26 +80,14 @@ const Header = () => {
             })}
           </div>
 
-          {/* Actions (droite) */}
+          {/* Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              asChild
-              variant="ghost"
-              size="icon"
-              aria-label="Instagram"
-              className="text-[#0F0F0F] hover:text-[#B48A7C]"
-            >
+            <Button asChild variant="ghost" size="icon" aria-label="Instagram" className="text-[#0F0F0F] hover:text-[#B48A7C]">
               <a href="https://www.instagram.com/glam_fashion.store" target="_blank" rel="noopener noreferrer">
                 <Instagram className="h-5 w-5" />
               </a>
             </Button>
-            <Button
-              asChild
-              variant="ghost"
-              size="icon"
-              aria-label="Email"
-              className="text-[#0F0F0F] hover:text-[#B48A7C]"
-            >
+            <Button asChild variant="ghost" size="icon" aria-label="Email" className="text-[#0F0F0F] hover:text-[#B48A7C]">
               <a href="mailto:contact@glamhome.fashion">
                 <Mail className="h-5 w-5" />
               </a>
@@ -114,7 +102,7 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Bouton burger (mobile) */}
+          {/* Burger mobile */}
           <Button
             variant="ghost"
             size="icon"
@@ -128,7 +116,7 @@ const Header = () => {
           </Button>
         </div>
 
-        {/* Menu mobile (sous le header) */}
+        {/* Menu mobile */}
         {isMenuOpen && (
           <div
             id="mobile-menu"
@@ -153,24 +141,12 @@ const Header = () => {
                 })}
 
                 <div className="flex items-center justify-center gap-6 pt-8 border-t border-gray-200">
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Instagram"
-                    className="text-[#0F0F0F] hover:text-[#B48A7C]"
-                  >
+                  <Button asChild variant="ghost" size="icon" aria-label="Instagram" className="text-[#0F0F0F] hover:text-[#B48A7C]">
                     <a href="https://www.instagram.com/glam_fashion.store" target="_blank" rel="noopener noreferrer">
                       <Instagram className="h-6 w-6" />
                     </a>
                   </Button>
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Email"
-                    className="text-[#0F0F0F] hover:text-[#B48A7C]"
-                  >
+                  <Button asChild variant="ghost" size="icon" aria-label="Email" className="text-[#0F0F0F] hover:text-[#B48A7C]">
                     <a href="mailto:contact@glamhome.fashion">
                       <Mail className="h-6 w-6" />
                     </a>
