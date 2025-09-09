@@ -1,21 +1,16 @@
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+export default function Layout() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
       <Header />
-      <div className="flex-1">
-        {children}
-      </div>
+      {/* pousse tout le contenu sous le header fixe */}
+      <main className="min-h-screen pt-[calc(env(safe-area-inset-top)+72px)]">
+        <Outlet />
+      </main>
       <Footer />
-    </div>
+    </>
   );
-};
-
-export default Layout;
+}
