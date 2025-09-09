@@ -20,7 +20,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: hero1,
+    image: "/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
     title: "Élégance Intemporelle",
     subtitle: "Collection Automne-Hiver 2024",
     description: "Découvrez notre nouvelle collection alliant mode et décoration d'intérieur pour un style de vie raffiné.",
@@ -31,7 +31,7 @@ const slides: Slide[] = [
   },
   {
     id: 2,
-    image: hero2,
+    image: "/lovable-uploads/0ab5813f-0047-4366-b470-f302465aeb63.png",
     title: "Art de Vivre",
     subtitle: "Accessoires & Décoration",
     description: "Transformez votre intérieur avec nos pièces uniques et nos accessoires de mode exceptionnels.",
