@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Instagram, Mail, ShoppingBag } from "lucide-react";
+import { Menu, X, Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
@@ -42,7 +42,7 @@ const Header = () => {
     return location.pathname.startsWith(href);
   };
 
-  const handleNavClick = (item: any) => {
+  const handleNavClick = () => {
     setIsMenuOpen(false);
   };
 
@@ -121,7 +121,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="fixed inset-0 top-[72px] bg-white z-40 md:hidden overflow-y-auto">
+          <div className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto">
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col space-y-6">
                 {navItems.map((item) => (
@@ -131,7 +131,7 @@ const Header = () => {
                     className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
                       isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
                     }`}
-                    onClick={() => handleNavClick(item)}
+                    onClick={handleNavClick}
                   >
                     {item.label}
                   </Link>
