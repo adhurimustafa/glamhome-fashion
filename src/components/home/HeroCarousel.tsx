@@ -75,7 +75,7 @@ const HeroCarousel = () => {
           <div className="relative h-full w-full">
             <img
               src={slide.image}
-              alt={slide.title}
+              alt={index === 0 ? "Glam Home Fashion — Robe soirée, modèle 1" : "Glam Home Fashion — Robe soirée, modèle 2"}
               className="h-full w-full object-cover"
               loading={index === 0 ? "eager" : "lazy"}
             />
