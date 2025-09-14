@@ -1,6 +1,6 @@
 # TODO: Images Responsive - Optimisations futures
 
-## ⏳ En attente du support Lovable
+## ⏳ En attente du support CDN
 
 ### Fonctionnalités requises :
 - Support des éléments `<picture>` et `<source>`
@@ -90,4 +90,4 @@
 
 ---
 *Mise à jour : Décembre 2024*
-*Status : En attente support Lovable*
+*Status : En attente support CDN*
