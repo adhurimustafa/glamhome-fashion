@@ -1,26 +1,18 @@
-import type { LangKey } from '@/types/product';
+// Formatage prix selon la langue (EUR)
+export const formatPrice = (price: number, lang: string) => {
+  const base = (lang || "fr").toLowerCase().split("-")[0];
+  const locale =
+    base === "fr" ? "fr-FR" :
+    base === "sq" ? "sq-AL" :
+    "en-GB";
 
-export function normalizeLang(lang?: string): LangKey {
-  const lc = (lang || 'fr').toLowerCase();
-  if (lc.startsWith('fr')) return 'fr';
-  if (lc.startsWith('en')) return 'en';
-  if (lc.startsWith('sq')) return 'sq';
-  return 'fr';
-}
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 0
+  }).format(price);
+};
 
-function localeFor(lang: LangKey): string {
-  switch (lang) {
-    case 'fr': return 'fr-FR';
-    case 'en': return 'en-GB'; // format € en anglais
-    case 'sq': return 'sq-AL';
-  }
-}
-
-export function formatPriceEUR(amount: number, lang: LangKey): string {
-  return new Intl.NumberFormat(localeFor(lang), {
-    style: 'currency',
-    currency: 'EUR',
-    currencyDisplay: 'symbol',
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+// Normalise "fr-FR" -> "fr"
+export const normalizeLang = (lang?: string) =>
+  (lang || "fr").toLowerCase().split("-")[0] as "fr" | "en" | "sq";
