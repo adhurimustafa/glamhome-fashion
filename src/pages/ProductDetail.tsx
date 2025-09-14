@@ -62,7 +62,7 @@ const ProductDetail = () => {
         "@type": "Product",
         "name": foundProduct.name,
         "description": foundProduct.description,
-        "image": `/lovable-uploads/${foundProduct.images[0].replace('.jpg', '.png')}`,
+        "image": `/images/dresses/${foundProduct.images[0].replace('.jpg', '.png')}`,
         "brand": {
           "@type": "Brand",
           "name": "GLAMHOME FASHION"
@@ -166,7 +166,7 @@ const ProductDetail = () => {
                 )}
                 
                 <img
-                  src={`/lovable-uploads/${product.images[0].replace('.jpg', '.png')}`}
+                  src={`/images/dresses/${product.images[0].replace('.jpg', '.png')}`}
                   alt={`${product.name} - Robe de soirée GLAMHOME FASHION`}
                   className="w-full h-full object-cover"
                   width="800"
@@ -303,7 +303,7 @@ const ProductDetail = () => {
                   <Link to={`/product/${relatedProduct.slug}`}>
                     <div className="relative aspect-[3/4] overflow-hidden">
                       <img
-                        src={`/lovable-uploads/${relatedProduct.images[0].replace('.jpg', '.png')}`}
+                        src={`/images/dresses/${relatedProduct.images[0].replace('.jpg', '.png')}`}
                         alt={`${relatedProduct.name} - Robe de soirée GLAMHOME FASHION`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         width="400"

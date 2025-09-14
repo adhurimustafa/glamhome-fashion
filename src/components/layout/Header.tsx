@@ -1,67 +1,59 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Instagram, Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { t } = useTranslation();
   const location = useLocation();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    window.addEventListener("scroll", handleScroll);
 
-    // Handle mobile menu scroll lock
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    window.addEventListener('scroll', handleScroll);
+    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.body.style.overflow = 'unset';
+      window.removeEventListener("scroll", handleScroll);
+      document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
+  // 👇 Navigation (sans la page /order)
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/presentation", label: "About" },
-    { href: "/collection", label: "Collection" },
-    { href: "/order", label: "Order" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("nav.home") },
+    { href: "/about", label: t("nav.about") },
+    { href: "/collection", label: t("nav.collection") },
+    { href: "/contact", label: t("nav.contact") }
   ];
 
-  const isActive = (href: string) => {
-    if (href === "/") {
-      return location.pathname === "/";
-    }
-    return location.pathname.startsWith(href);
-  };
+  const isActive = (href: string) =>
+    href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
 
-  const handleNavClick = () => {
-    setIsMenuOpen(false);
-  };
+  const handleNavClick = () => setIsMenuOpen(false);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/92 backdrop-blur-sm border-b border-[#eee]' 
-        : 'bg-white/92 backdrop-blur-sm border-b border-[#eee]'
-    }`}>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/92 backdrop-blur-sm border-b border-[#eee]"
+          : "bg-white/92 backdrop-blur-sm border-b border-[#eee]"
+      }`}
+    >
       <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo - Left */}
-          <Link 
-            to="/" 
+          {/* Logo */}
+          <Link
+            to="/"
             className="flex items-center hover:opacity-80 transition-opacity"
-            aria-label="GLAMHOME FASHION - Return to homepage"
+            aria-label="GLAMHOME FASHION - Home"
           >
-            <img 
-              src="/lovable-uploads/bf5bb623-c977-4166-a974-1f331812e41d.png"
+            <img
+              src="/images/dresses/bf5bb623-c977-4166-a974-1f331812e41d.png"
               alt="GLAMHOME FASHION"
               className="h-9 lg:h-11 w-auto object-contain"
               width="256"
@@ -72,8 +64,8 @@ const Header = () => {
             />
           </Link>
 
-          {/* Desktop Navigation - Center */}
-          <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+          {/* Nav (desktop) */}
+          <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -89,37 +81,48 @@ const Header = () => {
             ))}
           </div>
 
-          {/* Desktop Actions - Right */}
+          {/* Actions (desktop) */}
           <div className="hidden lg:flex items-center space-x-3">
-            <Button variant="ghost" size="icon" aria-label="Instagram" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+            <LanguageSwitcher />
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={t("aria.instagram")}
+              className="text-[#0F0F0F] hover:text-[#B48A7C]"
+            >
               <Instagram className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Email" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={t("aria.email")}
+              className="text-[#0F0F0F] hover:text-[#B48A7C]"
+            >
               <Mail className="h-5 w-5" />
             </Button>
-            <Button 
-              asChild 
-              variant="outline" 
-              size="sm" 
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
               className="ml-2 border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
             >
-              <Link to="/collection">Shop</Link>
+              <Link to="/collection">{t("nav.shop")}</Link>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Toggle (mobile) */}
           <Button
             variant="ghost"
             size="icon"
             className="lg:hidden text-[#0F0F0F] hover:text-[#B48A7C]"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setIsMenuOpen((v) => !v)}
+            aria-label={isMenuOpen ? t("aria.closeMenu") : t("aria.openMenu")}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Nav (mobile) */}
         {isMenuOpen && (
           <div className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto">
             <div className="container mx-auto px-4 py-8">
@@ -129,27 +132,40 @@ const Header = () => {
                     key={item.href}
                     to={item.href}
                     className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
-                      isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
-                    }`}
+                      isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"}
+                    `}
                     onClick={handleNavClick}
                   >
                     {item.label}
                   </Link>
                 ))}
-                <div className="flex items-center justify-center space-x-6 pt-8 border-t border-gray-200">
-                  <Button variant="ghost" size="icon" aria-label="Instagram" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+
+                {/* Mobile actions */}
+                <div className="flex items-center justify-center gap-4 pt-8 border-t border-gray-200">
+                  <LanguageSwitcher />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={t("aria.instagram")}
+                    className="text-[#0F0F0F] hover:text-[#B48A7C]"
+                  >
                     <Instagram className="h-6 w-6" />
                   </Button>
-                  <Button variant="ghost" size="icon" aria-label="Email" className="text-[#0F0F0F] hover:text-[#B48A7C]">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={t("aria.email")}
+                    className="text-[#0F0F0F] hover:text-[#B48A7C]"
+                  >
                     <Mail className="h-6 w-6" />
                   </Button>
-                  <Button 
-                    asChild 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
                     className="border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
                   >
-                    <Link to="/collection">Shop</Link>
+                    <Link to="/collection">{t("nav.shop")}</Link>
                   </Button>
                 </div>
               </div>

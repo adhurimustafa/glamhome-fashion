@@ -12,12 +12,12 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: "/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
+    image: "/images/dresses/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png",
     alt: "Glamour Collection - Shooting château"
   },
   {
     id: 2,
-    image: "/lovable-uploads/0ab5813f-0047-4366-b470-f302465aeb63.png",
+    image: "/images/dresses/0ab5813f-0047-4366-b470-f302465aeb63.png",
     alt: "Glamour Collection - Shooting désert"
   }
 ];

@@ -1,0 +1,299 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "collection": "Collection",
+    "order": "Commander",
+    "contact": "Contact",
+    "shop": "Boutique"
+  },
+  "aria": {
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "instagram": "Instagram",
+    "email": "E-mail"
+  },
+  "hero": {
+    "title": "Collection Glamour",
+    "subtitle": "L'élégance dans chaque silhouette",
+    "cta": "Voir la collection"
+  },
+  "home": {
+    "partners": {
+      "kicker": "Nos partenaires",
+      "title": "Ils nous font confiance",
+      "alt1": "Logo partenaire 1",
+      "alt2": "Logo partenaire 2",
+      "alt3": "Logo partenaire 3",
+      "alt4": "Logo partenaire 4"
+    },
+    "newArrivals": {
+      "kicker": "DERNIÈRES CRÉATIONS",
+      "title": "Nos Nouvelles Arrivées",
+      "subtitle": "Découvrez notre collection exclusive de robes de soirée, chaque pièce reflétant notre passion pour l'excellence et le raffinement."
+    },
+    "order": {
+      "kicker": "Commande rapide",
+      "title": "Votre robe de rêve",
+      "description": "Commandez votre modèle favori directement. Notre équipe vous contactera au plus vite pour finaliser votre commande."
+    },
+    "delivery": {
+      "title": "Livraison & Retours",
+      "item1": {
+        "title": "Livraison offerte",
+        "text": "Dès 100 € d'achat partout en France"
+      },
+      "item2": {
+        "title": "Retours sous 30 jours",
+        "text": "Échange ou remboursement gratuit"
+      },
+      "item3": {
+        "title": "Service client",
+        "text": "Disponible 6j/7 pour vous aider"
+      }
+    },
+    "payment": {
+      "title": "Paiement sécurisé",
+      "text": "Toutes vos transactions sont protégées par un chiffrement SSL. Nous acceptons les principales cartes bancaires et PayPal."
+    },
+    "about": {
+      "kicker": "Notre histoire",
+      "title": "L'art de l'élégance au quotidien",
+      "p1": "Depuis notre création, nous nous consacrons à l'art de sublimer votre quotidien. Chaque pièce de notre collection est soigneusement sélectionnée pour son design d'exception et sa qualité sans compromis.",
+      "p2": "Notre vision ? Créer un pont entre mode et lifestyle, où chaque détail compte pour faire de votre intérieur et de votre style l'expression unique de votre personnalité.",
+      "cta": "Découvrir notre histoire"
+    },
+    "values": {
+      "excellence": {
+        "title": "Excellence",
+        "text": "Qualité premium garantie"
+      },
+      "passion": {
+        "title": "Passion",
+        "text": "Créé avec amour"
+      },
+      "delivery": {
+        "title": "Livraison",
+        "text": "Offerte dès 100 €"
+      },
+      "guarantee": {
+        "title": "Garantie",
+        "text": "Satisfaction assurée"
+      }
+    },
+    "cta": {
+      "title": "Prêt(e) à sublimer votre style ?",
+      "text": "Rejoignez des milliers de clients qui nous font confiance pour apporter élégance et raffinement à leur quotidien.",
+      "viewCollection": "Voir la collection",
+      "contactUs": "Nous contacter"
+    }
+  },
+  "about": {
+    "title": "À propos de Glam Home Fashion",
+    "subtitle": "L'élégance au-delà de la mode",
+    "p1": "Glam Home Fashion est née de la volonté d'apporter une élégance intemporelle dans chaque garde-robe.",
+    "p2": "Chaque robe est soigneusement conçue pour mettre en valeur la beauté et l'individualité.",
+    "mission": "Notre mission est de permettre à chaque femme de se sentir rayonnante et unique lors de ses moments d'exception."
+  },
+  "collection": {
+    "title": "Notre Collection",
+    "subtitle": "Découvrez des robes exclusives",
+    "metaDescription": "Découvrez notre collection exclusive de robes de soirée. Élégance et sophistication pour vos événements les plus prestigieux.",
+    "breadcrumb": {
+      "aria": "Fil d'Ariane",
+      "homeAria": "Retour à l'accueil"
+    },
+    "filters": {
+      "title": "Filtres :",
+      "search": "Rechercher par nom...",
+      "category": "Toutes les catégories",
+      "color": "Toutes les couleurs",
+      "price": "Tous les prix",
+      "under400": "Moins de 400 €",
+      "between400_500": "400 € - 500 €",
+      "over500": "Plus de 500 €"
+    },
+    "badges": {
+      "new": "Nouveau",
+      "trending": "Tendance",
+      "only": "Plus que {{count}}",
+      "prestige": "Prestige"
+    },
+    "buttons": {
+      "view": "Voir",
+      "order": "Commander"
+    },
+    "productAlt": "Robe de soirée Glam Fashion",
+    "empty": "Aucun produit trouvé avec ces filtres.",
+    "reset": "Réinitialiser les filtres"
+  },
+  "order": {
+    "hero": {
+      "title": "Commander",
+      "subtitle": "Découvrez nos différentes options pour passer commande et profiter de notre service personnalisé."
+    },
+    "options": {
+      "title": "Comment Commander",
+      "subtitle": "Nous offrons plusieurs moyens de passer commande pour votre convenance.",
+      "email": {
+        "title": "Commande par Email",
+        "text": "Envoyez-nous votre liste de souhaits par email et nous vous recontacterons pour finaliser votre commande.",
+        "button": "Envoyer un Email"
+      },
+      "phone": {
+        "title": "Commande par Téléphone",
+        "text": "Contactez notre équipe directement pour un conseil personnalisé et passer votre commande.",
+        "button": "Appeler"
+      },
+      "form": {
+        "title": "Formulaire de Contact",
+        "text": "Utilisez notre formulaire de contact pour une demande détaillée avec vos préférences.",
+        "button": "Aller au Formulaire"
+      }
+    },
+    "benefits": {
+      "title": "Nos Avantages",
+      "subtitle": "Pourquoi choisir Glam Home Fashion pour vos achats.",
+      "items": {
+        "packaging": {
+          "title": "Emballage Soigné",
+          "text": "Chaque commande est emballée avec le plus grand soin dans nos coffrets signature."
+        },
+        "delivery": {
+          "title": "Livraison Gratuite",
+          "text": "Frais de port offerts dès 100 € d'achat partout en France métropolitaine."
+        },
+        "service": {
+          "title": "Service Premium",
+          "text": "Un accompagnement personnalisé du choix à la livraison de vos articles."
+        },
+        "payment": {
+          "title": "Paiement Sécurisé",
+          "text": "Toutes nos transactions sont sécurisées et vos données protégées."
+        }
+      }
+    },
+    "process": {
+      "title": "Processus de Commande",
+      "subtitle": "Comment se déroule votre commande, étape par étape.",
+      "steps": {
+        "selection": {
+          "title": "Sélection",
+          "text": "Parcourez notre collection et sélectionnez vos coups de cœur. Contactez-nous pour plus d'informations."
+        },
+        "confirmation": {
+          "title": "Confirmation",
+          "text": "Nous vous confirmons la disponibilité, les prix et vous proposons les meilleures options de livraison."
+        },
+        "delivery": {
+          "title": "Livraison",
+          "text": "Recevez votre commande soigneusement emballée dans notre coffret signature directement chez vous."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à Passer Commande ?",
+      "subtitle": "Notre équipe est à votre disposition pour vous accompagner dans votre choix et finaliser votre commande.",
+      "email": "Commander par Email",
+      "contact": "Nous Contacter"
+    }
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "subtitle": "Nous sommes là pour vous aider",
+    "hero": {
+      "title": "Contactez-nous",
+      "subtitle": "Notre équipe est à votre écoute pour répondre à toutes vos questions et vous guider."
+    },
+    "formTitle": "Envoyez-nous un message",
+    "form": {
+      "name": "Votre nom *",
+      "email": "Votre e-mail *",
+      "phone": "Votre téléphone",
+      "subject": "Sujet *",
+      "message": "Votre message *",
+      "send": "Envoyer"
+    },
+    "infoTitle": "Informations de contact",
+    "infoText": "Contactez-nous par le moyen de votre choix. Notre équipe vous répondra au plus vite.",
+    "address": {
+      "title": "Adresse",
+      "text": "123 rue de l'Élégance\n75001 Paris, France"
+    },
+    "phone": {
+      "title": "Téléphone",
+      "text": "+33 1 23 45 67 89"
+    },
+    "email": {
+      "title": "E-mail"
+    },
+    "hours": {
+      "title": "Horaires d'ouverture",
+      "text": "Lun–Ven : 9h–18h · Sam : 10h–17h"
+    },
+    "faq": {
+      "title": "Foire aux questions",
+      "q1": "Comment suivre ma commande ?",
+      "q2": "Quels sont vos délais de livraison ?",
+      "q3": "Puis-je retourner un article ?",
+      "q4": "Proposez-vous des services de personnalisation ?"
+    },
+    "cta": {
+      "title": "Une question ? Nous sommes là",
+      "text": "Nos experts sont disponibles pour vous conseiller et vous accompagner.",
+      "call": "Appelez-nous maintenant"
+    },
+    "formSuccess": "Votre message a été envoyé"
+  },
+  "products": {
+    "emeraldDress": {
+      "title": "Robe Émeraude Élégance",
+      "description": "Robe de soirée en satin émeraude avec détails dorés et fente élégante.",
+      "category": "Soirée",
+      "color": "Vert émeraude",
+      "alt": "Robe longue fendue vert émeraude, décolleté bardot — Glam Home Fashion"
+    },
+    "fuchsiaDress": {
+      "title": "Robe Fuchsia Glamour",
+      "description": "Robe longue en dentelle fuchsia avec manches longues et traîne sophistiquée.",
+      "category": "Cocktail",
+      "color": "Fuchsia",
+      "alt": "Robe longue fuchsia manches en tulle, fente haute — Glam Home Fashion"
+    },
+    "asymBlackDress": {
+      "title": "Robe Noire Asymétrique",
+      "description": "Design avant-gardiste avec découpes asymétriques et fente audacieuse.",
+      "category": "Moderne",
+      "color": "Noir",
+      "alt": "Robe noire asymétrique découpes, fente — Glam Home Fashion"
+    },
+    "pinkDress": {
+      "title": "Robe Rose Poudrée",
+      "description": "Élégance romantique avec décolleté bardot et drapé délicat.",
+      "category": "Romantique",
+      "color": "Rose poudré",
+      "alt": "Robe rose poudré décolleté bardot, fente — Glam Home Fashion"
+    },
+    "laceBlackDress": {
+      "title": "Robe Noire Dentelle",
+      "description": "Raffinement intemporel avec dentelle délicate et silhouette sirène.",
+      "category": "Classique",
+      "color": "Noir",
+      "alt": "Robe noire off-shoulder dentelle, fente — Glam Home Fashion"
+    },
+    "greyMetallicDress": {
+      "title": "Robe Grise Métallisée",
+      "description": "Texture métallisée sophistiquée avec drapé sculptural.",
+      "category": "Luxe",
+      "color": "Gris perle",
+      "alt": "Robe gris perle drapée, fente — Glam Home Fashion"
+    },
+    "sequinBlackDress": {
+      "title": "Robe Noire Paillettes",
+      "description": "Création exclusive avec broderies de perles et silhouette majestueuse.",
+      "category": "Prestige",
+      "color": "Noir",
+      "alt": "Robe noire perles/strass dégradés, manches longues — Glam Home Fashion"
+    }
+  }
+}

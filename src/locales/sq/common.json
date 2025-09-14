@@ -1,0 +1,264 @@
+{
+  "nav": {
+    "home": "Kreu",
+    "about": "Rreth nesh",
+    "collection": "Koleksioni",
+    "order": "Porosit",
+    "contact": "Kontakt",
+    "shop": "Dyqan"
+  },
+  "aria": {
+    "openMenu": "Hap menunë",
+    "closeMenu": "Mbyll menunë",
+    "instagram": "Instagram",
+    "email": "Email"
+  },
+  "hero": {
+    "title": "Koleksioni Glamour",
+    "subtitle": "Elegancë në çdo siluetë",
+    "cta": "Shiko koleksionin"
+  },
+  "home": {
+    "partners": {
+      "kicker": "Partnerët tanë",
+      "title": "Na besojnë",
+      "alt1": "Logo partneri 1",
+      "alt2": "Logo partneri 2",
+      "alt3": "Logo partneri 3",
+      "alt4": "Logo partneri 4"
+    },
+    "newArrivals": {
+      "kicker": "KRIJIMET E FUNDIT",
+      "title": "Arritjet tona të reja",
+      "subtitle": "Zbuloni koleksionin tonë ekskluziv të fustaneve të mbrëmjes, çdo pjesë që pasqyron pasionin tonë për përsosmëri dhe rafinim."
+    },
+    "order": {
+      "kicker": "Porosi e shpejtë",
+      "title": "Fustani i ëndrrave",
+      "description": "Porosit modelin tënd të preferuar direkt. Ekipi ynë do të të kontaktojë sa më shpejt për ta finalizuar."
+    },
+    "delivery": {
+      "title": "Dërgesa & Kthimet",
+      "item1": {
+        "title": "Transport falas",
+        "text": "Nga 100 € blerje kudo në Francë"
+      },
+      "item2": {
+        "title": "Kthim 30-ditor",
+        "text": "Ndërrim ose rimbursim falas"
+      },
+      "item3": {
+        "title": "Shërbimi ndaj klientit",
+        "text": "Në dispozicion 6 ditë në javë për t'ju ndihmuar"
+      }
+    },
+    "payment": {
+      "title": "Pagesë e sigurt",
+      "text": "Të gjitha transaksionet tuaja mbrohen nga enkriptimi SSL. Pranojmë kartat kryesore dhe PayPal."
+    },
+    "about": {
+      "kicker": "Historia jonë",
+      "title": "Arti i elegancës së përditshme",
+      "p1": "Që nga krijimi ynë, i jemi përkushtuar artit të zbukurimit të përditshmërisë suaj. Çdo pjesë e koleksionit është zgjedhur me kujdes për dizajn të jashtëzakonshëm dhe cilësi pa kompromis.",
+      "p2": "Vizioni ynë? Të ndërtojmë një urë mes modës dhe stilit të jetesës, ku çdo detaj ka rëndësi që shtëpia dhe stili juaj të jenë shprehje unike e personalitetit tuaj.",
+      "cta": "Zbulo historinë tonë"
+    },
+    "values": {
+      "excellence": {
+        "title": "Përsosmëri",
+        "text": "Cilësi premium e garantuar"
+      },
+      "passion": {
+        "title": "Pasion",
+        "text": "Krijuar me dashuri"
+      },
+      "delivery": {
+        "title": "Dërgesa",
+        "text": "Falas nga 100 €"
+      },
+      "guarantee": {
+        "title": "Garanci",
+        "text": "Kënaqësi e siguruar"
+      }
+    },
+    "cta": {
+      "title": "Gati të ngrini stilin tuaj?",
+      "text": "Bashkohuni me mijëra klientë që i besojnë ekspertizës sonë për të sjellë elegancë dhe rafinim në përditshmërinë e tyre.",
+      "viewCollection": "Shiko koleksionin",
+      "contactUs": "Na kontakto"
+    }
+  },
+  "about": {
+    "title": "Rreth Glam Home Fashion",
+    "subtitle": "Elegancë përtej modës",
+    "p1": "Glam Home Fashion lindi nga dëshira për të sjellë elegancë të përjetshme në çdo gardërobë.",
+    "p2": "Çdo fustan është punuar me kujdes për të nxjerrë në pah bukurinë dhe individualitetin.",
+    "mission": "Misioni ynë është që çdo grua të ndihet rrezatuese dhe unike në momentet e saj të veçanta."
+  },
+  "collection": {
+    "title": "Koleksioni ynë",
+    "subtitle": "Zbuloni fustane ekskluzive",
+    "metaDescription": "Zbuloni koleksionin tonë ekskluziv të fustaneve të mbrëmjes. Elegancë dhe finesë për ngjarjet tuaja më prestigjioze.",
+    "breadcrumb": {
+      "aria": "Navigimi",
+      "homeAria": "Kthehu në faqen kryesore"
+    },
+    "filters": {
+      "title": "Filtro:",
+      "search": "Kërko sipas emrit...",
+      "category": "Të gjitha kategoritë",
+      "color": "Të gjitha ngjyrat",
+      "price": "Të gjitha çmimet",
+      "under400": "Nën 400 €",
+      "between400_500": "400 € - 500 €",
+      "over500": "Mbi 500 €"
+    },
+    "badges": {
+      "new": "I ri",
+      "trending": "Në trend",
+      "only": "Vetëm {{count}} të mbetura",
+      "prestige": "Prestigj"
+    },
+    "buttons": {
+      "view": "Shiko",
+      "order": "Porosit"
+    },
+    "productAlt": "Fustan mbrëmjeje Glam Fashion",
+    "empty": "Nuk u gjetën produkte me këto filtra.",
+    "reset": "Rivendos filtrat"
+  },
+  "order": {
+    "hero": {
+      "title": "Porosit",
+      "subtitle": "Zbuloni opsionet tona për të bërë porosinë dhe për të përfituar nga shërbimi ynë i personalizuar."
+    },
+    "options": {
+      "title": "Si të Porosisni",
+      "subtitle": "Ne ofrojmë disa mënyra për të bërë porosinë për rehati tuaj.",
+      "email": {
+        "title": "Porosi me Email",
+        "text": "Na dërgoni listën tuaj me dëshirat me email dhe ne do t'ju kontaktojmë për të finalizuar porosinë.",
+        "button": "Dërgo Email"
+      },
+      "phone": {
+        "title": "Porosi me Telefon",
+        "text": "Kontaktoni ekipin tonë direkt për këshillim të personalizuar dhe për të bërë porosinë tuaj.",
+        "button": "Na Telefononi"
+      },
+      "form": {
+        "title": "Formular Kontakti",
+        "text": "Përdorni formularin tonë të kontaktit për një kërkesë të detajuar me preferencat tuaja.",
+        "button": "Shko te Formulari"
+      }
+    },
+    "benefits": {
+      "title": "Avantazhet Tona",
+      "subtitle": "Pse të zgjidhni Glam Home Fashion për blerjet tuaja.",
+      "items": {
+        "packaging": {
+          "title": "Ambalazh i Kujdesshëm",
+          "text": "Çdo porosi është e paketuar me kujdes në kutitë tona të veçanta."
+        },
+        "delivery": {
+          "title": "Transport Falas",
+          "text": "Transport falas nga 100 € kudo në Francën metropolitane."
+        },
+        "service": {
+          "title": "Shërbim Premium",
+          "text": "Mbështetje e personalizuar nga zgjedhja deri te dorëzimi."
+        },
+        "payment": {
+          "title": "Pagesë e Sigurt",
+          "text": "Të gjitha transaksionet janë të sigurta dhe të dhënat tuaja të mbrojtura."
+        }
+      }
+    },
+    "process": {
+      "title": "Procesi i Porosisë",
+      "subtitle": "Si funksionon porosia juaj, hap pas hapi.",
+      "steps": {
+        "selection": {
+          "title": "Zgjedhja",
+          "text": "Shfletoni koleksionin tonë dhe zgjidhni të preferuarat tuaja. Na kontaktoni për më shumë informacion."
+        },
+        "confirmation": {
+          "title": "Konfirmimi",
+          "text": "Ne ju konfirmojmë disponueshmërinë, çmimet dhe ju propozojmë opsionet më të mira të dorëzimit."
+        },
+        "delivery": {
+          "title": "Dorëzimi",
+          "text": "Merrni porosinë tuaj të paketuar me kujdes në kutinë tonë të veçantë direkt në shtëpi."
+        }
+      }
+    },
+    "cta": {
+      "title": "Gati për të Porositur?",
+      "subtitle": "Ekipi ynë është këtu për t'ju udhëhequr dhe për të finalizuar porosinë tuaj.",
+      "email": "Porosit me Email",
+      "contact": "Na Kontaktoni"
+    }
+  },
+  "contact": {
+    "title": "Na kontaktoni",
+    "subtitle": "Jemi këtu për t'ju ndihmuar",
+    "hero": {
+      "title": "Na kontaktoni",
+      "subtitle": "Ekipi ynë është këtu për t'ju përgjigjur pyetjeve dhe t'ju udhëhequr."
+    },
+    "formTitle": "Na dërgoni një mesazh",
+    "form": {
+      "name": "Emri juaj *",
+      "email": "Email-i juaj *",
+      "phone": "Telefoni juaj",
+      "subject": "Subjekti *",
+      "message": "Mesazhi juaj *",
+      "send": "Dërgo"
+    },
+    "infoTitle": "Të dhënat e kontaktit",
+    "infoText": "Na kontaktoni me mënyrën që preferoni. Ekipi ynë do t'ju përgjigjet sa më shpejt.",
+    "address": {
+      "title": "Adresa",
+      "text": "Rruga Elegance 123\n75001 Paris, Francë"
+    },
+    "phone": {
+      "title": "Telefoni",
+      "text": "+33 1 23 45 67 89"
+    },
+    "email": {
+      "title": "Email"
+    },
+    "hours": {
+      "title": "Orari",
+      "text": "Hën–Pre: 9:00–18:00 · Sht: 10:00–17:00"
+    },
+    "faq": {
+      "title": "Pyetjet e shpeshta",
+      "q1": "Si mund ta gjurmoj porosinë time?",
+      "q2": "Cilat janë kohët e dorëzimit?",
+      "q3": "A mund të kthej një artikull?",
+      "q4": "A ofroni shërbime personalizimi?"
+    },
+    "cta": {
+      "title": "Keni pyetje? Jemi këtu",
+      "text": "Ekspertët tanë janë në dispozicion për t'ju këshilluar dhe mbështetur.",
+      "call": "Na telefononi tani"
+    },
+    "formSuccess": "Mesazhi juaj u dërgua"
+  },
+  "products": {
+  "emeraldDress": {
+    "title": "Fustani Elegancë Smeraldi",
+    "description": "Fustan mbrëmjeje në saten smerald me detaje të arta dhe çarje elegante.",
+    "category": "Mbrëmje",
+    "color": "E gjelbër smerald",
+    "alt": "Fustan i gjatë smerald me çarje, dekolte bardot — Glam Home Fashion"
+  },
+  "fuchsiaDress": {
+    "title": "Fustani Glamour Fuchsia",
+    "description": "Fustan i gjatë me dantellë fuchsia, mëngë të gjata dhe bisht të sofistikuar.",
+    "category": "Koktej",
+    "color": "Fuchsia",
+    "alt": "Fustan i gjatë fuchsia me mëngë tulle, çarje e lartë — Glam Home Fashion"
+  }
+}
+}

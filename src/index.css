@@ -287,7 +287,7 @@
   }
 
   /* Cache control for images (if supported by hosting) */
-  img[src*="/lovable-uploads/"] {
+  img[src*="/images/dresses/"] {
     /* Browser hint for long caching */
     image-rendering: optimizeQuality;
   }

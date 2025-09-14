@@ -6,8 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -30,25 +32,24 @@ const Contact = () => {
     
     // Temporary mailto solution
     const mailtoBody = `
-Nom: ${formData.name}
-Email: ${formData.email}
-Téléphone: ${formData.phone}
-Sujet: ${formData.subject}
+${t("contact.form.name")}: ${formData.name}
+${t("contact.form.email")}: ${formData.email}
+${t("contact.form.phone")}: ${formData.phone}
+${t("contact.form.subject")}: ${formData.subject}
 
-Message:
+${t("contact.form.message")}:
 ${formData.message}
     `.trim();
 
-    const mailtoUrl = `mailto:contact@example.com?subject=${encodeURIComponent(formData.subject || 'Contact depuis le site')}&body=${encodeURIComponent(mailtoBody)}`;
+    const mailtoUrl = `mailto:contact@example.com?subject=${encodeURIComponent(formData.subject || t("contact.form.subject"))}&body=${encodeURIComponent(mailtoBody)}`;
     
     window.location.href = mailtoUrl;
     
     toast({
-      title: "Message envoyé",
-      description: "Votre client de messagerie s'est ouvert. Nous vous répondrons rapidement.",
+      title: t("contact.form.success"),
+      description: t("contact.toast"),
     });
 
-    // Reset form
     setFormData({
       name: "",
       email: "",
@@ -65,11 +66,10 @@ ${formData.message}
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto animate-fade-in">
             <h1 className="text-5xl md:text-6xl font-serif font-light text-accent mb-6">
-              Nous Contacter
+              {t("contact.title")}
             </h1>
             <p className="text-xl text-accent/80 leading-relaxed">
-              Notre équipe est à votre écoute pour répondre à toutes vos questions 
-              et vous accompagner dans vos choix.
+              {t("contact.subtitle")}
             </p>
           </div>
         </div>
@@ -84,25 +84,25 @@ ${formData.message}
               <Card className="border-0 shadow-elegant">
                 <CardHeader>
                   <CardTitle className="font-serif text-2xl text-accent">
-                    Envoyez-nous un Message
+                    {t("contact.formTitle")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Nom complet *</Label>
+                        <Label htmlFor="name">{t("contact.form.name")} *</Label>
                         <Input
                           id="name"
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="Votre nom"
+                          placeholder={t("contact.form.name") as string}
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email *</Label>
+                        <Label htmlFor="email">{t("contact.form.email")} *</Label>
                         <Input
                           id="email"
                           name="email"
@@ -117,7 +117,7 @@ ${formData.message}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Téléphone</Label>
+                        <Label htmlFor="phone">{t("contact.form.phone")}</Label>
                         <Input
                           id="phone"
                           name="phone"
@@ -128,26 +128,26 @@ ${formData.message}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="subject">Sujet *</Label>
+                        <Label htmlFor="subject">{t("contact.form.subject")} *</Label>
                         <Input
                           id="subject"
                           name="subject"
                           value={formData.subject}
                           onChange={handleInputChange}
-                          placeholder="Objet de votre message"
+                          placeholder={t("contact.form.subject") as string}
                           required
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message *</Label>
+                      <Label htmlFor="message">{t("contact.form.message")} *</Label>
                       <Textarea
                         id="message"
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
-                        placeholder="Décrivez votre demande en détail..."
+                        placeholder={t("contact.form.message") as string}
                         rows={6}
                         required
                       />
@@ -159,7 +159,7 @@ ${formData.message}
                       size="lg"
                     >
                       <Send className="w-4 h-4 mr-2" />
-                      Envoyer le Message
+                      {t("contact.form.send")}
                     </Button>
                   </form>
                 </CardContent>
@@ -170,11 +170,10 @@ ${formData.message}
             <div className="space-y-8 animate-scale-in">
               <div>
                 <h2 className="font-serif text-3xl font-light text-accent mb-6">
-                  Informations de Contact
+                  {t("contact.infoTitle")}
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  N'hésitez pas à nous contacter par le moyen qui vous convient le mieux. 
-                  Notre équipe vous répondra dans les plus brefs délais.
+                  {t("contact.infoText")}
                 </p>
               </div>
 
@@ -185,10 +184,9 @@ ${formData.message}
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <MapPin className="h-6 w-6 text-primary" />
                     </div>
-                    <h3 className="font-serif text-lg font-medium mb-2">Adresse</h3>
+                    <h3 className="font-serif text-lg font-medium mb-2">{t("contact.address.title")}</h3>
                     <p className="text-muted-foreground text-sm">
-                      123 Rue de l'Élégance<br />
-                      75001 Paris, France
+                      {t("contact.address.text")}
                     </p>
                   </CardContent>
                 </Card>
@@ -199,10 +197,10 @@ ${formData.message}
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Phone className="h-6 w-6 text-primary" />
                     </div>
-                    <h3 className="font-serif text-lg font-medium mb-2">Téléphone</h3>
+                    <h3 className="font-serif text-lg font-medium mb-2">{t("contact.phone.title")}</h3>
                     <p className="text-muted-foreground text-sm">
                       <a href="tel:+33123456789" className="hover:text-primary transition-colors">
-                        +33 1 23 45 67 89
+                        {t("contact.phone.text")}
                       </a>
                     </p>
                   </CardContent>
@@ -229,10 +227,9 @@ ${formData.message}
                     <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Clock className="h-6 w-6 text-primary" />
                     </div>
-                    <h3 className="font-serif text-lg font-medium mb-2">Horaires</h3>
+                    <h3 className="font-serif text-lg font-medium mb-2">{t("contact.hours.title")}</h3>
                     <p className="text-muted-foreground text-sm">
-                      Lun - Ven : 9h - 18h<br />
-                      Sam : 10h - 17h
+                      {t("contact.hours.text")}
                     </p>
                   </CardContent>
                 </Card>
@@ -242,24 +239,24 @@ ${formData.message}
               <Card className="border-0 shadow-soft bg-neutral-warm">
                 <CardContent className="p-6">
                   <h3 className="font-serif text-xl font-medium text-accent mb-4">
-                    Questions Fréquentes
+                    {t("contact.faq.title")}
                   </h3>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-start">
                       <span className="text-primary mr-2">•</span>
-                      Comment puis-je suivre ma commande ?
+                      {t("contact.faq.q1")}
                     </li>
                     <li className="flex items-start">
                       <span className="text-primary mr-2">•</span>
-                      Quels sont vos délais de livraison ?
+                      {t("contact.faq.q2")}
                     </li>
                     <li className="flex items-start">
                       <span className="text-primary mr-2">•</span>
-                      Puis-je retourner un article ?
+                      {t("contact.faq.q3")}
                     </li>
                     <li className="flex items-start">
                       <span className="text-primary mr-2">•</span>
-                      Proposez-vous des services de personnalisation ?
+                      {t("contact.faq.q4")}
                     </li>
                   </ul>
                 </CardContent>
@@ -274,11 +271,10 @@ ${formData.message}
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-serif font-light mb-6">
-              Une Question ? Nous Sommes Là
+              {t("contact.cta.title")}
             </h2>
             <p className="text-xl leading-relaxed mb-8 opacity-90">
-              Notre équipe d'experts est à votre disposition pour vous conseiller 
-              et vous accompagner dans tous vos projets.
+              {t("contact.cta.text")}
             </p>
             <Button 
               size="lg" 
@@ -286,7 +282,7 @@ ${formData.message}
               className="px-8 py-3 text-lg hover:shadow-soft transition-all duration-300"
               onClick={() => window.location.href = "tel:+33123456789"}
             >
-              Nous Appeler Maintenant
+              {t("contact.cta.button")}
             </Button>
           </div>
         </div>

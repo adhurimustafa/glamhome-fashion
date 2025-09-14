@@ -1,0 +1,299 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "collection": "Collection",
+    "order": "Order",
+    "contact": "Contact",
+    "shop": "Shop"
+  },
+  "aria": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "instagram": "Instagram",
+    "email": "Email"
+  },
+  "hero": {
+    "title": "Glamour Collection",
+    "subtitle": "Elegance in every silhouette",
+    "cta": "View the Collection"
+  },
+  "home": {
+    "partners": {
+      "kicker": "Our Partners",
+      "title": "They Trust Us",
+      "alt1": "Partner logo 1",
+      "alt2": "Partner logo 2",
+      "alt3": "Partner logo 3",
+      "alt4": "Partner logo 4"
+    },
+    "newArrivals": {
+      "kicker": "LATEST CREATIONS",
+      "title": "Our New Arrivals",
+      "subtitle": "Discover our exclusive collection of evening dresses, each piece reflecting our passion for excellence and refinement."
+    },
+    "order": {
+      "kicker": "Quick Order",
+      "title": "Your Dream Dress",
+      "description": "Order your favorite model directly. Our team will contact you as soon as possible to finalize your order."
+    },
+    "delivery": {
+      "title": "Shipping & Returns",
+      "item1": {
+        "title": "Free shipping",
+        "text": "From €100 purchase anywhere in France"
+      },
+      "item2": {
+        "title": "30-day returns",
+        "text": "Free exchange or refund"
+      },
+      "item3": {
+        "title": "Customer service",
+        "text": "Available 6 days a week to help you"
+      }
+    },
+    "payment": {
+      "title": "Secure Payment",
+      "text": "All your transactions are protected by SSL encryption. We accept major credit cards and PayPal."
+    },
+    "about": {
+      "kicker": "Our Story",
+      "title": "The Art of Everyday Elegance",
+      "p1": "Since our creation, we have been dedicated to the art of enhancing your everyday life. Each piece in our collection is carefully selected for its exceptional design and uncompromising quality.",
+      "p2": "Our vision? To build a bridge between fashion and lifestyle, where every detail counts to make your home and your style unique expressions of your personality.",
+      "cta": "Discover Our Story"
+    },
+    "values": {
+      "excellence": {
+        "title": "Excellence",
+        "text": "Premium quality guaranteed"
+      },
+      "passion": {
+        "title": "Passion",
+        "text": "Created with love"
+      },
+      "delivery": {
+        "title": "Delivery",
+        "text": "Free from €100"
+      },
+      "guarantee": {
+        "title": "Guarantee",
+        "text": "Satisfaction ensured"
+      }
+    },
+    "cta": {
+      "title": "Ready to Elevate Your Style?",
+      "text": "Join thousands of customers who trust our expertise to enhance their everyday life with elegance and refinement.",
+      "viewCollection": "View the Collection",
+      "contactUs": "Contact Us"
+    }
+  },
+  "about": {
+    "title": "About Glam Home Fashion",
+    "subtitle": "Elegance beyond fashion",
+    "p1": "Glam Home Fashion was born with the desire to bring timeless elegance into every wardrobe.",
+    "p2": "Each dress is carefully crafted to highlight beauty and individuality.",
+    "mission": "Our mission is to make every woman feel radiant and unique on her special occasions."
+  },
+  "collection": {
+    "title": "Our Collection",
+    "subtitle": "Discover exclusive dresses",
+    "metaDescription": "Discover our exclusive evening dress collection. Elegance and sophistication for your most prestigious events.",
+    "breadcrumb": {
+      "aria": "Breadcrumb",
+      "homeAria": "Back to home"
+    },
+    "filters": {
+      "title": "Filters:",
+      "search": "Search by name...",
+      "category": "All categories",
+      "color": "All colors",
+      "price": "All prices",
+      "under400": "Under €400",
+      "between400_500": "€400 - €500",
+      "over500": "Over €500"
+    },
+    "badges": {
+      "new": "New",
+      "trending": "Trending",
+      "only": "Only {{count}} left",
+      "prestige": "Prestige"
+    },
+    "buttons": {
+      "view": "View",
+      "order": "Order"
+    },
+    "productAlt": "Evening dress Glam Fashion",
+    "empty": "No products found with these filters.",
+    "reset": "Reset filters"
+  },
+  "order": {
+    "hero": {
+      "title": "Order",
+      "subtitle": "Discover our different options to place an order and enjoy our personalized service."
+    },
+    "options": {
+      "title": "How to Order",
+      "subtitle": "We offer several ways to place an order for your convenience.",
+      "email": {
+        "title": "Order by Email",
+        "text": "Send us your wishlist by email and we will contact you to finalize your order.",
+        "button": "Send an Email"
+      },
+      "phone": {
+        "title": "Order by Phone",
+        "text": "Contact our team directly for personalized advice and to place your order.",
+        "button": "Call Us"
+      },
+      "form": {
+        "title": "Contact Form",
+        "text": "Use our contact form for a detailed request with your preferences.",
+        "button": "Go to the Form"
+      }
+    },
+    "benefits": {
+      "title": "Our Benefits",
+      "subtitle": "Why choose Glam Home Fashion for your purchases.",
+      "items": {
+        "packaging": {
+          "title": "Careful Packaging",
+          "text": "Each order is carefully wrapped in our signature boxes."
+        },
+        "delivery": {
+          "title": "Free Delivery",
+          "text": "Free shipping from €100 anywhere in mainland France."
+        },
+        "service": {
+          "title": "Premium Service",
+          "text": "Personalized support from selection to delivery."
+        },
+        "payment": {
+          "title": "Secure Payment",
+          "text": "All transactions are secured and your data protected."
+        }
+      }
+    },
+    "process": {
+      "title": "Order Process",
+      "subtitle": "How your order works, step by step.",
+      "steps": {
+        "selection": {
+          "title": "Selection",
+          "text": "Browse our collection and select your favorites. Contact us for more information."
+        },
+        "confirmation": {
+          "title": "Confirmation",
+          "text": "We confirm availability, prices and propose the best delivery options."
+        },
+        "delivery": {
+          "title": "Delivery",
+          "text": "Receive your carefully wrapped order in our signature box directly at home."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Place Your Order?",
+      "subtitle": "Our team is here to guide you and finalize your order.",
+      "email": "Order by Email",
+      "contact": "Contact Us"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are here to assist you",
+    "hero": {
+      "title": "Contact Us",
+      "subtitle": "Our team is here to answer all your questions and guide you."
+    },
+    "formTitle": "Send us a Message",
+    "form": {
+      "name": "Your name *",
+      "email": "Your email *",
+      "phone": "Your phone",
+      "subject": "Subject *",
+      "message": "Your message *",
+      "send": "Send"
+    },
+    "infoTitle": "Contact Information",
+    "infoText": "Feel free to reach us in the way you prefer. Our team will reply as soon as possible.",
+    "address": {
+      "title": "Address",
+      "text": "123 Elegance Street\n75001 Paris, France"
+    },
+    "phone": {
+      "title": "Phone",
+      "text": "+33 1 23 45 67 89"
+    },
+    "email": {
+      "title": "Email"
+    },
+    "hours": {
+      "title": "Opening Hours",
+      "text": "Mon–Fri: 9am–6pm · Sat: 10am–5pm"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "How can I track my order?",
+      "q2": "What are your delivery times?",
+      "q3": "Can I return an item?",
+      "q4": "Do you offer customization services?"
+    },
+    "cta": {
+      "title": "Got a question? We're here",
+      "text": "Our experts are available to advise and support you.",
+      "call": "Call Us Now"
+    },
+    "formSuccess": "Your message has been sent"
+  },
+  "products": {
+    "emeraldDress": {
+      "title": "Emerald Elegance Dress",
+      "description": "Evening satin emerald dress with golden details and elegant slit.",
+      "category": "Evening",
+      "color": "Emerald green",
+      "alt": "Long slit emerald green off-shoulder dress — Glam Home Fashion"
+    },
+    "fuchsiaDress": {
+      "title": "Fuchsia Glamour Dress",
+      "description": "Long fuchsia lace dress with long sleeves and sophisticated train.",
+      "category": "Cocktail",
+      "color": "Fuchsia",
+      "alt": "Long fuchsia lace dress, tulle sleeves, high slit — Glam Home Fashion"
+    },
+    "asymBlackDress": {
+      "title": "Asymmetric Black Dress",
+      "description": "Avant-garde design with asymmetric cutouts and bold slit.",
+      "category": "Modern",
+      "color": "Black",
+      "alt": "Asymmetric black dress with cutouts, slit — Glam Home Fashion"
+    },
+    "pinkDress": {
+      "title": "Powder Pink Dress",
+      "description": "Romantic elegance with off-shoulder neckline and delicate draping.",
+      "category": "Romantic",
+      "color": "Powder pink",
+      "alt": "Powder pink off-shoulder dress with slit — Glam Home Fashion"
+    },
+    "laceBlackDress": {
+      "title": "Black Lace Dress",
+      "description": "Timeless refinement with delicate lace and mermaid silhouette.",
+      "category": "Classic",
+      "color": "Black",
+      "alt": "Black lace off-shoulder mermaid dress with slit — Glam Home Fashion"
+    },
+    "greyMetallicDress": {
+      "title": "Metallic Grey Dress",
+      "description": "Sophisticated metallic texture with sculptural draping.",
+      "category": "Luxury",
+      "color": "Pearl grey",
+      "alt": "Grey metallic draped dress with slit — Glam Home Fashion"
+    },
+    "sequinBlackDress": {
+      "title": "Black Sequin Dress",
+      "description": "Exclusive creation with pearl embroidery and majestic silhouette.",
+      "category": "Prestige",
+      "color": "Black",
+      "alt": "Black dress with sequins/pearls, long sleeves — Glam Home Fashion"
+    }
+  }
+}

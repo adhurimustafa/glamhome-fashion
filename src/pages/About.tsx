@@ -57,7 +57,7 @@ const About = () => {
             <div className="relative animate-scale-in">
               <div className="relative rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/lovable-uploads/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png"
+                  src="/images/dresses/be2a2ed6-6b02-48f8-a618-8f78b3b7f534.png"
                   alt="Elegant boutique interior showcasing premium fashion collection"
                   className="w-full h-[600px] object-cover"
                   width="600"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,226 +6,270 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Search, Eye, Home, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import productsData from "@/data/products.json";
 
 interface Product {
   slug: string;
-  name: string;
+  name: Record<string, string>;
+  description: Record<string, string>;
   price: number;
-  badges: string[];
+  badges: { type: string; count?: number }[];
   thumb: string;
   images: string[];
-  color: string;
-  category: string;
-  description: string;
+  color: Record<string, string>;
+  category: Record<string, string>;
 }
 
+const localeMap: Record<string, string> = {
+  fr: "fr-FR",
+  en: "en-US",
+  sq: "sq-AL",
+};
+
 const Collection = () => {
-  const [products] = useState<Product[]>(productsData);
+  const { t, i18n } = useTranslation();
+  const lang = (i18n.language as "fr" | "en" | "sq") || "en";
+
+  const [products] = useState<Product[]>(productsData as Product[]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [colorFilter, setColorFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
 
-  // Get unique categories and colors for filters
-  const categories = ["all", ...new Set(products.map(p => p.category))];
-  const colors = ["all", ...new Set(products.map(p => p.color))];
+  const nf = useMemo(
+    () =>
+      new Intl.NumberFormat(localeMap[lang] || "en-US", {
+        style: "currency",
+        currency: "EUR",
+      }),
+    [lang]
+  );
 
-  // Update page title and meta
+  // Unique categories & colors (dans la langue active)
+  const categories = useMemo(
+    () => ["all", ...Array.from(new Set(products.map((p) => p.category[lang] || p.category.en)))],
+    [products, lang]
+  );
+
+  const colors = useMemo(
+    () => ["all", ...Array.from(new Set(products.map((p) => p.color[lang] || p.color.en)))],
+    [products, lang]
+  );
+
+  // SEO meta
   useEffect(() => {
-    document.title = "Collection – Glam Fashion";
-    
+    const prevTitle = document.title;
+    document.title = `${t("collection.title")} – Glam Fashion`;
+
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Découvrez notre collection exclusive de robes de soirée. Élégance et sophistication pour vos événements les plus prestigieux.');
+      metaDescription.setAttribute("content", t("collection.metaDescription"));
     }
-    
+
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) {
-      canonical.setAttribute('href', window.location.origin + '/collection');
+      canonical.setAttribute("href", window.location.origin + "/collection");
     }
-    
-    return () => {
-      document.title = "GLAMHOME FASHION — Robes de soirée & haute élégance";
-    };
-  }, []);
 
-  // Filter products based on search and filters
+    return () => {
+      document.title = prevTitle || "GLAMHOME FASHION — Robes de soirée & haute élégance";
+    };
+  }, [t]);
+
+  // Filters
   useEffect(() => {
     let filtered = products;
 
-    // Search by name
     if (searchTerm) {
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const q = searchTerm.toLowerCase();
+      filtered = filtered.filter((product) =>
+        (product.name[lang] || product.name.en).toLowerCase().includes(q)
       );
     }
 
-    // Filter by category
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(product => product.category === categoryFilter);
+      filtered = filtered.filter(
+        (product) => (product.category[lang] || product.category.en) === categoryFilter
+      );
     }
 
-    // Filter by color
     if (colorFilter !== "all") {
-      filtered = filtered.filter(product => product.color === colorFilter);
+      filtered = filtered.filter(
+        (product) => (product.color[lang] || product.color.en) === colorFilter
+      );
     }
 
-    // Filter by price
     if (priceFilter !== "all") {
       switch (priceFilter) {
         case "under-400":
-          filtered = filtered.filter(product => product.price < 400);
+          filtered = filtered.filter((product) => product.price < 400);
           break;
         case "400-500":
-          filtered = filtered.filter(product => product.price >= 400 && product.price <= 500);
+          filtered = filtered.filter((product) => product.price >= 400 && product.price <= 500);
           break;
         case "over-500":
-          filtered = filtered.filter(product => product.price > 500);
+          filtered = filtered.filter((product) => product.price > 500);
           break;
       }
     }
 
     setFilteredProducts(filtered);
-  }, [searchTerm, categoryFilter, colorFilter, priceFilter, products]);
-
-  const getBadgeVariant = (badge: string) => {
-    if (badge.includes("New")) return "default";
-    if (badge.includes("Trending")) return "secondary";
-    if (badge.includes("Only")) return "destructive";
-    if (badge.includes("Prestige")) return "outline";
-    return "default";
-  };
+  }, [searchTerm, categoryFilter, colorFilter, priceFilter, products, lang]);
 
   return (
     <main className="min-h-screen pt-20">
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-4">
-        <nav aria-label="Fil d'Ariane" className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Link 
-            to="/" 
+        <nav
+          aria-label={t("collection.breadcrumb.aria")}
+          className="flex items-center space-x-2 text-sm text-muted-foreground"
+        >
+          <Link
+            to="/"
             className="hover:text-[#B48A7C] transition-colors flex items-center"
-            aria-label="Retour à l'accueil"
+            aria-label={t("collection.breadcrumb.homeAria")}
           >
             <Home className="h-4 w-4 mr-1" />
-            Accueil
+            {t("nav.home")}
           </Link>
           <span>/</span>
-          <span className="text-[#0F0F0F] font-medium">Collection</span>
+          <span className="text-[#0F0F0F] font-medium">{t("collection.title")}</span>
         </nav>
       </div>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="py-12 bg-gradient-to-b from-luxury-pearl to-background">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <h1 className="text-4xl md:text-6xl font-serif font-light text-[#0F0F0F]">
-              Collection
+              {t("collection.title")}
             </h1>
-            <div className="flex items-center bg-[#B48A7C] text-white px-3 py-1 rounded-full text-sm font-medium">
+            <div
+              className="flex items-center bg-[#B48A7C] text-white px-3 py-1 rounded-full text-sm font-medium"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              aria-label={t("collection.title")}
+            >
               <Eye className="h-4 w-4 mr-1" />
-              <span>28</span>
+              <span>{filteredProducts.length}</span>
             </div>
           </div>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Nos robes de soirée sélectionnées
+            {t("collection.subtitle")}
           </p>
         </div>
       </section>
 
-      {/* Filters Section */}
+      {/* Filters */}
       <section className="py-8 border-b">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Filter className="h-4 w-4" />
-              <span>Filtres :</span>
+              <span>{t("collection.filters.title")}</span>
             </div>
-            
+
             {/* Search */}
             <div className="relative flex-1 max-w-sm">
+              <label htmlFor="collection-search" className="sr-only">
+                {t("collection.filters.search")}
+              </label>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Rechercher par nom..."
+                id="collection-search"
+                placeholder={t("collection.filters.search")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
+                aria-label={t("collection.filters.search")}
               />
             </div>
 
-            {/* Category Filter */}
+            {/* Category */}
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Catégorie" />
+              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.category")}>
+                <SelectValue placeholder={t("collection.filters.category")} />
               </SelectTrigger>
               <SelectContent>
-                {categories.map(category => (
+                {categories.map((category) => (
                   <SelectItem key={category} value={category}>
-                    {category === "all" ? "Toutes catégories" : category}
+                    {category === "all" ? t("collection.filters.category") : category}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
-            {/* Color Filter */}
+            {/* Color */}
             <Select value={colorFilter} onValueChange={setColorFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Couleur" />
+              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.color")}>
+                <SelectValue placeholder={t("collection.filters.color")} />
               </SelectTrigger>
               <SelectContent>
-                {colors.map(color => (
+                {colors.map((color) => (
                   <SelectItem key={color} value={color}>
-                    {color === "all" ? "Toutes couleurs" : color}
+                    {color === "all" ? t("collection.filters.color") : color}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
-            {/* Price Filter */}
+            {/* Price */}
             <Select value={priceFilter} onValueChange={setPriceFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Prix" />
+              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.price")}>
+                <SelectValue placeholder={t("collection.filters.price")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tous les prix</SelectItem>
-                <SelectItem value="under-400">Moins de 400€</SelectItem>
-                <SelectItem value="400-500">400€ - 500€</SelectItem>
-                <SelectItem value="over-500">Plus de 500€</SelectItem>
+                <SelectItem value="all">{t("collection.filters.price")}</SelectItem>
+                <SelectItem value="under-400">{t("collection.filters.under400")}</SelectItem>
+                <SelectItem value="400-500">{t("collection.filters.between400_500")}</SelectItem>
+                <SelectItem value="over-500">{t("collection.filters.over500")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
       </section>
 
-      {/* Products Grid */}
+      {/* Products */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8" id="products-grid">
             {filteredProducts.map((product) => (
-              <Card 
+              <Card
                 key={product.slug}
                 className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant hover:-translate-y-2 transition-all duration-500 rounded-lg"
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
                   {/* Badges */}
-                  {product.badges.length > 0 && (
+                  {product.badges?.length > 0 && (
                     <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
                       {product.badges.map((badge, index) => (
-                        <Badge 
-                          key={index} 
-                          variant={getBadgeVariant(badge)}
+                        <Badge
+                          key={index}
+                          variant={
+                            badge.type === "new"
+                              ? "default"
+                              : badge.type === "trending"
+                              ? "secondary"
+                              : badge.type === "only"
+                              ? "destructive"
+                              : badge.type === "prestige"
+                              ? "outline"
+                              : "default"
+                          }
                           className="text-xs shadow-sm"
                         >
-                          {badge}
+                          {t(`collection.badges.${badge.type}`, { count: badge.count })}
                         </Badge>
                       ))}
                     </div>
                   )}
-                  
+
                   <img
-                    src={`/lovable-uploads/${product.images[0].replace('.jpg', '.png')}`}
-                    alt={`${product.name} - Robe de soirée Glam Fashion`}
+                    src={`/images/dresses/${product.images[0].replace(".jpg", ".png")}`}
+                    alt={`${product.name[lang] || product.name.en} - ${t("collection.productAlt")}`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     width="600"
                     height="800"
@@ -234,63 +278,52 @@ const Collection = () => {
                     sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
                   />
                 </div>
-                
+
                 <div className="p-6">
-                  {/* Product Name */}
                   <h3 className="font-serif text-lg font-medium text-[#0F0F0F] mb-2">
-                    {product.name}
+                    {product.name[lang] || product.name.en}
                   </h3>
-                  
-                  {/* Description */}
+
                   <p className="text-sm text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
-                    {product.description}
+                    {product.description[lang] || product.description.en}
                   </p>
-                  
-                  {/* Price */}
+
                   <div className="text-xl font-semibold text-[#B48A7C] mb-3">
-                    {product.price}€
+                    {nf.format(product.price)}
                   </div>
-                  
-                  {/* Tags */}
+
                   <div className="flex gap-2 mb-4">
                     <Badge variant="outline" className="text-xs">
-                      {product.category}
+                      {product.category[lang] || product.category.en}
                     </Badge>
                     <Badge variant="outline" className="text-xs">
-                      {product.color}
+                      {product.color[lang] || product.color.en}
                     </Badge>
                   </div>
-                  
-                  {/* Action Buttons */}
+
                   <div className="flex gap-2">
-                    <Button 
-                      asChild 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
                       className="flex-1 border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
                     >
-                      <Link to={`/product/${product.slug}`}>Voir</Link>
+                      <Link to={`/product/${product.slug}`}>{t("collection.buttons.view")}</Link>
                     </Button>
-                    <Button 
-                      asChild 
-                      size="sm" 
-                      className="flex-1 bg-[#B48A7C] hover:bg-[#B48A7C]/90"
-                    >
-                      <Link to={`/order?product=${product.slug}`}>Commander</Link>
+                    <Button asChild size="sm" className="flex-1 bg-[#B48A7C] hover:bg-[#B48A7C]/90">
+                      <Link to={`/order?product=${product.slug}`}>{t("collection.buttons.order")}</Link>
                     </Button>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
-          
-          {/* No results message */}
+
+          {/* Empty state */}
           {filteredProducts.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-lg text-muted-foreground mb-4">
-                Aucun produit trouvé avec ces critères.
-              </p>
-              <Button 
+              <p className="text-lg text-muted-foreground mb-4">{t("collection.empty")}</p>
+              <Button
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
@@ -299,7 +332,7 @@ const Collection = () => {
                   setPriceFilter("all");
                 }}
               >
-                Réinitialiser les filtres
+                {t("collection.reset")}
               </Button>
             </div>
           )}
