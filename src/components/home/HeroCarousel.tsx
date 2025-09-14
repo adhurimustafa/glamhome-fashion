@@ -5,23 +5,23 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { slides as rawSlides, type Slide } from "@/data/heroSlides";
 
-// 2 secondes
-const AUTO_DELAY = 2000;
+// ⏱️ 4 secondes entre chaque slide
+const AUTO_DELAY = 4000;
 
 export default function HeroCarousel() {
   const { t } = useTranslation();
 
+  // copie immuable de la config
   const baseSlides = useMemo(() => rawSlides.slice(), []);
   const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
-  const [hover, setHover] = useState(false);
   const timerRef = useRef<number | null>(null);
 
-  // Préchargement + filtre 404
+  // Préchargement + filtre des images en erreur (404, etc.)
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
-      const ok = await Promise.all(
+      const results = await Promise.all(
         baseSlides.map(
           (s) =>
             new Promise<Slide | null>((resolve) => {
@@ -33,8 +33,8 @@ export default function HeroCarousel() {
         )
       );
       if (cancelled) return;
-      const filtered = ok.filter(Boolean) as Slide[];
-      setSlides(filtered);
+      const ok = results.filter(Boolean) as Slide[];
+      setSlides(ok);
       setCurrent(0);
     };
     load();
@@ -43,6 +43,7 @@ export default function HeroCarousel() {
     };
   }, [baseSlides]);
 
+  // Gestion du timer d'autoplay (sans pause au hover)
   const clear = () => {
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
@@ -52,33 +53,34 @@ export default function HeroCarousel() {
 
   const start = () => {
     clear();
-    if (hover || slides.length <= 1) return;
-    // ❗ On ne respecte PAS "prefers-reduced-motion" pour garantir 2s
+    if (slides.length <= 1) return;
+    // On **ignore** prefers-reduced-motion pour forcer l'autoplay demandé
     timerRef.current = window.setInterval(() => {
       setCurrent((i) => (i + 1) % slides.length);
     }, AUTO_DELAY);
   };
 
-  // Lancer/arrêter selon hover & nb slides
+  // Démarre / redémarre quand la liste de slides est prête
   useEffect(() => {
     start();
     return clear;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hover, slides.length]);
+  }, [slides.length]);
 
-  // Pause quand l’onglet n’est plus visible
+  // Pause quand l'onglet est masqué, reprise à la visibilité
   useEffect(() => {
     const onVis = () => (document.visibilityState === "visible" ? start() : clear());
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hover, slides.length]);
+  }, [slides.length]);
 
+  // Navigation manuelle (reset du timer pour garder la cadence)
   const go = (idx: number) => {
     const n = slides.length;
     if (!n) return;
     setCurrent(((idx % n) + n) % n);
-    start(); // reset après interaction
+    start(); // reset propre
   };
   const next = () => go(current + 1);
   const prev = () => go(current - 1);
@@ -87,11 +89,12 @@ export default function HeroCarousel() {
 
   return (
     <>
+      {/* Preload du premier visuel valide */}
       <link rel="preload" as="image" href={slides[0].image} fetchPriority="high" />
+
       <section
         className="hero relative w-full overflow-hidden aspect-[16/9] md:aspect-[16/9] lg:aspect-[16/9] max-[767px]:aspect-[4/5]"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
+        // 👉 plus aucun onMouseEnter/onMouseLeave : on ne met plus en pause au survol
         style={{ zIndex: 10 }}
       >
         {slides.map((s, i) => (
@@ -115,15 +118,23 @@ export default function HeroCarousel() {
                 sizes="100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+
               <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                 <div className="max-w-[900px] px-4">
-                  <h1 className="font-serif font-bold leading-none mb-4" style={{ fontSize: "clamp(48px, 8vw, 96px)", letterSpacing: "-0.02em" }}>
+                  <h1
+                    className="font-serif font-bold leading-none mb-4"
+                    style={{ fontSize: "clamp(48px, 8vw, 96px)", letterSpacing: "-0.02em" }}
+                  >
                     {t("home.hero.title", "Glamour Collection")}
                   </h1>
                   <p className="mb-8 opacity-95" style={{ fontSize: "clamp(18px, 3vw, 26px)" }}>
                     {t("home.hero.subtitle", "Élégance en chaque silhouette")}
                   </p>
-                  <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3 text-lg shadow-lg">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3 text-lg shadow-lg"
+                  >
                     <Link to="/collection">{t("home.hero.cta", "Voir la Collection")}</Link>
                   </Button>
                 </div>
@@ -132,6 +143,7 @@ export default function HeroCarousel() {
           </div>
         ))}
 
+        {/* Flèches */}
         <Button
           variant="ghost"
           size="icon"
@@ -151,6 +163,7 @@ export default function HeroCarousel() {
           <ChevronRight className="h-6 w-6" />
         </Button>
 
+        {/* Bullets */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
           {slides.map((s, i) => (
             <button
