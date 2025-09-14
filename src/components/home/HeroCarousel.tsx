@@ -5,25 +5,24 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { slides as rawSlides, type Slide } from "@/data/heroSlides";
 
-// 2000 ms = 2 s
+// 2 secondes
 const AUTO_DELAY = 2000;
 
 export default function HeroCarousel() {
   const { t } = useTranslation();
 
-  // copie immuable des slides
-  const initialSlides = useMemo(() => rawSlides.slice(), []);
+  const baseSlides = useMemo(() => rawSlides.slice(), []);
   const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
-  const [isHover, setIsHover] = useState(false);
+  const [hover, setHover] = useState(false);
   const timerRef = useRef<number | null>(null);
 
-  // Précharge et filtre les 404
+  // Préchargement + filtre 404
   useEffect(() => {
     let cancelled = false;
-    const preload = async () => {
-      const results = await Promise.all(
-        initialSlides.map(
+    const load = async () => {
+      const ok = await Promise.all(
+        baseSlides.map(
           (s) =>
             new Promise<Slide | null>((resolve) => {
               const img = new Image();
@@ -34,50 +33,52 @@ export default function HeroCarousel() {
         )
       );
       if (cancelled) return;
-      const ok = results.filter(Boolean) as Slide[];
-      setSlides(ok);
+      const filtered = ok.filter(Boolean) as Slide[];
+      setSlides(filtered);
       setCurrent(0);
     };
-    preload();
+    load();
     return () => {
       cancelled = true;
     };
-  }, [initialSlides]);
+  }, [baseSlides]);
 
-  // gestion interval
   const clear = () => {
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
   };
+
   const start = () => {
     clear();
-    if (isHover || slides.length <= 1) return;
+    if (hover || slides.length <= 1) return;
+    // ❗ On ne respecte PAS "prefers-reduced-motion" pour garantir 2s
     timerRef.current = window.setInterval(() => {
       setCurrent((i) => (i + 1) % slides.length);
     }, AUTO_DELAY);
   };
 
+  // Lancer/arrêter selon hover & nb slides
   useEffect(() => {
     start();
     return clear;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHover, slides.length]);
+  }, [hover, slides.length]);
 
+  // Pause quand l’onglet n’est plus visible
   useEffect(() => {
     const onVis = () => (document.visibilityState === "visible" ? start() : clear());
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHover, slides.length]);
+  }, [hover, slides.length]);
 
-  // nav
   const go = (idx: number) => {
     const n = slides.length;
     if (!n) return;
     setCurrent(((idx % n) + n) % n);
-    start(); // redémarre proprement après interaction
+    start(); // reset après interaction
   };
   const next = () => go(current + 1);
   const prev = () => go(current - 1);
@@ -87,11 +88,10 @@ export default function HeroCarousel() {
   return (
     <>
       <link rel="preload" as="image" href={slides[0].image} fetchPriority="high" />
-
       <section
         className="hero relative w-full overflow-hidden aspect-[16/9] md:aspect-[16/9] lg:aspect-[16/9] max-[767px]:aspect-[4/5]"
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         style={{ zIndex: 10 }}
       >
         {slides.map((s, i) => (
@@ -117,20 +117,13 @@ export default function HeroCarousel() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
               <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                 <div className="max-w-[900px] px-4">
-                  <h1
-                    className="font-serif font-bold leading-none mb-4"
-                    style={{ fontSize: "clamp(48px, 8vw, 96px)", letterSpacing: "-0.02em" }}
-                  >
+                  <h1 className="font-serif font-bold leading-none mb-4" style={{ fontSize: "clamp(48px, 8vw, 96px)", letterSpacing: "-0.02em" }}>
                     {t("home.hero.title", "Glamour Collection")}
                   </h1>
                   <p className="mb-8 opacity-95" style={{ fontSize: "clamp(18px, 3vw, 26px)" }}>
                     {t("home.hero.subtitle", "Élégance en chaque silhouette")}
                   </p>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3 text-lg shadow-lg"
-                  >
+                  <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3 text-lg shadow-lg">
                     <Link to="/collection">{t("home.hero.cta", "Voir la Collection")}</Link>
                   </Button>
                 </div>
