@@ -16,6 +16,7 @@ const Header = () => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
 
+    // lock scroll when mobile menu is open
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -23,12 +24,12 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  // 👇 Navigation (sans la page /order)
+  // Nav (sans /order)
   const navItems = [
     { href: "/", label: t("nav.home") },
     { href: "/about", label: t("nav.about") },
     { href: "/collection", label: t("nav.collection") },
-    { href: "/contact", label: t("nav.contact") }
+    { href: "/contact", label: t("nav.contact") },
   ];
 
   const isActive = (href: string) =>
@@ -53,14 +54,14 @@ const Header = () => {
             aria-label="GLAMHOME FASHION - Home"
           >
             <img
-              src="/images/dresses/bf5bb623-c977-4166-a974-1f331812e41d.png"
+              src="/images/logos/logo-256.png"
               alt="GLAMHOME FASHION"
               className="h-9 lg:h-11 w-auto object-contain"
-              width="256"
-              height="256"
+              width={256}
+              height={256}
               loading="eager"
-              decoding="sync"
-              sizes="44px"
+              decoding="async"
+              fetchPriority="high"
             />
           </Link>
 
@@ -70,6 +71,7 @@ const Header = () => {
               <Link
                 key={item.href}
                 to={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
                 className={`text-sm font-medium transition-colors hover:text-[#B48A7C] ${
                   isActive(item.href)
                     ? "text-[#B48A7C] border-b-2 border-[#B48A7C] pb-1"
@@ -84,22 +86,37 @@ const Header = () => {
           {/* Actions (desktop) */}
           <div className="hidden lg:flex items-center space-x-3">
             <LanguageSwitcher />
+
+            {/* Instagram (lien externe) */}
             <Button
+              asChild
               variant="ghost"
               size="icon"
               aria-label={t("aria.instagram")}
               className="text-[#0F0F0F] hover:text-[#B48A7C]"
             >
-              <Instagram className="h-5 w-5" />
+              <a
+                href="https://instagram.com/glam_fashion.store"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
             </Button>
+
+            {/* Email → page Contact (évite un mailto inconnu) */}
             <Button
+              asChild
               variant="ghost"
               size="icon"
               aria-label={t("aria.email")}
               className="text-[#0F0F0F] hover:text-[#B48A7C]"
             >
-              <Mail className="h-5 w-5" />
+              <Link to="/contact">
+                <Mail className="h-5 w-5" />
+              </Link>
             </Button>
+
             <Button
               asChild
               variant="outline"
@@ -117,6 +134,8 @@ const Header = () => {
             className="lg:hidden text-[#0F0F0F] hover:text-[#B48A7C]"
             onClick={() => setIsMenuOpen((v) => !v)}
             aria-label={isMenuOpen ? t("aria.closeMenu") : t("aria.openMenu")}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
@@ -124,7 +143,10 @@ const Header = () => {
 
         {/* Nav (mobile) */}
         {isMenuOpen && (
-          <div className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto">
+          <div
+            id="mobile-menu"
+            className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto"
+          >
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col space-y-6">
                 {navItems.map((item) => (
@@ -132,8 +154,8 @@ const Header = () => {
                     key={item.href}
                     to={item.href}
                     className={`text-lg font-medium transition-colors hover:text-[#B48A7C] text-center py-3 ${
-                      isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"}
-                    `}
+                      isActive(item.href) ? "text-[#B48A7C]" : "text-[#0F0F0F]"
+                    }`}
                     onClick={handleNavClick}
                   >
                     {item.label}
@@ -143,22 +165,35 @@ const Header = () => {
                 {/* Mobile actions */}
                 <div className="flex items-center justify-center gap-4 pt-8 border-t border-gray-200">
                   <LanguageSwitcher />
+
                   <Button
+                    asChild
                     variant="ghost"
                     size="icon"
                     aria-label={t("aria.instagram")}
                     className="text-[#0F0F0F] hover:text-[#B48A7C]"
                   >
-                    <Instagram className="h-6 w-6" />
+                    <a
+                      href="https://instagram.com/glam_fashion.store"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Instagram className="h-6 w-6" />
+                    </a>
                   </Button>
+
                   <Button
+                    asChild
                     variant="ghost"
                     size="icon"
                     aria-label={t("aria.email")}
                     className="text-[#0F0F0F] hover:text-[#B48A7C]"
                   >
-                    <Mail className="h-6 w-6" />
+                    <Link to="/contact">
+                      <Mail className="h-6 w-6" />
+                    </Link>
                   </Button>
+
                   <Button
                     asChild
                     variant="outline"
