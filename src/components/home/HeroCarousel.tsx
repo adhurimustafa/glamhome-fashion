@@ -5,23 +5,22 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { slides as rawSlides, type Slide } from "@/data/heroSlides";
 
-// ⏱️ 2000 ms = 2 s (change à 3000 pour 3 s)
+// 2000 ms = 2 s
 const AUTO_DELAY = 2000;
 
 export default function HeroCarousel() {
   const { t } = useTranslation();
 
-  // On garde une copie immuable pour le mémo
+  // copie immuable des slides
   const initialSlides = useMemo(() => rawSlides.slice(), []);
-  const [activeSlides, setActiveSlides] = useState<Slide[]>([]);
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
   const [isHover, setIsHover] = useState(false);
   const timerRef = useRef<number | null>(null);
 
-  // Précharge toutes les images + filtre celles en 404
+  // Précharge et filtre les 404
   useEffect(() => {
     let cancelled = false;
-
     const preload = async () => {
       const results = await Promise.all(
         initialSlides.map(
@@ -34,79 +33,60 @@ export default function HeroCarousel() {
             })
         )
       );
-
       if (cancelled) return;
-
       const ok = results.filter(Boolean) as Slide[];
-      setActiveSlides(ok);
+      setSlides(ok);
       setCurrent(0);
     };
-
     preload();
     return () => {
       cancelled = true;
     };
   }, [initialSlides]);
 
-  // Gestion interval (autoplay robuste)
-  const clearTimer = () => {
+  // gestion interval
+  const clear = () => {
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
   };
-
-  const startTimer = () => {
-    clearTimer();
-    if (isHover) return;
-    if (activeSlides.length <= 1) return;
-
-    // Respecte la préférence "reduce motion"
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-
+  const start = () => {
+    clear();
+    if (isHover || slides.length <= 1) return;
     timerRef.current = window.setInterval(() => {
-      setCurrent((i) => (i + 1) % activeSlides.length);
+      setCurrent((i) => (i + 1) % slides.length);
     }, AUTO_DELAY);
   };
 
-  // Démarre/arrête selon hover, liste, visibilité…
   useEffect(() => {
-    startTimer();
-    return clearTimer;
+    start();
+    return clear;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHover, activeSlides.length]);
+  }, [isHover, slides.length]);
 
   useEffect(() => {
-    const onVis = () => {
-      if (document.visibilityState === "visible") startTimer();
-      else clearTimer();
-    };
+    const onVis = () => (document.visibilityState === "visible" ? start() : clear());
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHover, activeSlides.length]);
+  }, [isHover, slides.length]);
 
-  // Navigation
+  // nav
   const go = (idx: number) => {
-    const n = activeSlides.length;
+    const n = slides.length;
     if (!n) return;
     setCurrent(((idx % n) + n) % n);
-    startTimer(); // reset le timer après interaction
+    start(); // redémarre proprement après interaction
   };
   const next = () => go(current + 1);
   const prev = () => go(current - 1);
 
-  if (activeSlides.length === 0) {
-    // Rien de valide → on évite le trou visuel
-    return null;
-  }
-
-  const slide = activeSlides[current];
+  if (slides.length === 0) return null;
 
   return (
     <>
-      {/* LCP preload du premier visuel valide */}
-      <link rel="preload" as="image" href={activeSlides[0]?.image} fetchPriority="high" />
+      <link rel="preload" as="image" href={slides[0].image} fetchPriority="high" />
 
       <section
         className="hero relative w-full overflow-hidden aspect-[16/9] md:aspect-[16/9] lg:aspect-[16/9] max-[767px]:aspect-[4/5]"
@@ -114,7 +94,7 @@ export default function HeroCarousel() {
         onMouseLeave={() => setIsHover(false)}
         style={{ zIndex: 10 }}
       >
-        {activeSlides.map((s, i) => (
+        {slides.map((s, i) => (
           <div
             key={s.id}
             className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
@@ -134,11 +114,7 @@ export default function HeroCarousel() {
                 fetchPriority={i === 0 ? "high" : "low"}
                 sizes="100vw"
               />
-
-              {/* Dégradé pour lisibilité */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
-
-              {/* Contenu (titre + slogan + CTA) */}
               <div className="absolute inset-0 flex items-center justify-center text-center text-white">
                 <div className="max-w-[900px] px-4">
                   <h1
@@ -163,7 +139,6 @@ export default function HeroCarousel() {
           </div>
         ))}
 
-        {/* Flèches */}
         <Button
           variant="ghost"
           size="icon"
@@ -173,7 +148,6 @@ export default function HeroCarousel() {
         >
           <ChevronLeft className="h-6 w-6" />
         </Button>
-
         <Button
           variant="ghost"
           size="icon"
@@ -184,9 +158,8 @@ export default function HeroCarousel() {
           <ChevronRight className="h-6 w-6" />
         </Button>
 
-        {/* Bullets */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
-          {activeSlides.map((s, i) => (
+          {slides.map((s, i) => (
             <button
               key={s.id}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
