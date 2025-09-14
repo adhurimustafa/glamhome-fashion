@@ -1,336 +1,174 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Home, Heart, Share2, Minus, Plus } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import productsData from "@/data/products.json";
+import { useMemo, useState, useEffect } from 'react';
+import { useParams, Navigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-interface Product {
-  slug: string;
-  name: string;
-  price: number;
-  badges: string[];
-  thumb: string;
-  images: string[];
-  color: string;
-  category: string;
-  description: string;
-}
+import type { Product, LangKey } from '@/types/product';
+import { normalizeLang, formatPriceEUR } from '@/utils/price';
+import productsJson from '@/data/products.json';
 
-const ProductDetail = () => {
+const PRODUCTS = productsJson as Product[];
+
+export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const { toast } = useToast();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
-  const [selectedSize, setSelectedSize] = useState<string>("");
-  const [quantity, setQuantity] = useState<number>(1);
+  const { t, i18n } = useTranslation();
+  const lang = useMemo<LangKey>(() => normalizeLang(i18n.language), [i18n.language]);
 
-  const sizes = ["S", "M", "L"];
+  const product = useMemo(
+    () => PRODUCTS.find((p) => p.slug === slug),
+    [slug]
+  );
+
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (!slug) return;
-
-    // Find product by slug
-    const foundProduct = productsData.find((p: Product) => p.slug === slug);
-    setProduct(foundProduct || null);
-
-    if (foundProduct) {
-      // Find related products (same category, excluding current product)
-      const related = productsData
-        .filter((p: Product) => p.category === foundProduct.category && p.slug !== slug)
-        .slice(0, 4);
-      setRelatedProducts(related);
-
-      // Update SEO
-      document.title = `${foundProduct.name} – GLAMHOME FASHION`;
-      
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', `${foundProduct.name} - ${foundProduct.description} Prix: ${foundProduct.price}€`);
-      }
-
-      // Add JSON-LD structured data
-      const script = document.createElement('script');
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": foundProduct.name,
-        "description": foundProduct.description,
-        "image": `/images/dresses/${foundProduct.images[0].replace('.jpg', '.png')}`,
-        "brand": {
-          "@type": "Brand",
-          "name": "GLAMHOME FASHION"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": foundProduct.price,
-          "priceCurrency": "EUR",
-          "availability": "https://schema.org/InStock"
-        }
-      });
-      document.head.appendChild(script);
-
-      return () => {
-        // Cleanup
-        document.title = "GLAMHOME FASHION — Robes de soirée & haute élégance";
-        const existingScript = document.querySelector('script[type="application/ld+json"]');
-        if (existingScript) {
-          document.head.removeChild(existingScript);
-        }
-      };
-    }
+    setIndex(0);
   }, [slug]);
 
-  const handleQuantityChange = (increment: boolean) => {
-    setQuantity(prev => {
-      const newQuantity = increment ? prev + 1 : prev - 1;
-      return Math.max(1, Math.min(10, newQuantity));
-    });
-  };
-
-  const handleAddToCart = () => {
-    if (!selectedSize) {
-      toast({
-        title: "Taille requise",
-        description: "Veuillez sélectionner une taille avant de commander.",
-        variant: "destructive"
-      });
-      return;
+  useEffect(() => {
+    if (product) {
+      document.title = `${product.name[lang]} · GlamHome Fashion`;
     }
-    
-    // Redirect to order page with product and size
-    window.location.href = `/order?product=${slug}&size=${selectedSize}&quantity=${quantity}`;
-  };
-
-  const getBadgeVariant = (badge: string) => {
-    if (badge.includes("New")) return "default";
-    if (badge.includes("Trending")) return "secondary";
-    if (badge.includes("Only")) return "destructive";
-    if (badge.includes("Prestige")) return "outline";
-    return "default";
-  };
+  }, [product, lang]);
 
   if (!product) {
-    return (
-      <main className="min-h-screen pt-20 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-serif mb-4">Produit non trouvé</h1>
-          <Button asChild variant="outline">
-            <Link to="/collection">Retour à la collection</Link>
-          </Button>
-        </div>
-      </main>
-    );
+    return <Navigate to="/404" replace />;
   }
 
+  const images = product.images ?? [];
+  const clampIndex = (i: number) => {
+    if (images.length === 0) return 0;
+    return (i + images.length) % images.length;
+  };
+
+  const goPrev = () => setIndex((i) => clampIndex(i - 1));
+  const goNext = () => setIndex((i) => clampIndex(i + 1));
+
   return (
-    <main className="min-h-screen pt-20">
-      {/* Breadcrumb */}
-      <div className="container mx-auto px-4 py-4">
-        <nav aria-label="Fil d'Ariane" className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-[#B48A7C] transition-colors flex items-center">
-            <Home className="h-4 w-4 mr-1" />
-            Accueil
-          </Link>
-          <span>/</span>
-          <Link to="/collection" className="hover:text-[#B48A7C] transition-colors">
-            Collection
-          </Link>
-          <span>/</span>
-          <span className="text-[#0F0F0F] font-medium">{product.name}</span>
-        </nav>
-      </div>
+    <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-8">
+      <nav className="mb-4 text-sm text-gray-500">
+        <Link to="/collection" className="hover:underline">
+          {t('breadcrumbs.collection', 'Collection')}
+        </Link>
+        <span className="mx-2">/</span>
+        <span>{product.name[lang]}</span>
+      </nav>
 
-      {/* Product Details */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Gallery - Left */}
-            <div className="space-y-4">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
-                {/* Badges */}
-                {product.badges.length > 0 && (
-                  <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
-                    {product.badges.map((badge, index) => (
-                      <Badge key={index} variant={getBadgeVariant(badge)} className="shadow-sm">
-                        {badge}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-                
-                <img
-                  src={`/images/dresses/${product.images[0].replace('.jpg', '.png')}`}
-                  alt={`${product.name} - Robe de soirée GLAMHOME FASHION`}
-                  className="w-full h-full object-cover"
-                  width="800"
-                  height="1067"
-                  loading="eager"
-                  decoding="sync"
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                />
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {/* Carousel */}
+        <div>
+          <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gray-50">
+            {images.length > 0 ? (
+              <img
+                key={images[index]}
+                src={images[index]}
+                alt={product.name[lang]}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                {t('product.noImage', 'Aucune image')}
               </div>
-            </div>
+            )}
 
-            {/* Product Info - Right */}
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-serif font-light text-[#0F0F0F] mb-4">
-                  {product.name}
-                </h1>
-                <div className="text-3xl font-semibold text-[#B48A7C] mb-4">
-                  {product.price}€
-                </div>
-                
-                {/* Tags */}
-                <div className="flex gap-2 mb-6">
-                  <Badge variant="outline">{product.category}</Badge>
-                  <Badge variant="outline">{product.color}</Badge>
-                </div>
-              </div>
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={goPrev}
+                  aria-label={t('product.prevImage', 'Image précédente')}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-2 text-sm shadow hover:bg-white"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={goNext}
+                  aria-label={t('product.nextImage', 'Image suivante')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-2 text-sm shadow hover:bg-white"
+                >
+                  ›
+                </button>
+              </>
+            )}
+          </div>
 
-              {/* Description */}
-              <div>
-                <p className="text-muted-foreground leading-relaxed">
-                  {product.description}
-                </p>
-              </div>
-
-              {/* Size Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="size">Taille</Label>
-                <Select value={selectedSize} onValueChange={setSelectedSize}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Sélectionnez une taille" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {sizes.map(size => (
-                      <SelectItem key={size} value={size}>
-                        Taille {size}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Quantity */}
-              <div className="space-y-2">
-                <Label htmlFor="quantity">Quantité</Label>
-                <div className="flex items-center space-x-3">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleQuantityChange(false)}
-                    disabled={quantity <= 1}
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <Input
-                    id="quantity"
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
-                    className="w-20 text-center"
-                    min="1"
-                    max="10"
+          {images.length > 1 && (
+            <div className="mt-3 grid grid-cols-6 gap-2">
+              {images.map((src, i) => (
+                <button
+                  key={src}
+                  onClick={() => setIndex(i)}
+                  className={`aspect-[3/4] overflow-hidden rounded-xl border ${
+                    index === i ? 'border-black' : 'border-transparent'
+                  }`}
+                  aria-label={t('product.thumbnail', 'Miniature')}
+                >
+                  <img
+                    src={src}
+                    alt={product.name[lang]}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
                   />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleQuantityChange(true)}
-                    disabled={quantity >= 10}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-3">
-                <Button
-                  size="lg"
-                  className="w-full bg-[#B48A7C] hover:bg-[#B48A7C]/90 text-white"
-                  onClick={handleAddToCart}
-                >
-                  Commander maintenant
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="w-full border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
-                >
-                  <Link to={`/contact?product=${slug}`}>Poser une question</Link>
-                </Button>
-              </div>
+        {/* Infos */}
+        <div className="flex flex-col">
+          <h1 className="text-2xl md:text-3xl font-semibold">{product.name[lang]}</h1>
 
-              {/* Additional Actions */}
-              <div className="flex gap-4 pt-4 border-t">
-                <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
-                  Favoris
-                </Button>
-                <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                  <Share2 className="h-4 w-4" />
-                  Partager
-                </Button>
-              </div>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+              {product.category[lang]}
+            </span>
+            <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+              {product.color[lang]}
+            </span>
+          </div>
+
+          <div className="mt-4 text-xl font-semibold">
+            {formatPriceEUR(product.price, lang)}
+          </div>
+
+          <p className="mt-4 text-gray-700 whitespace-pre-line">
+            {product.description[lang]}
+          </p>
+
+          <div className="mt-6 flex items-center gap-3">
+            <a
+              href="#order"
+              className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-white hover:bg-black/90"
+            >
+              {t('buttons.order', 'Commander')}
+            </a>
+            <Link
+              to="/collection"
+              className="inline-flex items-center justify-center rounded-full border border-gray-300 px-4 py-2 hover:bg-gray-50"
+            >
+              {t('buttons.backToCollection', 'Retour à la collection')}
+            </Link>
+          </div>
+
+          {/* Section de commande (ancre) */}
+          <div id="order" className="mt-10 rounded-2xl border border-gray-200 p-4">
+            <h2 className="text-lg font-medium">{t('order.title', 'Commander cette robe')}</h2>
+            <p className="mt-2 text-sm text-gray-600">
+              {t(
+                'order.instructions',
+                'Indiquez la référence et contactez-nous. (Formulaire/CTA à brancher ici si nécessaire.)'
+              )}
+            </p>
+            <div className="mt-4">
+              <a
+                href="/order"
+                className="inline-flex items-center justify-center rounded-full border border-gray-300 px-4 py-2 hover:bg-gray-50"
+              >
+                {t('order.openOrderPage', 'Aller à la page commande')}
+              </a>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Related Products */}
-      {relatedProducts.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl font-serif font-light text-center mb-12">
-              Vous aimerez aussi
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((relatedProduct) => (
-                <Card 
-                  key={relatedProduct.slug}
-                  className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant hover:-translate-y-2 transition-all duration-500 rounded-lg"
-                >
-                  <Link to={`/product/${relatedProduct.slug}`}>
-                    <div className="relative aspect-[3/4] overflow-hidden">
-                      <img
-                        src={`/images/dresses/${relatedProduct.images[0].replace('.jpg', '.png')}`}
-                        alt={`${relatedProduct.name} - Robe de soirée GLAMHOME FASHION`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        width="400"
-                        height="533"
-                        loading="lazy"
-                        decoding="async"
-                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
-                      />
-                    </div>
-                    
-                    <div className="p-4">
-                      <h3 className="font-serif text-lg font-medium text-[#0F0F0F] mb-2 line-clamp-1">
-                        {relatedProduct.name}
-                      </h3>
-                      <div className="text-lg font-semibold text-[#B48A7C]">
-                        {relatedProduct.price}€
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-    </main>
+      </div>
+    </div>
   );
-};
-
-export default ProductDetail;
+}

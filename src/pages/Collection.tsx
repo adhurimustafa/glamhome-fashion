@@ -1,345 +1,224 @@
-import { useState, useEffect, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Search, Eye, Home, Filter } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import productsData from "@/data/products.json";
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-interface Product {
-  slug: string;
-  name: Record<string, string>;
-  description: Record<string, string>;
-  price: number;
-  badges: { type: string; count?: number }[];
-  thumb: string;
-  images: string[];
-  color: Record<string, string>;
-  category: Record<string, string>;
-}
+import type { Product, LangKey } from '@/types/product';
+import { normalizeLang, formatPriceEUR } from '@/utils/price';
 
-const localeMap: Record<string, string> = {
-  fr: "fr-FR",
-  en: "en-US",
-  sq: "sq-AL",
-};
+// IMPORTANT : Vite permet l'import JSON direct (tsconfig resolveJsonModule doit être true)
+import productsJson from '@/data/products.json';
 
-const Collection = () => {
+const PRODUCTS = productsJson as Product[];
+
+type PriceRange = { min: number; max: number };
+
+export default function Collection() {
   const { t, i18n } = useTranslation();
-  const lang = (i18n.language as "fr" | "en" | "sq") || "en";
+  const lang = useMemo<LangKey>(() => normalizeLang(i18n.language), [i18n.language]);
 
-  const [products] = useState<Product[]>(productsData as Product[]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [colorFilter, setColorFilter] = useState("all");
-  const [priceFilter, setPriceFilter] = useState("all");
-
-  const nf = useMemo(
-    () =>
-      new Intl.NumberFormat(localeMap[lang] || "en-US", {
-        style: "currency",
-        currency: "EUR",
-      }),
-    [lang]
-  );
-
-  // Unique categories & colors (dans la langue active)
-  const categories = useMemo(
-    () => ["all", ...Array.from(new Set(products.map((p) => p.category[lang] || p.category.en)))],
-    [products, lang]
-  );
-
-  const colors = useMemo(
-    () => ["all", ...Array.from(new Set(products.map((p) => p.color[lang] || p.color.en)))],
-    [products, lang]
-  );
-
-  // SEO meta
-  useEffect(() => {
-    const prevTitle = document.title;
-    document.title = `${t("collection.title")} – Glam Fashion`;
-
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", t("collection.metaDescription"));
-    }
-
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute("href", window.location.origin + "/collection");
-    }
-
-    return () => {
-      document.title = prevTitle || "GLAMHOME FASHION — Robes de soirée & haute élégance";
+  const bounds = useMemo<PriceRange>(() => {
+    const prices = PRODUCTS.map(p => p.price);
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
     };
-  }, [t]);
+  }, []);
 
-  // Filters
-  useEffect(() => {
-    let filtered = products;
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedColor, setSelectedColor] = useState<string>('all');
+  const [minPrice, setMinPrice] = useState<number>(bounds.min);
+  const [maxPrice, setMaxPrice] = useState<number>(bounds.max);
+  const [search, setSearch] = useState<string>('');
 
-    if (searchTerm) {
-      const q = searchTerm.toLowerCase();
-      filtered = filtered.filter((product) =>
-        (product.name[lang] || product.name.en).toLowerCase().includes(q)
-      );
-    }
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    PRODUCTS.forEach(p => set.add(p.category[lang]));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [lang]);
 
-    if (categoryFilter !== "all") {
-      filtered = filtered.filter(
-        (product) => (product.category[lang] || product.category.en) === categoryFilter
-      );
-    }
+  const colors = useMemo(() => {
+    const set = new Set<string>();
+    PRODUCTS.forEach(p => set.add(p.color[lang]));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [lang]);
 
-    if (colorFilter !== "all") {
-      filtered = filtered.filter(
-        (product) => (product.color[lang] || product.color.en) === colorFilter
-      );
-    }
+  const filtered = useMemo(() => {
+    return PRODUCTS.filter(p => {
+      const catOK = selectedCategory === 'all' || p.category[lang] === selectedCategory;
+      const colorOK = selectedColor === 'all' || p.color[lang] === selectedColor;
+      const priceOK = p.price >= minPrice && p.price <= maxPrice;
+      const q = search.trim().toLowerCase();
+      const searchOK =
+        q.length === 0 ||
+        p.name[lang].toLowerCase().includes(q) ||
+        p.description[lang].toLowerCase().includes(q) ||
+        p.category[lang].toLowerCase().includes(q) ||
+        p.color[lang].toLowerCase().includes(q);
 
-    if (priceFilter !== "all") {
-      switch (priceFilter) {
-        case "under-400":
-          filtered = filtered.filter((product) => product.price < 400);
-          break;
-        case "400-500":
-          filtered = filtered.filter((product) => product.price >= 400 && product.price <= 500);
-          break;
-        case "over-500":
-          filtered = filtered.filter((product) => product.price > 500);
-          break;
-      }
-    }
-
-    setFilteredProducts(filtered);
-  }, [searchTerm, categoryFilter, colorFilter, priceFilter, products, lang]);
+      return catOK && colorOK && priceOK && searchOK;
+    });
+  }, [lang, selectedCategory, selectedColor, minPrice, maxPrice, search]);
 
   return (
-    <main className="min-h-screen pt-20">
-      {/* Breadcrumb */}
-      <div className="container mx-auto px-4 py-4">
-        <nav
-          aria-label={t("collection.breadcrumb.aria")}
-          className="flex items-center space-x-2 text-sm text-muted-foreground"
-        >
-          <Link
-            to="/"
-            className="hover:text-[#B48A7C] transition-colors flex items-center"
-            aria-label={t("collection.breadcrumb.homeAria")}
-          >
-            <Home className="h-4 w-4 mr-1" />
-            {t("nav.home")}
-          </Link>
-          <span>/</span>
-          <span className="text-[#0F0F0F] font-medium">{t("collection.title")}</span>
-        </nav>
+    <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8">
+      {/* Header + Filters */}
+      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <h1 className="text-2xl md:text-3xl font-semibold">
+          {t('collection.title', 'Collection')}
+        </h1>
+
+        <div className="flex flex-col gap-3 md:flex-row md:items-center">
+          {/* Search */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600 min-w-[70px]">
+              {t('filters.search', 'Recherche')}
+            </label>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t('filters.searchPlaceholder', 'Rechercher…')}
+              className="w-full md:w-64 rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black/10"
+            />
+          </div>
+
+          {/* Category */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600 min-w-[70px]">
+              {t('filters.category', 'Catégorie')}
+            </label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black/10"
+            >
+              <option value="all">{t('filters.all', 'Toutes')}</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Color */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600 min-w-[70px]">
+              {t('filters.color', 'Couleur')}
+            </label>
+            <select
+              value={selectedColor}
+              onChange={(e) => setSelectedColor(e.target.value)}
+              className="rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black/10"
+            >
+              <option value="all">{t('filters.all', 'Toutes')}</option>
+              {colors.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600">{t('filters.price', 'Prix')}</label>
+            <input
+              type="number"
+              min={bounds.min}
+              max={bounds.max}
+              value={minPrice}
+              onChange={(e) => setMinPrice(Number(e.target.value))}
+              className="w-24 rounded-lg border border-gray-300 px-2 py-2 outline-none focus:ring-2 focus:ring-black/10"
+              aria-label={t('filters.min', 'Min')}
+            />
+            <span className="text-gray-400">—</span>
+            <input
+              type="number"
+              min={bounds.min}
+              max={bounds.max}
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="w-24 rounded-lg border border-gray-300 px-2 py-2 outline-none focus:ring-2 focus:ring-black/10"
+              aria-label={t('filters.max', 'Max')}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Hero */}
-      <section className="py-12 bg-gradient-to-b from-luxury-pearl to-background">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <h1 className="text-4xl md:text-6xl font-serif font-light text-[#0F0F0F]">
-              {t("collection.title")}
-            </h1>
-            <div
-              className="flex items-center bg-[#B48A7C] text-white px-3 py-1 rounded-full text-sm font-medium"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              aria-label={t("collection.title")}
-            >
-              <Eye className="h-4 w-4 mr-1" />
-              <span>{filteredProducts.length}</span>
-            </div>
-          </div>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            {t("collection.subtitle")}
-          </p>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <section className="py-8 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Filter className="h-4 w-4" />
-              <span>{t("collection.filters.title")}</span>
-            </div>
-
-            {/* Search */}
-            <div className="relative flex-1 max-w-sm">
-              <label htmlFor="collection-search" className="sr-only">
-                {t("collection.filters.search")}
-              </label>
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="collection-search"
-                placeholder={t("collection.filters.search")}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-                aria-label={t("collection.filters.search")}
-              />
-            </div>
-
-            {/* Category */}
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.category")}>
-                <SelectValue placeholder={t("collection.filters.category")} />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category === "all" ? t("collection.filters.category") : category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Color */}
-            <Select value={colorFilter} onValueChange={setColorFilter}>
-              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.color")}>
-                <SelectValue placeholder={t("collection.filters.color")} />
-              </SelectTrigger>
-              <SelectContent>
-                {colors.map((color) => (
-                  <SelectItem key={color} value={color}>
-                    {color === "all" ? t("collection.filters.color") : color}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Price */}
-            <Select value={priceFilter} onValueChange={setPriceFilter}>
-              <SelectTrigger className="w-[180px]" aria-label={t("collection.filters.price")}>
-                <SelectValue placeholder={t("collection.filters.price")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("collection.filters.price")}</SelectItem>
-                <SelectItem value="under-400">{t("collection.filters.under400")}</SelectItem>
-                <SelectItem value="400-500">{t("collection.filters.between400_500")}</SelectItem>
-                <SelectItem value="over-500">{t("collection.filters.over500")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </section>
-
-      {/* Products */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8" id="products-grid">
-            {filteredProducts.map((product) => (
-              <Card
-                key={product.slug}
-                className="group overflow-hidden border-0 shadow-soft hover:shadow-elegant hover:-translate-y-2 transition-all duration-500 rounded-lg"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  {/* Badges */}
-                  {product.badges?.length > 0 && (
-                    <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
-                      {product.badges.map((badge, index) => (
-                        <Badge
-                          key={index}
-                          variant={
-                            badge.type === "new"
-                              ? "default"
-                              : badge.type === "trending"
-                              ? "secondary"
-                              : badge.type === "only"
-                              ? "destructive"
-                              : badge.type === "prestige"
-                              ? "outline"
-                              : "default"
-                          }
-                          className="text-xs shadow-sm"
-                        >
-                          {t(`collection.badges.${badge.type}`, { count: badge.count })}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-
+      {/* Grid */}
+      {filtered.length === 0 ? (
+        <p className="py-12 text-center text-gray-500">
+          {t('collection.noResults', 'Aucun produit ne correspond à votre recherche.')}
+        </p>
+      ) : (
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        >
+          {filtered.map((p) => (
+            <li key={p.slug} className="group">
+              <Link to={`/collection/${p.slug}`} className="block focus:outline-none">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-gray-50">
+                  {/* Image 1 */}
                   <img
-                    src={`/images/dresses/${product.images[0].replace(".jpg", ".png")}`}
-                    alt={`${product.name[lang] || product.name.en} - ${t("collection.productAlt")}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    width="600"
-                    height="800"
+                    src={p.images[0]}
+                    alt={p.name[lang]}
+                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-0"
                     loading="lazy"
-                    decoding="async"
-                    sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
                   />
+                  {/* Image 2 (hover swap) */}
+                  {p.images[1] && (
+                    <img
+                      src={p.images[1]}
+                      alt={p.name[lang]}
+                      className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      loading="lazy"
+                    />
+                  )}
                 </div>
+              </Link>
 
-                <div className="p-6">
-                  <h3 className="font-serif text-lg font-medium text-[#0F0F0F] mb-2">
-                    {product.name[lang] || product.name.en}
+              <div className="mt-3 flex flex-col gap-1">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-base font-medium">
+                    <Link to={`/collection/${p.slug}`} className="hover:underline">
+                      {p.name[lang]}
+                    </Link>
                   </h3>
-
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2 leading-relaxed">
-                    {product.description[lang] || product.description.en}
-                  </p>
-
-                  <div className="text-xl font-semibold text-[#B48A7C] mb-3">
-                    {nf.format(product.price)}
-                  </div>
-
-                  <div className="flex gap-2 mb-4">
-                    <Badge variant="outline" className="text-xs">
-                      {product.category[lang] || product.category.en}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      {product.color[lang] || product.color.en}
-                    </Badge>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 border-[#B48A7C] text-[#B48A7C] hover:bg-[#B48A7C] hover:text-white"
-                    >
-                      <Link to={`/product/${product.slug}`}>{t("collection.buttons.view")}</Link>
-                    </Button>
-                    <Button asChild size="sm" className="flex-1 bg-[#B48A7C] hover:bg-[#B48A7C]/90">
-                      <Link to={`/order?product=${product.slug}`}>{t("collection.buttons.order")}</Link>
-                    </Button>
-                  </div>
+                  <span className="shrink-0 text-sm font-semibold">
+                    {formatPriceEUR(p.price, lang)}
+                  </span>
                 </div>
-              </Card>
-            ))}
-          </div>
 
-          {/* Empty state */}
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-lg text-muted-foreground mb-4">{t("collection.empty")}</p>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSearchTerm("");
-                  setCategoryFilter("all");
-                  setColorFilter("all");
-                  setPriceFilter("all");
-                }}
-              >
-                {t("collection.reset")}
-              </Button>
-            </div>
-          )}
-        </div>
-      </section>
-    </main>
+                <p className="text-sm text-gray-600 line-clamp-2">
+                  {p.description[lang]}
+                </p>
+
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+                    {p.category[lang]}
+                  </span>
+                  <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700">
+                    {p.color[lang]}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex items-center gap-2">
+                  <Link
+                    to={`/collection/${p.slug}`}
+                    className="inline-flex items-center justify-center rounded-full border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50"
+                  >
+                    {t('buttons.view', 'Voir')}
+                  </Link>
+                  <Link
+                    to={`/collection/${p.slug}#order`}
+                    className="inline-flex items-center justify-center rounded-full bg-black px-3 py-2 text-sm text-white hover:bg-black/90"
+                  >
+                    {t('buttons.order', 'Commander')}
+                  </Link>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
-};
-
-export default Collection;
+}
