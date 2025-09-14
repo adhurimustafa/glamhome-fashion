@@ -5,7 +5,7 @@ export interface Slide {
   alt: string;
 }
 
-// ⚠️ Noms EXACTS présents dans public/images/homepage/ (tu as g1.png → g7.png)
+// ⚠️ Doivent exister dans public/images/homepage/
 export const slides: Slide[] = [
   { id: 1, image: "/images/homepage/g1.png", alt: "Glamour Collection — visuel 1" },
   { id: 2, image: "/images/homepage/g2.png", alt: "Glamour Collection — visuel 2" },
