@@ -16,20 +16,20 @@ const Header = () => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
 
-    // lock scroll when mobile menu is open
+    // éviter le scroll en arrière-plan quand le menu mobile est ouvert
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
-  // Nav (sans /order)
   const navItems = [
     { href: "/", label: t("nav.home") },
     { href: "/about", label: t("nav.about") },
     { href: "/collection", label: t("nav.collection") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: "/contact", label: t("nav.contact") }
   ];
 
   const isActive = (href: string) =>
@@ -39,11 +39,11 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/92 backdrop-blur-sm border-b border-[#eee]"
-          : "bg-white/92 backdrop-blur-sm border-b border-[#eee]"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 will-change-transform
+      ${isScrolled ? "bg-white/92 backdrop-blur-sm" : "bg-white/92 backdrop-blur-sm"}
+      `}
+      // ✅ plus de border-b ici
+      style={{ transform: "translateZ(0)" }}
     >
       <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
@@ -57,11 +57,11 @@ const Header = () => {
               src="/images/logos/logo-256.png"
               alt="GLAMHOME FASHION"
               className="h-9 lg:h-11 w-auto object-contain"
-              width={256}
-              height={256}
+              width="256"
+              height="256"
               loading="eager"
-              decoding="async"
-              fetchPriority="high"
+              decoding="sync"
+              sizes="44px"
             />
           </Link>
 
@@ -71,7 +71,6 @@ const Header = () => {
               <Link
                 key={item.href}
                 to={item.href}
-                aria-current={isActive(item.href) ? "page" : undefined}
                 className={`text-sm font-medium transition-colors hover:text-[#B48A7C] ${
                   isActive(item.href)
                     ? "text-[#B48A7C] border-b-2 border-[#B48A7C] pb-1"
@@ -86,37 +85,22 @@ const Header = () => {
           {/* Actions (desktop) */}
           <div className="hidden lg:flex items-center space-x-3">
             <LanguageSwitcher />
-
-            {/* Instagram (lien externe) */}
             <Button
-              asChild
               variant="ghost"
               size="icon"
               aria-label={t("aria.instagram")}
               className="text-[#0F0F0F] hover:text-[#B48A7C]"
             >
-              <a
-                href="https://instagram.com/glam_fashion.store"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
+              <Instagram className="h-5 w-5" />
             </Button>
-
-            {/* Email → page Contact (évite un mailto inconnu) */}
             <Button
-              asChild
               variant="ghost"
               size="icon"
               aria-label={t("aria.email")}
               className="text-[#0F0F0F] hover:text-[#B48A7C]"
             >
-              <Link to="/contact">
-                <Mail className="h-5 w-5" />
-              </Link>
+              <Mail className="h-5 w-5" />
             </Button>
-
             <Button
               asChild
               variant="outline"
@@ -134,8 +118,6 @@ const Header = () => {
             className="lg:hidden text-[#0F0F0F] hover:text-[#B48A7C]"
             onClick={() => setIsMenuOpen((v) => !v)}
             aria-label={isMenuOpen ? t("aria.closeMenu") : t("aria.openMenu")}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
@@ -143,10 +125,7 @@ const Header = () => {
 
         {/* Nav (mobile) */}
         {isMenuOpen && (
-          <div
-            id="mobile-menu"
-            className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto"
-          >
+          <div className="fixed inset-0 top-[72px] bg-white z-40 lg:hidden overflow-y-auto">
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col space-y-6">
                 {navItems.map((item) => (
@@ -165,35 +144,22 @@ const Header = () => {
                 {/* Mobile actions */}
                 <div className="flex items-center justify-center gap-4 pt-8 border-t border-gray-200">
                   <LanguageSwitcher />
-
                   <Button
-                    asChild
                     variant="ghost"
                     size="icon"
                     aria-label={t("aria.instagram")}
                     className="text-[#0F0F0F] hover:text-[#B48A7C]"
                   >
-                    <a
-                      href="https://instagram.com/glam_fashion.store"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Instagram className="h-6 w-6" />
-                    </a>
+                    <Instagram className="h-6 w-6" />
                   </Button>
-
                   <Button
-                    asChild
                     variant="ghost"
                     size="icon"
                     aria-label={t("aria.email")}
                     className="text-[#0F0F0F] hover:text-[#B48A7C]"
                   >
-                    <Link to="/contact">
-                      <Mail className="h-6 w-6" />
-                    </Link>
+                    <Mail className="h-6 w-6" />
                   </Button>
-
                   <Button
                     asChild
                     variant="outline"

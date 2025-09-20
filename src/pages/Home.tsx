@@ -7,13 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star, Truck, Shield, HeartHandshake } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+export default function Home() {
   const { t } = useTranslation();
 
   return (
-    <main>
-      {/* Hero Section */}
+    <>
       <HeroCarousel />
+
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 text-center">
           <p className="text-primary text-sm font-medium tracking-wide uppercase mb-4">
@@ -27,12 +27,11 @@ const Home = () => {
           </p>
         </div>
       </section>
-      {/* Featured Collection */}
+
       <section id="collection">
         <FeaturedCollection />
       </section>
 
-      {/* Partners Logos Section */}
       <section className="py-16 bg-luxury-pearl">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -50,11 +49,7 @@ const Home = () => {
                 src="/images/dresses/90cc8124-51aa-40ad-adad-494a20a6249c.png"
                 alt={t("home.partners.alt1")}
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="128"
-                height="128"
-                loading="lazy"
-                decoding="async"
-                sizes="64px"
+                width="128" height="128" loading="lazy" decoding="async" sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -62,11 +57,7 @@ const Home = () => {
                 src="/images/dresses/2e50308f-c8b7-42bf-9ffb-ff5c5fe3041a.png"
                 alt={t("home.partners.alt2")}
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="256"
-                height="256"
-                loading="lazy"
-                decoding="async"
-                sizes="64px"
+                width="256" height="256" loading="lazy" decoding="async" sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -74,11 +65,7 @@ const Home = () => {
                 src="/images/dresses/3099fb54-51fd-42dc-9be6-12025210e82c.png"
                 alt={t("home.partners.alt3")}
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="512"
-                height="512"
-                loading="lazy"
-                decoding="async"
-                sizes="64px"
+                width="512" height="512" loading="lazy" decoding="async" sizes="64px"
               />
             </div>
             <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
@@ -86,18 +73,13 @@ const Home = () => {
                 src="/images/dresses/bf5bb623-c977-4166-a974-1f331812e41d.png"
                 alt={t("home.partners.alt4")}
                 className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="1024"
-                height="1024"
-                loading="lazy"
-                decoding="async"
-                sizes="64px"
+                width="1024" height="1024" loading="lazy" decoding="async" sizes="64px"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick Order Section */}
       <section id="order" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -114,7 +96,6 @@ const Home = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Order Form */}
               <div className="lg:col-span-2">
                 <Card className="shadow-elegant border-0">
                   <CardContent className="p-8">
@@ -123,7 +104,6 @@ const Home = () => {
                 </Card>
               </div>
 
-              {/* Delivery & Payment Info */}
               <div className="space-y-6">
                 <Card className="shadow-soft border-0">
                   <CardContent className="p-6">
@@ -131,29 +111,9 @@ const Home = () => {
                       <Truck className="h-5 w-5 text-primary mr-2" />
                       {t("home.delivery.title")}
                     </h3>
-                    <div className="space-y-3 text-sm text-muted-foreground">
-                      <div className="flex items-start">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-foreground">{t("home.delivery.item1.title")}</p>
-                          <p>{t("home.delivery.item1.text")}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-foreground">{t("home.delivery.item2.title")}</p>
-                          <p>{t("home.delivery.item2.text")}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-foreground">{t("home.delivery.item3.title")}</p>
-                          <p>{t("home.delivery.item3.text")}</p>
-                        </div>
-                      </div>
-                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {t("home.payment.text")}
+                    </p>
                   </CardContent>
                 </Card>
 
@@ -174,7 +134,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Preview */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -192,11 +151,7 @@ const Home = () => {
                 {t("home.about.p2")}
               </p>
               <Link to="/about">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
+                <Button variant="outline" size="lg" className="hover:bg-primary hover:text-primary-foreground">
                   {t("home.about.cta")}
                 </Button>
               </Link>
@@ -210,32 +165,48 @@ const Home = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Star className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">{t("home.values.excellence.title")}</h3>
-                      <p className="text-sm text-muted-foreground">{t("home.values.excellence.text")}</p>
+                      <h3 className="font-serif text-lg font-medium mb-2">
+                        {t("home.values.excellence.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("home.values.excellence.text")}
+                      </p>
                     </div>
 
                     <div className="text-center">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <HeartHandshake className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">{t("home.values.passion.title")}</h3>
-                      <p className="text-sm text-muted-foreground">{t("home.values.passion.text")}</p>
+                      <h3 className="font-serif text-lg font-medium mb-2">
+                        {t("home.values.passion.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("home.values.passion.text")}
+                      </p>
                     </div>
 
                     <div className="text-center">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Truck className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">{t("home.values.delivery.title")}</h3>
-                      <p className="text-sm text-muted-foreground">{t("home.values.delivery.text")}</p>
+                      <h3 className="font-serif text-lg font-medium mb-2">
+                        {t("home.values.delivery.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("home.values.delivery.text")}
+                      </p>
                     </div>
 
                     <div className="text-center">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Shield className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">{t("home.values.guarantee.title")}</h3>
-                      <p className="text-sm text-muted-foreground">{t("home.values.guarantee.text")}</p>
+                      <h3 className="font-serif text-lg font-medium mb-2">
+                        {t("home.values.guarantee.title")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t("home.values.guarantee.text")}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -245,10 +216,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 gradient-hero">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto text-white animate-fade-in">
+      <section className="py-20 gradient-hero text-white text-center">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-serif font-light mb-6">
               {t("home.cta.title")}
             </h2>
@@ -257,20 +227,12 @@ const Home = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/collection">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="px-8 py-3 text-lg hover:shadow-soft transition-all duration-300"
-                >
+                <Button size="lg" variant="secondary" className="px-8 py-3 text-lg hover:shadow-soft">
                   {t("home.cta.viewCollection")}
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="px-8 py-3 text-lg text-white border-white hover:bg-white hover:text-primary transition-all duration-300"
-                >
+                <Button size="lg" variant="outline" className="px-8 py-3 text-lg text-white border-white hover:bg-white hover:text-primary">
                   {t("home.cta.contactUs")}
                 </Button>
               </Link>
@@ -278,8 +240,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
-};
-
-export default Home;
+}

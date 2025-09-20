@@ -1,15 +1,15 @@
 // src/main.tsx
-import "./i18n"; // <= AJOUTER CETTE LIGNE
+import "./i18n"; // ✅ initialise i18n AVANT tout
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-const el = document.getElementById("root");
-if (!el) throw new Error("#root introuvable");
-
-createRoot(el).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
