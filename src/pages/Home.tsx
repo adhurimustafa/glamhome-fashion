@@ -12,8 +12,10 @@ export default function Home() {
 
   return (
     <>
+      {/* Hero Carousel */}
       <HeroCarousel />
 
+      {/* Nouveautés */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 text-center">
           <p className="text-primary text-sm font-medium tracking-wide uppercase mb-4">
@@ -28,10 +30,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Collection mise en avant */}
       <section id="collection">
         <FeaturedCollection />
       </section>
 
+      {/* Partenaires */}
       <section className="py-16 bg-luxury-pearl">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -44,42 +48,30 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-center justify-items-center">
-            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
-              <img
-                src="/images/dresses/90cc8124-51aa-40ad-adad-494a20a6249c.png"
-                alt={t("home.partners.alt1")}
-                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="128" height="128" loading="lazy" decoding="async" sizes="64px"
-              />
-            </div>
-            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
-              <img
-                src="/images/dresses/2e50308f-c8b7-42bf-9ffb-ff5c5fe3041a.png"
-                alt={t("home.partners.alt2")}
-                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="256" height="256" loading="lazy" decoding="async" sizes="64px"
-              />
-            </div>
-            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
-              <img
-                src="/images/dresses/3099fb54-51fd-42dc-9be6-12025210e82c.png"
-                alt={t("home.partners.alt3")}
-                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="512" height="512" loading="lazy" decoding="async" sizes="64px"
-              />
-            </div>
-            <div className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105">
-              <img
-                src="/images/dresses/bf5bb623-c977-4166-a974-1f331812e41d.png"
-                alt={t("home.partners.alt4")}
-                className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width="1024" height="1024" loading="lazy" decoding="async" sizes="64px"
-              />
-            </div>
+            {[
+              "/images/dresses/90cc8124-51aa-40ad-adad-494a20a6249c.png",
+              "/images/dresses/2e50308f-c8b7-42bf-9ffb-ff5c5fe3041a.png",
+              "/images/dresses/3099fb54-51fd-42dc-9be6-12025210e82c.png",
+              "/images/dresses/bf5bb623-c977-4166-a974-1f331812e41d.png",
+            ].map((src, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-center p-6 transition-all duration-300 hover:scale-105"
+              >
+                <img
+                  src={src}
+                  alt={t(`home.partners.alt${i + 1}`)}
+                  className="h-16 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
+      {/* Commander rapidement */}
       <section id="order" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -134,6 +126,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* À propos & valeurs */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -151,7 +144,11 @@ export default function Home() {
                 {t("home.about.p2")}
               </p>
               <Link to="/about">
-                <Button variant="outline" size="lg" className="hover:bg-primary hover:text-primary-foreground">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="hover:bg-primary hover:text-primary-foreground"
+                >
                   {t("home.about.cta")}
                 </Button>
               </Link>
@@ -161,53 +158,24 @@ export default function Home() {
               <div className="bg-gradient-to-br from-primary-light to-secondary rounded-3xl p-8 shadow-elegant">
                 <div className="bg-white rounded-2xl p-8 shadow-soft">
                   <div className="grid grid-cols-2 gap-6">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Star className="h-8 w-8 text-primary" />
+                    {[
+                      { Icon: Star, title: "excellence" },
+                      { Icon: HeartHandshake, title: "passion" },
+                      { Icon: Truck, title: "delivery" },
+                      { Icon: Shield, title: "guarantee" },
+                    ].map(({ Icon, title }) => (
+                      <div key={title} className="text-center">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Icon className="h-8 w-8 text-primary" />
+                        </div>
+                        <h3 className="font-serif text-lg font-medium mb-2">
+                          {t(`home.values.${title}.title`)}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {t(`home.values.${title}.text`)}
+                        </p>
                       </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">
-                        {t("home.values.excellence.title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {t("home.values.excellence.text")}
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <HeartHandshake className="h-8 w-8 text-primary" />
-                      </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">
-                        {t("home.values.passion.title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {t("home.values.passion.text")}
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Truck className="h-8 w-8 text-primary" />
-                      </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">
-                        {t("home.values.delivery.title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {t("home.values.delivery.text")}
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Shield className="h-8 w-8 text-primary" />
-                      </div>
-                      <h3 className="font-serif text-lg font-medium mb-2">
-                        {t("home.values.guarantee.title")}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {t("home.values.guarantee.text")}
-                      </p>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -216,6 +184,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA finale */}
       <section className="py-20 gradient-hero text-white text-center">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto animate-fade-in">
@@ -227,12 +196,20 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/collection">
-                <Button size="lg" variant="secondary" className="px-8 py-3 text-lg hover:shadow-soft">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="px-8 py-3 text-lg hover:shadow-soft"
+                >
                   {t("home.cta.viewCollection")}
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="px-8 py-3 text-lg text-white border-white hover:bg-white hover:text-primary">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="px-8 py-3 text-lg text-white border-white hover:bg-white hover:text-primary"
+                >
                   {t("home.cta.contactUs")}
                 </Button>
               </Link>
